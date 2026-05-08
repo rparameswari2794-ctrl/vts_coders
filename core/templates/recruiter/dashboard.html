@@ -9,6 +9,7 @@
         font-family: 'Inter', sans-serif;
         background-color: #F8F9FB;
     }
+
     .hero-banner {
         background: rgba(232, 230, 230, 0.1);
         border-radius: 1.5rem;
@@ -142,6 +143,23 @@
 
     .border-primary-custom {
         border-color: #1a1f36;
+    }
+    
+    /* Ensure profile images are consistent and visible */
+    .candidate-card img,
+    #detailAvatar {
+        object-fit: cover;
+        background-color: #e9ecef;
+    }
+    
+    /* Fallback for broken images */
+    img.avatar-fallback {
+        background: linear-gradient(135deg, #1a1f36, #2d3a5e);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
     }
 </style>
 
@@ -353,7 +371,8 @@
                         <div class="text-center border-bottom pb-4">
                             <img id="detailAvatar"
                                 src="https://ui-avatars.com/api/?name=Select&background=1a1f36&color=fff"
-                                class="rounded-circle mx-auto mb-3" width="100" height="100">
+                                class="rounded-circle mx-auto mb-3" width="100" height="100"
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Select&background=1a1f36&color=fff';">
                             <h3 id="detailName" class="h4 fw-bold mb-1" style="color: #1a1f36;">Select a Candidate</h3>
                             <p id="detailTitle" class="text-primary fw-bold small mb-2">Click to view details</p>
                             <div class="d-flex justify-content-center gap-3 small text-muted">
@@ -456,149 +475,196 @@
 </div>
 
 <script>
-     // AI ASSISTANT functionality
-    document.addEventListener('DOMContentLoaded', function () {
-        const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
-        const aiOverlay = document.getElementById('aiOverlay');
-        const closeAIOverlay = document.getElementById('closeAIOverlay');
-        const aiInput = document.getElementById('aiInput');
-        const aiSendBtn = document.getElementById('aiSendBtn');
-        const aiChatContainer = document.getElementById('aiChatContainer');
+    // AI ASSISTANT functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
+    const aiOverlay = document.getElementById('aiOverlay');
+    const closeAIOverlay = document.getElementById('closeAIOverlay');
+    const aiInput = document.getElementById('aiInput');
+    const aiSendBtn = document.getElementById('aiSendBtn');
+    const aiChatContainer = document.getElementById('aiChatContainer');
 
-        if (aiBtn && aiOverlay && closeAIOverlay) {
-            aiBtn.addEventListener('click', () => {
-                aiOverlay.style.display = 'flex';
-            });
-
-            closeAIOverlay.addEventListener('click', () => {
-                aiOverlay.style.display = 'none';
-            });
-        }
-
-        function getAIReply(message) {
-            message = message.toLowerCase();
-            if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
-            if (message.includes("code")) return "Follow clean architecture and reusable components.";
-            if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
-            if (message.includes("developer")) return "Look for developers with relevant experience and strong portfolios.";
-            if (message.includes("hire")) return "Post your requirements and our AI will match you with top talent.";
-            return "Nice question! I can help more if you give details 🚀";
-        }
-
-        function sendMessage() {
-            const text = aiInput.value.trim();
-            if (!text) return;
-
-            const userMsg = document.createElement('div');
-            userMsg.style.textAlign = "right";
-            userMsg.style.margin = "10px 0";
-            userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
-            aiChatContainer.appendChild(userMsg);
-            aiInput.value = "";
-            aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
-
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.style.margin = "10px 0";
-                aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
-                aiChatContainer.appendChild(aiMsg);
-                aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
-            }, 600);
-        }
-
-        if (aiSendBtn) {
-            aiSendBtn.addEventListener("click", sendMessage);
-        }
-
-        if (aiInput) {
-            aiInput.addEventListener("keypress", function (e) {
-                if (e.key === "Enter") sendMessage();
-            });
-        }
-    });
-    // Complete Developers Database
-    const developersData = {
-        frontend: [
-            { id: 1, name: "Sarah Chen", title: "Senior Full Stack Engineer", location: "San Francisco, CA", remote: false, experience: 8, experienceText: "8 years", match: 98, skills: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"], about: "Specializing in high-scale distributed systems and beautiful React interfaces. Previously at Stripe and Google.", salary: "$140k - $170k", active: "2h ago", avatar: "https://ui-avatars.com/api/?name=Sarah+Chen&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 2, name: "Michael Rodriguez", title: "Frontend Tech Lead", location: "Austin, TX", remote: true, experience: 10, experienceText: "10 years", match: 94, skills: ["React", "Vue.js", "Webpack", "Jest", "GraphQL"], about: "Frontend architect with expertise in building scalable component libraries. Led teams at Facebook and Netflix.", salary: "$150k - $185k", active: "1 day ago", avatar: "https://ui-avatars.com/api/?name=Michael+R&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 3, name: "Emily Watson", title: "UI/UX Engineer", location: "Remote", remote: true, experience: 6, experienceText: "6 years", match: 91, skills: ["React", "Tailwind", "Figma", "Storybook"], about: "Passionate about creating accessible and delightful user experiences. Formerly at Airbnb and Shopify.", salary: "$120k - $150k", active: "5h ago", avatar: "https://ui-avatars.com/api/?name=Emily+W&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 4, name: "James Wilson", title: "Senior React Developer", location: "New York, NY", remote: false, experience: 7, experienceText: "7 years", match: 89, skills: ["React", "Redux", "Next.js", "TypeScript"], about: "React specialist with focus on performance optimization.", salary: "$135k - $160k", active: "3h ago", avatar: "https://ui-avatars.com/api/?name=James+W&background=1a1f36&color=fff", portfolio: "#" }
-        ],
-        backend: [
-            { id: 5, name: "David Kim", title: "Senior Backend Engineer", location: "Seattle, WA", remote: true, experience: 9, experienceText: "9 years", match: 96, skills: ["Python", "Django", "PostgreSQL", "AWS", "Redis"], about: "Backend specialist with expertise in microservices and high-throughput systems. Previously at Amazon and Microsoft.", salary: "$160k - $200k", active: "3h ago", avatar: "https://ui-avatars.com/api/?name=David+Kim&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 6, name: "Lisa Thompson", title: "Backend Architect", location: "New York, NY", remote: false, experience: 12, experienceText: "12 years", match: 93, skills: ["Java", "Spring Boot", "Kafka", "MongoDB", "Kubernetes"], about: "Distributed systems expert. Built scalable solutions for financial institutions handling billions of transactions.", salary: "$170k - $210k", active: "1h ago", avatar: "https://ui-avatars.com/api/?name=Lisa+T&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 7, name: "Alex Kumar", title: "Python Backend Developer", location: "Remote", remote: true, experience: 5, experienceText: "5 years", match: 88, skills: ["Python", "FastAPI", "Django", "PostgreSQL", "Docker"], about: "Full-stack Python developer with strong backend focus.", salary: "$110k - $140k", active: "6h ago", avatar: "https://ui-avatars.com/api/?name=Alex+K&background=1a1f36&color=fff", portfolio: "#" }
-        ],
-        designer: [
-            { id: 8, name: "Alex Morgan", title: "Senior Product Designer", location: "Los Angeles, CA", remote: true, experience: 7, experienceText: "7 years", match: 95, skills: ["Figma", "Adobe XD", "Sketch", "ProtoPie", "User Testing"], about: "Award-winning product designer focused on B2B SaaS platforms. Previously at Salesforce and Dropbox.", salary: "$130k - $165k", active: "4h ago", avatar: "https://ui-avatars.com/api/?name=Alex+M&background=1a1f36&color=fff", portfolio: "#" },
-            { id: 9, name: "Nina Patel", title: "UI/UX Designer", location: "Remote", remote: true, experience: 4, experienceText: "4 years", match: 86, skills: ["Figma", "Adobe Creative Suite", "Framer", "Miro"], about: "Creative designer passionate about creating intuitive and beautiful user interfaces.", salary: "$90k - $120k", active: "1 day ago", avatar: "https://ui-avatars.com/api/?name=Nina+P&background=1a1f36&color=fff", portfolio: "#" }
-        ]
-    };
-
-    let currentRole = 'frontend';
-    let selectedCandidate = null;
-    let currentSort = 'match';
-
-    // Load and filter candidates
-    function loadCandidates() {
-        const remoteOnly = document.getElementById('remoteOnly').checked;
-        const experience = document.querySelector('input[name="experience"]:checked').value;
-        const selectedSkills = Array.from(document.querySelectorAll('.skill-filter:checked')).map(cb => cb.value);
-
-        let candidates = [...(developersData[currentRole] || [])];
-
-        // Apply remote filter
-        if (remoteOnly) {
-            candidates = candidates.filter(c => c.remote === true);
-        }
-
-        // Apply experience filter
-        if (experience === 'entry') {
-            candidates = candidates.filter(c => c.experience <= 2);
-        } else if (experience === 'mid') {
-            candidates = candidates.filter(c => c.experience >= 3 && c.experience <= 5);
-        } else if (experience === 'senior') {
-            candidates = candidates.filter(c => c.experience >= 6);
-        }
-
-        // Apply skills filter
-        if (selectedSkills.length > 0) {
-            candidates = candidates.filter(c =>
-                selectedSkills.some(skill =>
-                    c.skills.some(cSkill => cSkill.toLowerCase().includes(skill.toLowerCase()))
-                )
-            );
-        }
-
-        // Apply sorting
-        candidates = sortCandidates(candidates);
-
-        // Update UI
-        const roleTitles = { frontend: 'Sr. Frontend Developer', backend: 'Backend Architect', designer: 'Product Designer' };
-        const roleCounts = { frontend: developersData.frontend.length, backend: developersData.backend.length, designer: developersData.designer.length };
-
-        document.getElementById('selectedRoleTitle').textContent = roleTitles[currentRole];
-        document.getElementById('candidateCount').textContent = `Found ${candidates.length} candidates`;
-
-        // Update role counts in sidebar
-        document.querySelectorAll('[data-count]').forEach(el => {
-            const role = el.getAttribute('data-count');
-            if (roleCounts[role]) {
-                el.textContent = roleCounts[role];
-            }
+    if (aiBtn && aiOverlay && closeAIOverlay) {
+        aiBtn.addEventListener('click', () => {
+            aiOverlay.style.display = 'flex';
         });
 
-        const container = document.getElementById('candidatesList');
+        closeAIOverlay.addEventListener('click', () => {
+            aiOverlay.style.display = 'none';
+        });
+    }
 
-        if (candidates.length === 0) {
-            container.innerHTML = `<div class="text-center py-5 bg-white rounded-3 border"><i class="fa-solid fa-user-slash fa-2x text-muted mb-2 d-block"></i><p class="text-muted">No candidates found with current filters</p><button onclick="resetAllFilters()" class="btn btn-link small">Reset Filters</button></div>`;
-            return;
+    function getAIReply(message) {
+        message = message.toLowerCase();
+        if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
+        if (message.includes("code")) return "Follow clean architecture and reusable components.";
+        if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
+        if (message.includes("developer")) return "Look for developers with relevant experience and strong portfolios.";
+        if (message.includes("hire")) return "Post your requirements and our AI will match you with top talent.";
+        return "Nice question! I can help more if you give details 🚀";
+    }
+
+    function sendMessage() {
+        const text = aiInput.value.trim();
+        if (!text) return;
+
+        const userMsg = document.createElement('div');
+        userMsg.style.textAlign = "right";
+        userMsg.style.margin = "10px 0";
+        userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
+        aiChatContainer.appendChild(userMsg);
+        aiInput.value = "";
+        aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.style.margin = "10px 0";
+            aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
+            aiChatContainer.appendChild(aiMsg);
+            aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+        }, 600);
+    }
+
+    if (aiSendBtn) {
+        aiSendBtn.addEventListener("click", sendMessage);
+    }
+
+    if (aiInput) {
+        aiInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    }
+});
+
+// ==================== STATIC DEVELOPERS DATABASE ====================
+const developersData = {
+    frontend: [
+        { id: 1, name: "Sarah Chen", title: "Senior Full Stack Engineer", location: "San Francisco, CA", remote: false, experience: 8, experienceText: "8 years", match: 98, skills: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"], about: "Specializing in high-scale distributed systems and beautiful React interfaces. Previously at Stripe and Google.", salary: "$140k - $170k", active: "2h ago", avatar: "https://randomuser.me/api/portraits/women/68.jpg", portfolio: "#" },
+        { id: 2, name: "Michael Rodriguez", title: "Frontend Tech Lead", location: "Austin, TX", remote: true, experience: 10, experienceText: "10 years", match: 94, skills: ["React", "Vue.js", "Webpack", "Jest", "GraphQL"], about: "Frontend architect with expertise in building scalable component libraries. Led teams at Facebook and Netflix.", salary: "$150k - $185k", active: "1 day ago", avatar: "https://randomuser.me/api/portraits/men/32.jpg", portfolio: "#" },
+        { id: 3, name: "Emily Watson", title: "UI/UX Engineer", location: "Remote", remote: true, experience: 6, experienceText: "6 years", match: 91, skills: ["React", "Tailwind", "Figma", "Storybook"], about: "Passionate about creating accessible and delightful user experiences. Formerly at Airbnb and Shopify.", salary: "$120k - $150k", active: "5h ago", avatar: "https://randomuser.me/api/portraits/women/45.jpg", portfolio: "#" },
+        { id: 4, name: "James Wilson", title: "Senior React Developer", location: "New York, NY", remote: false, experience: 7, experienceText: "7 years", match: 89, skills: ["React", "Redux", "Next.js", "TypeScript"], about: "React specialist with focus on performance optimization.", salary: "$135k - $160k", active: "3h ago", avatar: "https://randomuser.me/api/portraits/men/75.jpg", portfolio: "#" }
+    ],
+    backend: [
+        { id: 5, name: "David Kim", title: "Senior Backend Engineer", location: "Seattle, WA", remote: true, experience: 9, experienceText: "9 years", match: 96, skills: ["Python", "Django", "PostgreSQL", "AWS", "Redis"], about: "Backend specialist with expertise in microservices and high-throughput systems. Previously at Amazon and Microsoft.", salary: "$160k - $200k", active: "3h ago", avatar: "https://randomuser.me/api/portraits/men/52.jpg", portfolio: "#" },
+        { id: 6, name: "Lisa Thompson", title: "Backend Architect", location: "New York, NY", remote: false, experience: 12, experienceText: "12 years", match: 93, skills: ["Java", "Spring Boot", "Kafka", "MongoDB", "Kubernetes"], about: "Distributed systems expert. Built scalable solutions for financial institutions handling billions of transactions.", salary: "$170k - $210k", active: "1h ago", avatar: "https://randomuser.me/api/portraits/women/89.jpg", portfolio: "#" },
+        { id: 7, name: "Alex Kumar", title: "Python Backend Developer", location: "Remote", remote: true, experience: 5, experienceText: "5 years", match: 88, skills: ["Python", "FastAPI", "Django", "PostgreSQL", "Docker"], about: "Full-stack Python developer with strong backend focus.", salary: "$110k - $140k", active: "6h ago", avatar: "https://randomuser.me/api/portraits/men/91.jpg", portfolio: "#" }
+    ],
+    designer: [
+        { id: 8, name: "Alex Morgan", title: "Senior Product Designer", location: "Los Angeles, CA", remote: true, experience: 7, experienceText: "7 years", match: 95, skills: ["Figma", "Adobe XD", "Sketch", "ProtoPie", "User Testing"], about: "Award-winning product designer focused on B2B SaaS platforms. Previously at Salesforce and Dropbox.", salary: "$130k - $165k", active: "4h ago", avatar: "https://randomuser.me/api/portraits/men/23.jpg", portfolio: "#" },
+        { id: 9, name: "Nina Patel", title: "UI/UX Designer", location: "Remote", remote: true, experience: 4, experienceText: "4 years", match: 86, skills: ["Figma", "Adobe Creative Suite", "Framer", "Miro"], about: "Creative designer passionate about creating intuitive and beautiful user interfaces.", salary: "$90k - $120k", active: "1 day ago", avatar: "https://randomuser.me/api/portraits/women/12.jpg", portfolio: "#" }
+    ]
+};
+
+let currentRole = 'frontend';
+let selectedCandidate = null;
+
+// Fallback avatar generator
+function getFallbackAvatar(name) {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1a1f36&color=fff&bold=true&length=2`;
+}
+
+// Get avatar URL (for dynamic developers)
+function getAvatarUrl(candidate) {
+    if (candidate.avatar && candidate.avatar.trim() !== '') {
+        let avatarUrl = candidate.avatar;
+        
+        // If it's already a full URL
+        if (avatarUrl.startsWith('http://') || avatarUrl.startsWith('https://')) {
+            return avatarUrl;
         }
+        
+        // If it's a media path
+        if (avatarUrl.startsWith('/media/')) {
+            // Add timestamp to prevent caching issues
+            return avatarUrl + '?t=' + new Date().getTime();
+        }
+        
+        // Otherwise, construct the full media URL
+        return '/media/' + avatarUrl.replace(/^\/+/, '') + '?t=' + new Date().getTime();
+    }
+    return getFallbackAvatar(candidate.name);
+}
 
-        container.innerHTML = candidates.map(candidate => `
+// Sort candidates
+function sortCandidates(candidates) {
+    const sortBy = document.getElementById('sortSelect').value;
+    if (sortBy === 'match') {
+        return [...candidates].sort((a, b) => b.match - a.match);
+    } else if (sortBy === 'experience') {
+        return [...candidates].sort((a, b) => b.experience - a.experience);
+    } else if (sortBy === 'name') {
+        return [...candidates].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return candidates;
+}
+
+// Load and filter candidates
+function loadCandidates() {
+    const remoteOnly = document.getElementById('remoteOnly').checked;
+    const experience = document.querySelector('input[name="experience"]:checked').value;
+    const selectedSkills = Array.from(document.querySelectorAll('.skill-filter:checked')).map(cb => cb.value);
+
+    let candidates = [...(developersData[currentRole] || [])];
+
+    // Apply remote filter
+    if (remoteOnly) {
+        candidates = candidates.filter(c => c.remote === true);
+    }
+
+    // Apply experience filter
+    if (experience === 'entry') {
+        candidates = candidates.filter(c => c.experience <= 2);
+    } else if (experience === 'mid') {
+        candidates = candidates.filter(c => c.experience >= 3 && c.experience <= 5);
+    } else if (experience === 'senior') {
+        candidates = candidates.filter(c => c.experience >= 6);
+    }
+
+    // Apply skills filter
+    if (selectedSkills.length > 0) {
+        candidates = candidates.filter(c =>
+            selectedSkills.some(skill =>
+                c.skills.some(cSkill => cSkill.toLowerCase().includes(skill.toLowerCase()))
+            )
+        );
+    }
+
+    // Apply sorting
+    candidates = sortCandidates(candidates);
+
+    // Update UI
+    const roleTitles = { frontend: 'Sr. Frontend Developer', backend: 'Backend Architect', designer: 'Product Designer' };
+    const roleCounts = { frontend: developersData.frontend.length, backend: developersData.backend.length, designer: developersData.designer.length };
+
+    document.getElementById('selectedRoleTitle').textContent = roleTitles[currentRole];
+    document.getElementById('candidateCount').textContent = `Found ${candidates.length} candidates`;
+
+    // Update role counts in sidebar
+    document.querySelectorAll('[data-count]').forEach(el => {
+        const role = el.getAttribute('data-count');
+        if (roleCounts[role]) {
+            el.textContent = roleCounts[role];
+        }
+    });
+
+    const container = document.getElementById('candidatesList');
+
+    if (candidates.length === 0) {
+        container.innerHTML = `<div class="text-center py-5 bg-white rounded-3 border"><i class="fa-solid fa-user-slash fa-2x text-muted mb-2 d-block"></i><p class="text-muted">No candidates found with current filters</p><button onclick="resetAllFilters()" class="btn btn-link small">Reset Filters</button></div>`;
+        return;
+    }
+
+    container.innerHTML = candidates.map(candidate => {
+        const avatarUrl = getAvatarUrl(candidate);
+        return `
             <div class="candidate-card p-3 bg-white rounded-3 ${selectedCandidate?.id === candidate.id ? 'selected' : ''}" onclick="selectCandidate(${candidate.id})">
                 <div class="d-flex gap-3 align-items-start">
-                    <img src="${candidate.avatar}" class="rounded-circle" width="48" height="48">
+                    <img src="${avatarUrl}" 
+                         class="rounded-circle" 
+                         width="48" 
+                         height="48" 
+                         style="object-fit: cover; width: 48px; height: 48px;"
+                         onerror="this.onerror=null; this.src='${getFallbackAvatar(candidate.name)}';">
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
                             <h6 class="fw-bold mb-0" style="color: #1a1f36;">${candidate.name}</h6>
@@ -619,120 +685,175 @@
                     <i class="fa-regular fa-bookmark text-muted"></i>
                 </div>
             </div>
-        `).join('');
+        `;
+    }).join('');
 
-        // Update total candidates count
-        document.getElementById('totalCandidates').textContent = (developersData.frontend.length + developersData.backend.length + developersData.designer.length).toLocaleString();
+    // Update total candidates count
+    document.getElementById('totalCandidates').textContent = (developersData.frontend.length + developersData.backend.length + developersData.designer.length).toLocaleString();
 
-        if (!selectedCandidate && candidates.length) selectCandidate(candidates[0].id);
-        else if (selectedCandidate && !candidates.find(c => c.id === selectedCandidate.id) && candidates.length) selectCandidate(candidates[0].id);
+    if (!selectedCandidate && candidates.length) selectCandidate(candidates[0].id);
+    else if (selectedCandidate && !candidates.find(c => c.id === selectedCandidate.id) && candidates.length) selectCandidate(candidates[0].id);
+}
+
+// Select candidate and show details with dynamic profile picture
+function selectCandidate(candidateId) {
+    const allCandidates = [...developersData.frontend, ...developersData.backend, ...developersData.designer];
+    selectedCandidate = allCandidates.find(c => c.id === candidateId);
+
+    if (selectedCandidate) {
+        const detailAvatar = document.getElementById('detailAvatar');
+        const avatarUrl = getAvatarUrl(selectedCandidate);
+        
+        // Set avatar with error handling
+        detailAvatar.src = avatarUrl;
+        detailAvatar.onerror = function() {
+            this.onerror = null;
+            this.src = getFallbackAvatar(selectedCandidate.name);
+        };
+        
+        document.getElementById('detailName').textContent = selectedCandidate.name;
+        document.getElementById('detailTitle').textContent = selectedCandidate.title;
+        document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot me-1"></i> ${selectedCandidate.location}`;
+        document.getElementById('detailMatch').textContent = `${selectedCandidate.match}%`;
+        document.getElementById('detailMatchBar').style.width = `${selectedCandidate.match}%`;
+        document.getElementById('detailSalary').textContent = `Salary Expectation: ${selectedCandidate.salary}`;
+
+        const portfolioLink = document.getElementById('detailPortfolioLink');
+        portfolioLink.href = selectedCandidate.portfolio;
+
+        document.getElementById('detailAbout').innerHTML = `
+            <h6 class="text-uppercase text-muted small fw-bold mb-2">About</h6>
+            <p class="small text-muted">${selectedCandidate.about}</p>
+        `;
+
+        document.getElementById('detailSkills').innerHTML = selectedCandidate.skills.map(s =>
+            `<span class="badge bg-light text-dark border skill-tag">${s}</span>`
+        ).join('');
     }
-
-    // Sort candidates
-    function sortCandidates(candidates) {
-        const sortBy = document.getElementById('sortSelect').value;
-        if (sortBy === 'match') {
-            return [...candidates].sort((a, b) => b.match - a.match);
-        } else if (sortBy === 'experience') {
-            return [...candidates].sort((a, b) => b.experience - a.experience);
-        } else if (sortBy === 'name') {
-            return [...candidates].sort((a, b) => a.name.localeCompare(b.name));
-        }
-        return candidates;
-    }
-
-    // Select candidate and show details
-    function selectCandidate(candidateId) {
-        const allCandidates = [...developersData.frontend, ...developersData.backend, ...developersData.designer];
-        selectedCandidate = allCandidates.find(c => c.id === candidateId);
-
-        if (selectedCandidate) {
-            document.getElementById('detailName').textContent = selectedCandidate.name;
-            document.getElementById('detailTitle').textContent = selectedCandidate.title;
-            document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot me-1"></i> ${selectedCandidate.location}`;
-            document.getElementById('detailAvatar').src = selectedCandidate.avatar;
-            document.getElementById('detailMatch').textContent = `${selectedCandidate.match}%`;
-            document.getElementById('detailMatchBar').style.width = `${selectedCandidate.match}%`;
-            document.getElementById('detailSalary').textContent = `Salary Expectation: ${selectedCandidate.salary}`;
-
-            const portfolioLink = document.getElementById('detailPortfolioLink');
-            portfolioLink.href = selectedCandidate.portfolio;
-
-            document.getElementById('detailAbout').innerHTML = `
-                <h6 class="text-uppercase text-muted small fw-bold mb-2">About</h6>
-                <p class="small text-muted">${selectedCandidate.about}</p>
-            `;
-
-            document.getElementById('detailSkills').innerHTML = selectedCandidate.skills.map(s =>
-                `<span class="badge bg-light text-dark border skill-tag">${s}</span>`
-            ).join('');
-        }
-        loadCandidates();
-    }
-
-    // Reset all filters
-    function resetAllFilters() {
-        document.getElementById('remoteOnly').checked = false;
-        document.querySelector('input[name="experience"][value="senior"]').checked = true;
-        document.querySelectorAll('.skill-filter:checked').forEach(cb => cb.checked = false);
-        document.getElementById('sortSelect').value = 'match';
-        loadCandidates();
-    }
-
-    // Role filtering
-    document.querySelectorAll('.role-filter').forEach(role => {
-        role.addEventListener('click', function () {
-            document.querySelectorAll('.role-filter').forEach(r => r.classList.remove('active'));
-            this.classList.add('active');
-            currentRole = this.dataset.role;
-            selectedCandidate = null;
-            loadCandidates();
-        });
-    });
-
-    // Filter event listeners
-    document.getElementById('remoteOnly').addEventListener('change', loadCandidates);
-    document.querySelectorAll('input[name="experience"]').forEach(radio => {
-        radio.addEventListener('change', loadCandidates);
-    });
-    document.querySelectorAll('.skill-filter').forEach(skill => {
-        skill.addEventListener('change', loadCandidates);
-    });
-    document.getElementById('sortSelect').addEventListener('change', loadCandidates);
-    document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
-
-    // Set initial active role
-    document.querySelector('.role-filter[data-role="frontend"]').classList.add('active');
-    // Replace the developersData with API call
-    async function loadDevelopersFromDB() {
-        try {
-            const response = await fetch('/api/developers/');
-            const data = await response.json();
-            if (data.success) {
-                // Organize by role
-                const dbDevelopers = {
-                    frontend: data.developers.filter(d => d.role === 'frontend'),
-                    backend: data.developers.filter(d => d.role === 'backend'),
-                    designer: data.developers.filter(d => d.role === 'designer')
-                };
-
-                // Merge with static data
-                Object.keys(developersData).forEach(role => {
-                    developersData[role] = [...developersData[role], ...dbDevelopers[role]];
-                });
-
-                loadCandidates();
-            }
-        } catch (error) {
-            console.error('Error loading developers:', error);
-        }
-    }
-
-    // Call this on page load
-    document.addEventListener('DOMContentLoaded', function () {
-        loadDevelopersFromDB();
-    });
-    // Initialize
     loadCandidates();
+}
+
+// Reset all filters
+function resetAllFilters() {
+    document.getElementById('remoteOnly').checked = false;
+    document.querySelector('input[name="experience"][value="senior"]').checked = true;
+    document.querySelectorAll('.skill-filter:checked').forEach(cb => cb.checked = false);
+    document.getElementById('sortSelect').value = 'match';
+    loadCandidates();
+}
+
+// ==================== LOAD DYNAMIC DEVELOPERS FROM BACKEND API ====================
+async function loadDynamicDevelopers() {
+    try {
+        console.log("Fetching developers from API...");
+        const response = await fetch("/api/developers/");
+        const data = await response.json();
+        
+        console.log("API Response:", data);
+
+        if (data.success && data.developers && data.developers.length > 0) {
+            console.log(`Found ${data.developers.length} developers from backend`);
+            
+            data.developers.forEach(dev => {
+                // Check if profile picture exists
+                const hasProfilePic = dev.avatar && !dev.avatar.includes('ui-avatars');
+                console.log(`Developer: ${dev.full_name}`);
+                console.log(`  - Has profile picture: ${hasProfilePic}`);
+                console.log(`  - Avatar URL: ${dev.avatar}`);
+                
+                const developerObj = {
+                    id: dev.id + 1000,
+                    name: dev.full_name || dev.name || "Developer",
+                    title: dev.title || "Developer",
+                    location: dev.location || "Remote",
+                    remote: dev.is_remote === true,
+                    experience: dev.is_senior ? 8 : 4,
+                    experienceText: dev.experience || "Mid Level",
+                    match: Math.floor(Math.random() * 20) + 80,
+                    skills: dev.skills_list?.length ? dev.skills_list : [],
+                    about: dev.bio || "Professional developer with proven experience.",
+                    salary: "$80k - $150k",
+                    active: dev.is_new ? "Recently Joined" : "Active",
+                    avatar: dev.avatar,  // Keep original URL from API
+                    portfolio: dev.portfolio_url || "#",
+                    role: dev.role || 'frontend'
+                };
+                
+                // Add to appropriate role category
+                if (dev.role === 'frontend') {
+                    developersData.frontend.push(developerObj);
+                } else if (dev.role === 'backend') {
+                    developersData.backend.push(developerObj);
+                } else if (dev.role === 'designer') {
+                    developersData.designer.push(developerObj);
+                } else {
+                    if (developerObj.skills.some(s => ['react', 'vue', 'angular', 'javascript', 'typescript'].includes(s.toLowerCase()))) {
+                        developersData.frontend.push(developerObj);
+                    } else if (developerObj.skills.some(s => ['python', 'django', 'java', 'node', 'go'].includes(s.toLowerCase()))) {
+                        developersData.backend.push(developerObj);
+                    } else {
+                        developersData.frontend.push(developerObj);
+                    }
+                }
+            });
+            
+            // Update counts
+            document.querySelectorAll('[data-count]').forEach(el => {
+                const role = el.getAttribute('data-count');
+                if (developersData[role]) {
+                    el.textContent = developersData[role].length;
+                }
+            });
+            
+            const totalCount = developersData.frontend.length + developersData.backend.length + developersData.designer.length;
+            const totalCandidatesEl = document.getElementById('totalCandidates');
+            if (totalCandidatesEl) {
+                totalCandidatesEl.textContent = totalCount.toLocaleString();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading developers:', error);
+    }
+    
+    loadCandidates();
+}
+
+
+// Role filtering
+document.querySelectorAll('.role-filter').forEach(role => {
+    role.addEventListener('click', function () {
+        document.querySelectorAll('.role-filter').forEach(r => r.classList.remove('active'));
+        this.classList.add('active');
+        currentRole = this.dataset.role;
+        selectedCandidate = null;
+        loadCandidates();
+    });
+});
+
+// Filter event listeners
+document.getElementById('remoteOnly').addEventListener('change', loadCandidates);
+document.querySelectorAll('input[name="experience"]').forEach(radio => {
+    radio.addEventListener('change', loadCandidates);
+});
+document.querySelectorAll('.skill-filter').forEach(skill => {
+    skill.addEventListener('change', loadCandidates);
+});
+document.getElementById('sortSelect').addEventListener('change', loadCandidates);
+document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+
+// Set initial active role
+document.querySelector('.role-filter[data-role="frontend"]').classList.add('active');
+
+// Initialize dynamic developers on page load
+document.addEventListener('DOMContentLoaded', function () {
+    loadDynamicDevelopers();
+});
+
+// Make functions globally accessible for onclick handlers
+window.selectCandidate = selectCandidate;
+window.resetAllFilters = resetAllFilters;
+window.getFallbackAvatar = getFallbackAvatar;
+
+
 </script>
 {% endblock %}

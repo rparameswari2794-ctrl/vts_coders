@@ -47,7 +47,7 @@ urlpatterns = [
     path('recruiter/list/', views.recruiter_list, name='recruiter_list'),
     
     # API URLs
-    path('api/developers-list/', views.developers_list_api, name='developers_list_api'),
+    path('api/developers/', views.developers_list_api, name='developers_list_api'),
     path('api/recruiters-list/', views.recruiters_list_api, name='recruiters_list_api'),
     path('api/all-users/', views.get_all_users, name='get_all_users'),
     

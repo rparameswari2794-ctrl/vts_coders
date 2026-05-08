@@ -933,22 +933,33 @@ def recruiter_dashboard(request):
 
 
 
+
+# In your developers_list_api function
 @login_required
 def developers_list_api(request):
     """API endpoint to get all developers for recruiter dashboard"""
-    if request.user.role != 'recruiter':
-        return JsonResponse({'success': False, 'error': 'Access denied'}, status=403)
     
+    if request.user.role != 'recruiter':
+        return JsonResponse(
+            {'success': False, 'error': 'Access denied'},
+            status=403
+        )
+
     try:
-        developers = Developer.objects.filter(profile_completed=True).select_related('user').order_by('-created_at')
-        
+        developers = (
+            Developer.objects
+            .filter(profile_completed=True)
+            .select_related('user')
+            .order_by('-created_at')
+        )
+
         one_week_ago = timezone.now() - timedelta(days=7)
-        
         developers_data = []
+
         for dev in developers:
             is_new = dev.created_at >= one_week_ago
             
-            # Determine role based on skills/title
+            # Role Detection
             role = 'fullstack'
             if dev.title:
                 title_lower = dev.title.lower()
@@ -956,41 +967,57 @@ def developers_list_api(request):
                     role = 'frontend'
                 elif 'backend' in title_lower or 'back-end' in title_lower or 'api' in title_lower:
                     role = 'backend'
-            
-            # Determine senior level
+                elif 'designer' in title_lower or 'ui/ux' in title_lower:
+                    role = 'designer'
+
             is_senior = dev.experience_level in ['senior', 'expert']
-            
-            # Check if remote
             is_remote = dev.location and 'remote' in dev.location.lower()
             
-            # Get skills as list
             skills_list = dev.get_skills_list() if hasattr(dev, 'get_skills_list') else []
             
+            # FIX: Build the correct absolute URL for profile picture
+            avatar_url = None
+            if dev.profile_picture and dev.profile_picture.name:
+                # This will return the full URL path
+                avatar_url = dev.profile_picture.url
+                print(f"Developer {dev.full_name} - Profile picture path: {dev.profile_picture.name}")
+                print(f"Full URL: {avatar_url}")
+            
+            # If no profile picture, use fallback
+            if not avatar_url:
+                avatar_url = f"https://ui-avatars.com/api/?name={dev.full_name.replace(' ', '+')}&background=1e2a78&color=fff&size=100"
+
             developers_data.append({
                 'id': dev.id,
                 'full_name': dev.full_name,
                 'title': dev.title or 'Developer',
-                'bio': dev.bio or 'Passionate developer with expertise in building web applications.',
+                'bio': dev.bio or 'Passionate developer',
                 'skills': dev.skills or '',
                 'skills_list': skills_list,
                 'location': dev.location or 'Remote',
-                'experience': dev.get_experience_level_display() or 'Mid Level',
+                'experience': dev.get_experience_level_display(),
                 'is_senior': is_senior,
                 'is_remote': is_remote,
                 'is_new': is_new,
                 'role': role,
-                'avatar': dev.profile_picture.url if dev.profile_picture else f"https://ui-avatars.com/api/?name={dev.full_name.replace(' ', '+')}&background=1e2a78&color=fff&size=100",
+                'avatar': avatar_url,  # This will now be the correct URL
                 'created_at': dev.created_at.isoformat(),
                 'joined_date': dev.created_at.strftime('%b %d, %Y'),
                 'profile_completed': dev.profile_completed,
             })
-        
-        return JsonResponse({'success': True, 'developers': developers_data, 'count': len(developers_data)})
-        
-    except Exception as e:
-        print(f"Error in developers_list_api: {str(e)}")
-        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
+        return JsonResponse({
+            'success': True,
+            'developers': developers_data,
+            'count': len(developers_data)
+        })
+
+    except Exception as e:
+        print("Error:", str(e))
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
 
 
 @login_required

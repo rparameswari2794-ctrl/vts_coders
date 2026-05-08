@@ -223,7 +223,7 @@
     }
 
     .job-card:hover {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         transform: translateY(-2px);
     }
 
@@ -497,11 +497,11 @@
             flex-wrap: wrap;
             padding: 12px;
         }
-        
+
         .field-divider {
             display: none;
         }
-        
+
         .search-field {
             width: 100%;
             flex: auto;
@@ -509,24 +509,24 @@
             border-radius: 12px;
             margin-bottom: 8px;
         }
-        
+
         .btn-advanced-search {
             width: 100%;
             justify-content: center;
         }
-        
+
         .discover-split {
             grid-template-columns: 1fr;
         }
-        
+
         .two-column-layout {
             grid-template-columns: 1fr;
         }
-        
+
         .jobs-container {
             padding: 20px;
         }
-        
+
         .filters-sidebar,
         .companies-sidebar {
             position: static;
@@ -537,15 +537,15 @@
         .two-column-layout {
             grid-template-columns: 1fr;
         }
-        
+
         .discover-split {
             grid-template-columns: 1fr;
         }
-        
+
         .jobs-container {
             padding: 20px;
         }
-        
+
         .filters-sidebar,
         .companies-sidebar {
             position: static;
@@ -573,7 +573,7 @@
 <div class="jobs-container">
     <!-- 2 COLUMN LAYOUT: FILTERS | DISCOVER -->
     <div class="two-column-layout">
-        
+
         <!-- ========== LEFT COLUMN: FILTERS ONLY ========== -->
         <aside class="filters-sidebar">
             <div class="filters-header">
@@ -609,6 +609,56 @@
                     <label for="freelance">Freelance</label>
                 </div>
             </div>
+            <div class="filter-group">
+                <h4>Min. Experience</h4>
+                <div style="padding: 0 10px;">
+                    <input type="range" class="form-range custom-range" min="0" max="15" step="1" value="5"
+                        id="expRange" style="width: 100%; accent-color: #3b82f6;">
+                    <div class="d-flex justify-content-between mt-2"
+                        style="font-size: 11px; font-weight: 600; color: #6c757d;">
+                        <span>0 Years</span>
+                        <span id="expValue" style="color: #3b82f6;">5+ Years</span>
+                        <span>15+ Years</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Availability</h4>
+                <div class="filter-option">
+                    <input type="checkbox" class="avail-filter" value="immediate" id="immediate">
+                    <label for="immediate">Immediately Available</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="avail-filter" value="interviewing" id="interviewing">
+                    <label for="interviewing">Actively Interviewing</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="avail-filter" value="open" id="open">
+                    <label for="open">Open to Offers</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="avail-filter" value="not-available" id="not-available">
+                    <label for="not-available">Not Available</label>
+                </div>
+            </div>
+
+            <button class="apply-btn" onclick="applyFilters()"
+                style="background: #0f172a; border-radius: 8px; padding: 12px; margin-top: 10px;">
+                Apply Filters
+            </button>
+
+            <div class="promo-card"
+                style="background: #fef3c7; border-radius: 16px; padding: 20px; margin-top: 30px; position: relative; overflow: hidden;">
+                <h4 style="font-size: 16px; font-weight: 700; color: #0a0a0a; margin-bottom: 8px;">Sell Your Project
+                </h4>
+                <p style="font-size: 11px; color: #6b7280; line-height: 1.5; margin-bottom: 15px;">Are you a developer?
+                    Start showcasing your live projects today and earn from your excellence.</p>
+                <button
+                    style="background: #0f172a; color: white; border: none; width: 100%; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 600;">Explore
+                    More</button>
+                <div style="position: absolute; right: -10px; bottom: 40px; opacity: 0.1; font-size: 60px;">$</div>
+            </div>
 
             <!-- Experience Level Filter -->
             <div class="filter-group">
@@ -643,7 +693,7 @@
 
         <!-- ========== RIGHT COLUMN: DISCOVER SECTION ========== -->
         <div class="discover-section">
-            
+
             <!-- Discover Header -->
             <div class="discover-header">
                 <h1>Discover New opportunity</h1>
@@ -673,10 +723,10 @@
 
             <!-- DISCOVER SPLIT INTO 2: JOB CARDS | TOP HIRING COMPANIES -->
             <div class="discover-split">
-                
+
                 <!-- LEFT SIDE OF DISCOVER: JOB CARDS -->
                 <div class="job-feed" id="jobFeed">
-                    
+
                     <!-- Job Card 1 - Featured -->
                     <div class="job-card" data-job-type="fulltime" data-exp="senior">
                         <div class="featured-badge">Featured</div>
@@ -690,7 +740,7 @@
                             </button>
                         </div>
                         <div class="company-name">TechCorp Innovation</div>
-                        
+
                         <div class="job-details-grid">
                             <div class="job-detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -734,7 +784,7 @@
                             </button>
                         </div>
                         <div class="company-name">CloudScale Inc</div>
-                        
+
                         <div class="job-details-grid">
                             <div class="job-detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -779,7 +829,7 @@
                             </button>
                         </div>
                         <div class="company-name">DesignLab Studios</div>
-                        
+
                         <div class="job-details-grid">
                             <div class="job-detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -822,7 +872,7 @@
                             </button>
                         </div>
                         <div class="company-name">Infrastructure Pro</div>
-                        
+
                         <div class="job-details-grid">
                             <div class="job-detail-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -867,7 +917,7 @@
                         <h3>Top Hiring Companies</h3>
                         <p>Explore companies actively recruiting</p>
                     </div>
-                    
+
                     <div class="company-item">
                         <div class="company-info">
                             <div class="company-logo">CTS</div>
@@ -928,7 +978,7 @@
     // =========================
     // ✅ AI ASSISTANT FUNCTIONALITY
     // =========================
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
         const aiOverlay = document.getElementById('aiOverlay');
         const closeAIOverlay = document.getElementById('closeAIOverlay');
@@ -998,35 +1048,44 @@
     }
 
     function applyFilters() {
-        const selectedJobTypes = Array.from(document.querySelectorAll('.job-type-filter:checked')).map(cb => cb.value);
-        const selectedExp = Array.from(document.querySelectorAll('.exp-filter:checked')).map(cb => cb.value);
-        
+        const activeJobTypes = Array.from(document.querySelectorAll('.job-type-filter:checked')).map(cb => cb.value);
+        const activeExpLevels = Array.from(document.querySelectorAll('.exp-filter:checked')).map(cb => cb.value);
+        const minExperience = parseInt(document.getElementById('expRange').value);
+
         const jobCards = document.querySelectorAll('.job-card');
-        
+
         jobCards.forEach(card => {
-            let show = true;
-            const cardJobType = card.dataset.jobType;
-            const cardExp = card.dataset.exp;
-            
-            if (selectedJobTypes.length > 0 && !selectedJobTypes.includes(cardJobType)) {
-                show = false;
+            const type = card.getAttribute('data-job-type');
+            const exp = card.getAttribute('data-exp');
+            // You can add data-years to your HTML cards to filter by exact years
+            const cardYears = parseInt(card.getAttribute('data-years') || 0);
+
+            const typeMatch = activeJobTypes.length === 0 || activeJobTypes.includes(type);
+            const expMatch = activeExpLevels.length === 0 || activeExpLevels.includes(exp);
+            const yearsMatch = cardYears >= minExperience;
+
+            if (typeMatch && expMatch && yearsMatch) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
             }
-            
-            if (selectedExp.length > 0 && !selectedExp.includes(cardExp)) {
-                show = false;
-            }
-            
-            card.style.display = show ? 'block' : 'none';
         });
     }
 
+    // Update the text label when the slider moves
+    document.getElementById('expRange').addEventListener('input', function (e) {
+        document.getElementById('expValue').innerText = e.target.value + "+ Years";
+        applyFilters(); // Real-time filtering
+    });
+
+   
     // Add event listeners to filters
     document.querySelectorAll('.job-type-filter, .exp-filter, .tech-filter').forEach(filter => {
         filter.addEventListener('change', applyFilters);
     });
 
     // Initialize filters on page load
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         applyFilters();
     });
 
@@ -1034,14 +1093,14 @@
     // ✅ NEW JOB POST BUTTON - SHOW ALERT
     // =========================
     const newJobPostBtn = document.querySelector('.hero-banner .btn-warning');
-    
+
     if (newJobPostBtn) {
-        newJobPostBtn.addEventListener('click', function(e) {
+        newJobPostBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             // Check if user is logged in (look for user avatar element)
             const isLoggedIn = document.querySelector('.user-avatar') !== null;
-            
+
             if (isLoggedIn) {
                 alert('📢 Post a New Job Feature Coming Soon!\n\nYou will be able to post job listings here.');
             } else {
@@ -1055,15 +1114,18 @@
 </script>
 
 <!-- AI ASSISTANT OVERLAY -->
-<div id="aiOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
-    <div style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+<div id="aiOverlay"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
+    <div
+        style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
         <!-- HEADER -->
         <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 30px;color:white;">
             <div>
                 <h4 style="margin:0;">✨ AI Assistant</h4>
                 <small style="opacity:0.7;">Powered by advanced AI</small>
             </div>
-            <button id="closeAIOverlay" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
+            <button id="closeAIOverlay"
+                style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
         </div>
 
         <!-- BODY -->
@@ -1096,8 +1158,10 @@
 
         <!-- INPUT -->
         <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:10px;">
-            <input type="text" placeholder="Ask me anything..." style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
-            <button style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
+            <input type="text" placeholder="Ask me anything..."
+                style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
+            <button
+                style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
         </div>
     </div>
 </div>

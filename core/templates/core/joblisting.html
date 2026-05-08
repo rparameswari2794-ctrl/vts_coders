@@ -728,7 +728,7 @@
                 <div class="job-feed" id="jobFeed">
 
                     <!-- Job Card 1 - Featured -->
-                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                    <div class="job-card" data-job-type="fulltime" data-exp="mid" data-years="4">
                         <div class="featured-badge">Featured</div>
                         <div class="job-header">
                             <div class="job-title-section">
@@ -774,7 +774,7 @@
                     </div>
 
                     <!-- Job Card 2 -->
-                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                    <div class="job-card" data-job-type="remote" data-exp="entry" data-years="1">
                         <div class="job-header">
                             <div class="job-title-section">
                                 <h2 class="job-title">Backend Engineer</h2>
@@ -818,7 +818,7 @@
                     </div>
 
                     <!-- Job Card 3 -->
-                    <div class="job-card" data-job-type="fulltime" data-exp="mid">
+                    <div class="job-card" data-job-type="fulltime" data-exp="mid" data-years="3">
                         <div class="featured-badge">Featured</div>
                         <div class="job-header">
                             <div class="job-title-section">
@@ -862,7 +862,94 @@
                     </div>
 
                     <!-- Job Card 4 -->
-                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                    <div class="job-card" data-job-type="onsite" data-exp="senior" data-years="7">
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">DevOps Engineer</h2>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">Infrastructure Pro</div>
+
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>London, UK</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-pound-sign"></i>
+                                <span>£80k - £120k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">52 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">CI/CD</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Monitoring</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 3 days ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+
+                    <!-- job5 -->
+                    <div class="job-card" data-job-type="hybrid" data-exp="senior" data-years="5">
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">DevOps Engineer</h2>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">Infrastructure Pro</div>
+
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>London, UK</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-pound-sign"></i>
+                                <span>£80k - £120k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">52 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">CI/CD</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Monitoring</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 3 days ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+                    <!-- job6 -->
+                    <div class="job-card" data-job-type="fulltime" data-exp="entry" data-years="1">
                         <div class="job-header">
                             <div class="job-title-section">
                                 <h2 class="job-title">DevOps Engineer</h2>
@@ -976,14 +1063,44 @@
 
 <script>
     // =========================
-    // ✅ AI ASSISTANT FUNCTIONALITY
+    // ✅ PAGE LOAD
     // =========================
     document.addEventListener('DOMContentLoaded', function () {
+
+        // Show ALL job cards initially
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.style.display = 'block';
+        });
+
+        // Experience Range Default
+        const expRange = document.getElementById('expRange');
+        const expValue = document.getElementById('expValue');
+
+        if (expRange && expValue) {
+            expValue.innerText = expRange.value + "+ Years";
+
+            expRange.addEventListener('input', function () {
+                expValue.innerText = this.value + "+ Years";
+                applyFilters();
+            });
+        }
+
+        // Checkbox events
+        document.querySelectorAll(
+            '.job-type-filter, .exp-filter, .tech-filter, .avail-filter'
+        ).forEach(filter => {
+            filter.addEventListener('change', applyFilters);
+        });
+
+        // =========================
+        // ✅ AI ASSISTANT
+        // =========================
         const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
         const aiOverlay = document.getElementById('aiOverlay');
         const closeAIOverlay = document.getElementById('closeAIOverlay');
 
         if (aiBtn && aiOverlay && closeAIOverlay) {
+
             aiBtn.addEventListener('click', () => {
                 aiOverlay.style.display = 'flex';
             });
@@ -998,117 +1115,193 @@
         const aiChatContainer = document.querySelector('#aiOverlay div[style*="overflow"]');
 
         if (aiInput && aiSendBtn && aiChatContainer) {
+
             function getAIReply(message) {
+
                 message = message.toLowerCase();
-                if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
-                if (message.includes("code")) return "Follow clean architecture and reusable components.";
-                if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
-                if (message.includes("job")) return "Check out our featured jobs! Senior Frontend Developer and Backend Engineer positions are open.";
-                if (message.includes("company")) return "Top hiring companies include CTS, TCS, Accenture, and AppWorks Global.";
-                if (message.includes("salary")) return "Salaries range from $80k to $190k depending on role and experience.";
+
+                if (message.includes("project")) {
+                    return "Try improving UI/UX, add authentication, and optimize performance.";
+                }
+
+                if (message.includes("code")) {
+                    return "Follow clean architecture and reusable components.";
+                }
+
+                if (message.includes("price")) {
+                    return "Compare competitors and adjust pricing smartly.";
+                }
+
+                if (message.includes("job")) {
+                    return "Check out our featured jobs!";
+                }
+
                 return "Nice question! I can help more if you give details 🚀";
             }
 
             function sendMessage() {
+
                 const text = aiInput.value.trim();
+
                 if (!text) return;
 
                 const userMsg = document.createElement('div');
+
                 userMsg.style.textAlign = "right";
                 userMsg.style.margin = "10px 0";
-                userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
+
+                userMsg.innerHTML = `
+                    <span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">
+                        ${text}
+                    </span>
+                `;
+
                 aiChatContainer.appendChild(userMsg);
+
                 aiInput.value = "";
+
                 aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
 
                 setTimeout(() => {
+
                     const aiMsg = document.createElement('div');
+
                     aiMsg.style.margin = "10px 0";
-                    aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
+
+                    aiMsg.innerHTML = `
+                        <span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">
+                            🤖 ${getAIReply(text)}
+                        </span>
+                    `;
+
                     aiChatContainer.appendChild(aiMsg);
+
                     aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+
                 }, 600);
             }
 
             aiSendBtn.addEventListener("click", sendMessage);
+
             aiInput.addEventListener("keypress", function (e) {
-                if (e.key === "Enter") sendMessage();
+                if (e.key === "Enter") {
+                    sendMessage();
+                }
+            });
+        }
+
+        // =========================
+        // ✅ NEW JOB POST BUTTON
+        // =========================
+        const newJobPostBtn = document.querySelector('.hero-banner .btn-warning');
+
+        if (newJobPostBtn) {
+
+            newJobPostBtn.addEventListener('click', function (e) {
+
+                e.preventDefault();
+
+                const isLoggedIn =
+                    document.querySelector('.user-avatar') !== null;
+
+                if (isLoggedIn) {
+
+                    alert('📢 Post a New Job Feature Coming Soon!');
+
+                } else {
+
+                    const userConfirmed = confirm(
+                        '⚠️ Please login to post a new job.'
+                    );
+
+                    if (userConfirmed) {
+                        window.location.href = "{% url 'core:login' %}";
+                    }
+                }
             });
         }
     });
 
     // =========================
-    // ✅ FILTERS FUNCTIONALITY
+    // ✅ APPLY FILTERS
     // =========================
-    function resetFilters() {
-        document.querySelectorAll('.job-type-filter, .exp-filter, .tech-filter').forEach(cb => cb.checked = false);
-        const fulltimeCheckbox = document.getElementById('fulltime');
-        if (fulltimeCheckbox) fulltimeCheckbox.checked = true;
-        document.querySelectorAll('.job-card').forEach(card => card.style.display = 'block');
-    }
-
     function applyFilters() {
-        const activeJobTypes = Array.from(document.querySelectorAll('.job-type-filter:checked')).map(cb => cb.value);
-        const activeExpLevels = Array.from(document.querySelectorAll('.exp-filter:checked')).map(cb => cb.value);
-        const minExperience = parseInt(document.getElementById('expRange').value);
 
-        const jobCards = document.querySelectorAll('.job-card');
+        const selectedJobTypes = Array.from(
+            document.querySelectorAll('.job-type-filter:checked')
+        ).map(cb => cb.value);
 
-        jobCards.forEach(card => {
-            const type = card.getAttribute('data-job-type');
-            const exp = card.getAttribute('data-exp');
-            // You can add data-years to your HTML cards to filter by exact years
-            const cardYears = parseInt(card.getAttribute('data-years') || 0);
+        const selectedExp = Array.from(
+            document.querySelectorAll('.exp-filter:checked')
+        ).map(cb => cb.value);
 
-            const typeMatch = activeJobTypes.length === 0 || activeJobTypes.includes(type);
-            const expMatch = activeExpLevels.length === 0 || activeExpLevels.includes(exp);
-            const yearsMatch = cardYears >= minExperience;
+        const minYears = parseInt(
+            document.getElementById('expRange').value
+        ) || 0;
 
-            if (typeMatch && expMatch && yearsMatch) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
+        const cards = document.querySelectorAll('.job-card');
+
+        cards.forEach(card => {
+
+            const cardJobType = card.dataset.jobType || "";
+            const cardExp = card.dataset.exp || "";
+            const cardYears = parseInt(card.dataset.years) || 0;
+
+            let show = true;
+
+            // =========================
+            // JOB TYPE FILTER
+            // =========================
+            if (
+                selectedJobTypes.length > 0 &&
+                !selectedJobTypes.includes(cardJobType)
+            ) {
+                show = false;
             }
+
+            // =========================
+            // EXPERIENCE FILTER
+            // =========================
+            if (
+                selectedExp.length > 0 &&
+                !selectedExp.includes(cardExp)
+            ) {
+                show = false;
+            }
+
+            // =========================
+            // YEARS FILTER
+            // =========================
+            if (cardYears < minYears) {
+                show = false;
+            }
+
+            // =========================
+            // SHOW / HIDE
+            // =========================
+            card.style.display = show ? 'block' : 'none';
         });
     }
 
-    // Update the text label when the slider moves
-    document.getElementById('expRange').addEventListener('input', function (e) {
-        document.getElementById('expValue').innerText = e.target.value + "+ Years";
-        applyFilters(); // Real-time filtering
-    });
-
-   
-    // Add event listeners to filters
-    document.querySelectorAll('.job-type-filter, .exp-filter, .tech-filter').forEach(filter => {
-        filter.addEventListener('change', applyFilters);
-    });
-
-    // Initialize filters on page load
-    document.addEventListener('DOMContentLoaded', function () {
-        applyFilters();
-    });
-
     // =========================
-    // ✅ NEW JOB POST BUTTON - SHOW ALERT
+    // ✅ RESET FILTERS
     // =========================
-    const newJobPostBtn = document.querySelector('.hero-banner .btn-warning');
+    function resetFilters() {
 
-    if (newJobPostBtn) {
-        newJobPostBtn.addEventListener('click', function (e) {
-            e.preventDefault();
+        // Uncheck all filters
+        document.querySelectorAll(
+            '.job-type-filter, .exp-filter, .tech-filter, .avail-filter'
+        ).forEach(cb => {
+            cb.checked = false;
+        });
 
-            // Check if user is logged in (look for user avatar element)
-            const isLoggedIn = document.querySelector('.user-avatar') !== null;
+        // Reset range
+        document.getElementById('expRange').value = 0;
+        document.getElementById('expValue').innerText = "0+ Years";
 
-            if (isLoggedIn) {
-                alert('📢 Post a New Job Feature Coming Soon!\n\nYou will be able to post job listings here.');
-            } else {
-                const userConfirmed = confirm('⚠️ Please login to post a new job.\n\nClick OK to go to login page.');
-                if (userConfirmed) {
-                    window.location.href = "{% url 'core:login' %}";
-                }
-            }
+        // Show all cards
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.style.display = 'block';
         });
     }
 </script>

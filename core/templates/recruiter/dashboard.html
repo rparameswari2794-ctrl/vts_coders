@@ -1,0 +1,738 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F8F9FB;
+    }
+    .hero-banner {
+        background: rgba(232, 230, 230, 0.1);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .candidate-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 1px solid #e2e8f0;
+    }
+
+    .candidate-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .candidate-card.selected {
+        border: 2px solid #1a1f36 !important;
+        background-color: #f8f9fc;
+    }
+
+    .role-filter {
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .role-filter.active {
+        color: #1a1f36 !important;
+        font-weight: 700 !important;
+        background-color: #eef2ff;
+        border-radius: 8px;
+    }
+
+    .sidebar {
+        background: white;
+        border-right: 1px solid #e2e8f0;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        padding: 20px;
+        transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-sidebar {
+        border-radius: 24px;
+        border: 1px solid #e2e8f0;
+        background: white;
+    }
+
+    .insight-box {
+        background: #FEF9C3;
+        border: 1px solid #facc15;
+        border-radius: 16px;
+    }
+
+    .filter-section {
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+    }
+
+    .filter-checkbox {
+        margin-right: 8px;
+    }
+
+    .filter-label {
+        font-size: 13px;
+        color: #4a5568;
+        cursor: pointer;
+    }
+
+    .filter-label:hover {
+        color: #1a1f36;
+    }
+
+    .skill-tag {
+        transition: all 0.2s ease;
+    }
+
+    .skill-tag:hover {
+        background-color: #1a1f36;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
+    .btn-primary-custom {
+        background-color: #1a1f36;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: #2d3a5e;
+        color: white;
+    }
+
+    .text-primary-custom {
+        color: #1a1f36;
+    }
+
+    .border-primary-custom {
+        border-color: #1a1f36;
+    }
+</style>
+
+<div class="hero-container" style="background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);padding:10px 20px;">
+    <div class="hero-banner">
+        <div>
+            <h3 class="fw-bold mb-1" style="font-size: 20px;font-family: 'exo',sans-serif;">Building a high-performance
+                team?</h3>
+            <p class="mb-0 opacity-75" style="font-size: 12px;color: white;">Get exclusive access to pre-vetted senior
+                talent and <br>streamlined tools with VTS Coders Pro.</p>
+        </div>
+        <div class="d-flex gap-3">
+            <button class="btn btn-outline-light px-4">✨ AI Assistant</button>
+            <button class="btn btn-warning px-4 text-white" style="font-weight: 600;"
+                onclick="window.location.href='/recruiter/post/'">
+                + New Job Post
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid p-0">
+    <div class="row g-0 min-vh-100">
+
+        <!-- Sidebar with Filters -->
+        <div class="col-md-3 col-lg-2 sidebar p-4" style="height: 100%; overflow-y: auto;">
+            <div class="mb-4">
+                <h1 class="h4 fw-bold" style="color: #1a1f36;">HIRING HUB</h1>
+            </div>
+
+            <button class="btn w-100 py-2 rounded-3 fw-semibold mb-4" style="background-color: #1a1f36; color: white;">
+                <i class="fa-solid fa-user-plus me-2"></i> New Pipeline
+            </button>
+
+            <!-- Open Roles Section -->
+            <div class="filter-section">
+                <h6 class="text-uppercase text-muted small fw-bold mb-3">My Open Roles</h6>
+                <div class="role-filter d-flex justify-content-between align-items-center py-2 px-2 mb-1 rounded"
+                    data-role="frontend">
+                    <div><i class="fa-solid fa-code me-2"></i> Sr. Frontend Dev</div>
+                    <span class="badge bg-light text-dark rounded-pill" data-count="frontend">24</span>
+                </div>
+                <div class="role-filter d-flex justify-content-between align-items-center py-2 px-2 mb-1 rounded"
+                    data-role="backend">
+                    <div><i class="fa-solid fa-server me-2"></i> Backend Architect</div>
+                    <span class="badge bg-light text-dark rounded-pill" data-count="backend">12</span>
+                </div>
+                <div class="role-filter d-flex justify-content-between align-items-center py-2 px-2 mb-1 rounded"
+                    data-role="designer">
+                    <div><i class="fa-solid fa-palette me-2"></i> Product Designer</div>
+                    <span class="badge bg-light text-dark rounded-pill" data-count="designer">8</span>
+                </div>
+            </div>
+
+            <!-- Remote Filter -->
+            <div class="filter-section">
+                <h6 class="text-uppercase text-muted small fw-bold mb-3">Work Location</h6>
+                <div class="form-check mb-2">
+                    <input class="form-check-input filter-checkbox" type="checkbox" id="remoteOnly">
+                    <label class="form-check-label filter-label" for="remoteOnly">
+                        <i class="fa-solid fa-globe me-1"></i> Remote Only
+                    </label>
+                </div>
+            </div>
+
+            <!-- Experience Level Filter -->
+            <div class="filter-section">
+                <h6 class="text-uppercase text-muted small fw-bold mb-3">Experience Level</h6>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="experience" value="entry" id="expEntry">
+                    <label class="form-check-label filter-label" for="expEntry">Entry Level (0-2 years)</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="experience" value="mid" id="expMid">
+                    <label class="form-check-label filter-label" for="expMid">Mid Level (3-5 years)</label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="experience" value="senior" id="expSenior"
+                        checked>
+                    <label class="form-check-label filter-label" for="expSenior">Senior Level (6+ years)</label>
+                </div>
+            </div>
+
+            <!-- Skills Filter -->
+            <div class="filter-section">
+                <h6 class="text-uppercase text-muted small fw-bold mb-3">Skills</h6>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="react" id="skillReact">
+                    <label class="form-check-label filter-label" for="skillReact">React.js</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">156</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="python" id="skillPython">
+                    <label class="form-check-label filter-label" for="skillPython">Python</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">98</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="aws" id="skillAws">
+                    <label class="form-check-label filter-label" for="skillAws">AWS</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">124</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="node" id="skillNode">
+                    <label class="form-check-label filter-label" for="skillNode">Node.js</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">87</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="typescript" id="skillTs">
+                    <label class="form-check-label filter-label" for="skillTs">TypeScript</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">112</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="django" id="skillDjango">
+                    <label class="form-check-label filter-label" for="skillDjango">Django</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">45</span>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input skill-filter" type="checkbox" value="vue" id="skillVue">
+                    <label class="form-check-label filter-label" for="skillVue">Vue.js</label>
+                    <span class="badge bg-light text-dark rounded-pill float-end">67</span>
+                </div>
+            </div>
+
+            <!-- Reset Filters Button -->
+            <button class="btn btn-outline-secondary w-100 py-2 small fw-bold mt-2" id="resetFiltersBtn">
+                <i class="fa-solid fa-rotate-right me-2"></i> Reset All Filters
+            </button>
+
+            <!-- Pro Insights -->
+            <div class="insight-box p-3 mt-4">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="fs-4">🎯</span>
+                    <h6 class="fw-bold mb-0" style="color: #1a1f36;">Pro Insights</h6>
+                </div>
+                <p class="small text-muted mb-2">
+                    You've viewed <b id="viewCount">142</b> candidates this week.
+                </p>
+                <a href="#" class="small fw-bold text-warning text-decoration-none">Explore More →</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 p-4" style="height: 100%; overflow-y: auto;">
+
+            <!-- Stats Header -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <p class="text-uppercase text-muted small fw-bold mb-1">Active Job Posts</p>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="h2 fw-bold mb-0">12</span>
+                            <span class="small text-success fw-bold">↗ +2 this week</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <p class="text-uppercase text-muted small fw-bold mb-1">Total Candidates</p>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="h2 fw-bold mb-0" id="totalCandidates">2,480</span>
+                            <span class="small text-muted">↗ +120 new</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <p class="text-uppercase text-muted small fw-bold mb-1">Interviews Set</p>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="h2 fw-bold mb-0">48</span>
+                            <span class="small text-muted">↗ +8 vs last month</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <p class="text-uppercase text-muted small fw-bold mb-1">Success Rate</p>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="h2 fw-bold mb-0">74%</span>
+                            <span class="small text-success fw-bold">↗ +4% improved</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidates Section -->
+            <div class="row g-4">
+                <!-- Candidates List -->
+                <div class="col-lg-7">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <div>
+                            <h3 class="h4 fw-bold mb-0" id="selectedRoleTitle" style="color: #1a1f36;">Sr. Frontend
+                                Developer</h3>
+                            <p class="text-muted small mt-1" id="candidateCount">Found 48 candidates</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <select id="sortSelect" class="form-select form-select-sm" style="width: auto;">
+                                <option value="match">Sort: Match %</option>
+                                <option value="experience">Sort: Experience</option>
+                                <option value="name">Sort: Name A-Z</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="candidatesList" class="d-flex flex-column gap-3"></div>
+                </div>
+
+                <!-- Candidate Details Sidebar -->
+                <div class="col-lg-5">
+                    <div class="detail-sidebar p-4">
+                        <div class="text-center border-bottom pb-4">
+                            <img id="detailAvatar"
+                                src="https://ui-avatars.com/api/?name=Select&background=1a1f36&color=fff"
+                                class="rounded-circle mx-auto mb-3" width="100" height="100">
+                            <h3 id="detailName" class="h4 fw-bold mb-1" style="color: #1a1f36;">Select a Candidate</h3>
+                            <p id="detailTitle" class="text-primary fw-bold small mb-2">Click to view details</p>
+                            <div class="d-flex justify-content-center gap-3 small text-muted">
+                                <span id="detailLocation"><i class="fa-solid fa-location-dot me-1"></i> ---</span>
+                                <a href="#" id="detailPortfolioLink" class="text-decoration-none text-muted">
+                                    <i class="fa-solid fa-link me-1"></i> Portfolio
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="py-4">
+                            <div class="d-flex gap-2 mb-4">
+                                <button class="btn flex-fill py-2 small fw-bold"
+                                    style="background-color: #1a1f36; color: white;">
+                                    <i class="fa-regular fa-message me-1"></i> Message
+                                </button>
+                                <button class="btn btn-outline-secondary flex-fill py-2 small fw-bold">
+                                    <i class="fa-regular fa-bookmark me-1"></i> Shortlist
+                                </button>
+                            </div>
+
+                            <div class="d-flex justify-content-around border-bottom pb-2 mb-3">
+                                <span class="small fw-bold border-bottom border-2 pb-1"
+                                    style="border-color: #1a1f36 !important; color: #1a1f36;">Overview</span>
+                                <span class="small text-muted">Experience</span>
+                                <span class="small text-muted">Education</span>
+                            </div>
+
+                            <div id="detailAbout" class="mb-3">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">About</h6>
+                                <p class="small text-muted">Select a candidate to view profile.</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-2">Core Stack</h6>
+                                <div id="detailSkills" class="d-flex flex-wrap gap-2">
+                                    <span class="badge bg-light text-dark border">---</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-light p-3 rounded-3">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-3">Recruiter Intelligence</h6>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small fw-bold">Skill Match</span>
+                                    <span id="detailMatch" class="small fw-bold" style="color: #1a1f36;">0%</span>
+                                </div>
+                                <div class="progress mb-3" style="height: 6px;">
+                                    <div id="detailMatchBar" class="progress-bar"
+                                        style="width: 0%; background-color: #1a1f36;"></div>
+                                </div>
+                                <div class="small text-muted">
+                                    <i class="fa-solid fa-chart-line me-2" style="color: #1a1f36;"></i>
+                                    <span id="detailSalary">---</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-outline-secondary w-100 py-2 small fw-bold">
+                                <i class="fa-solid fa-download me-1"></i> Download Resume
+                            </button>
+                            <button class="btn w-100 py-2 small fw-bold"
+                                style="background-color: #1a1f36; color: white;">
+                                <i class="fa-regular fa-calendar me-1"></i> Schedule Interview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- AI ASSISTANT OVERLAY -->
+<div id="aiOverlay"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
+    <div
+        style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 30px;color:white;">
+            <div>
+                <h4 style="margin:0;">✨ AI Assistant</h4>
+                <small style="opacity:0.7;">Powered by advanced AI</small>
+            </div>
+            <button id="closeAIOverlay"
+                style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
+        </div>
+        <div style="flex:1;padding:30px;color:white;overflow:auto;" id="aiChatContainer">
+            <div style="background:rgba(255,255,255,0.08);padding:20px;border-radius:15px;margin-bottom:20px;">
+                <strong>✨ AI Assistant</strong>
+                <p style="margin-top:10px;">Hi! I'm your AI assistant. I can help improve your projects, suggest optimal
+                    pricing, review your code, and provide career advice.</p>
+            </div>
+        </div>
+        <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:10px;">
+            <input type="text" id="aiInput" placeholder="Ask me anything..."
+                style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
+            <button id="aiSendBtn"
+                style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
+        </div>
+    </div>
+</div>
+
+<script>
+     // AI ASSISTANT functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
+        const aiOverlay = document.getElementById('aiOverlay');
+        const closeAIOverlay = document.getElementById('closeAIOverlay');
+        const aiInput = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const aiChatContainer = document.getElementById('aiChatContainer');
+
+        if (aiBtn && aiOverlay && closeAIOverlay) {
+            aiBtn.addEventListener('click', () => {
+                aiOverlay.style.display = 'flex';
+            });
+
+            closeAIOverlay.addEventListener('click', () => {
+                aiOverlay.style.display = 'none';
+            });
+        }
+
+        function getAIReply(message) {
+            message = message.toLowerCase();
+            if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
+            if (message.includes("code")) return "Follow clean architecture and reusable components.";
+            if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
+            if (message.includes("developer")) return "Look for developers with relevant experience and strong portfolios.";
+            if (message.includes("hire")) return "Post your requirements and our AI will match you with top talent.";
+            return "Nice question! I can help more if you give details 🚀";
+        }
+
+        function sendMessage() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.style.textAlign = "right";
+            userMsg.style.margin = "10px 0";
+            userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
+            aiChatContainer.appendChild(userMsg);
+            aiInput.value = "";
+            aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.style.margin = "10px 0";
+                aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
+                aiChatContainer.appendChild(aiMsg);
+                aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+            }, 600);
+        }
+
+        if (aiSendBtn) {
+            aiSendBtn.addEventListener("click", sendMessage);
+        }
+
+        if (aiInput) {
+            aiInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") sendMessage();
+            });
+        }
+    });
+    // Complete Developers Database
+    const developersData = {
+        frontend: [
+            { id: 1, name: "Sarah Chen", title: "Senior Full Stack Engineer", location: "San Francisco, CA", remote: false, experience: 8, experienceText: "8 years", match: 98, skills: ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS"], about: "Specializing in high-scale distributed systems and beautiful React interfaces. Previously at Stripe and Google.", salary: "$140k - $170k", active: "2h ago", avatar: "https://ui-avatars.com/api/?name=Sarah+Chen&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 2, name: "Michael Rodriguez", title: "Frontend Tech Lead", location: "Austin, TX", remote: true, experience: 10, experienceText: "10 years", match: 94, skills: ["React", "Vue.js", "Webpack", "Jest", "GraphQL"], about: "Frontend architect with expertise in building scalable component libraries. Led teams at Facebook and Netflix.", salary: "$150k - $185k", active: "1 day ago", avatar: "https://ui-avatars.com/api/?name=Michael+R&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 3, name: "Emily Watson", title: "UI/UX Engineer", location: "Remote", remote: true, experience: 6, experienceText: "6 years", match: 91, skills: ["React", "Tailwind", "Figma", "Storybook"], about: "Passionate about creating accessible and delightful user experiences. Formerly at Airbnb and Shopify.", salary: "$120k - $150k", active: "5h ago", avatar: "https://ui-avatars.com/api/?name=Emily+W&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 4, name: "James Wilson", title: "Senior React Developer", location: "New York, NY", remote: false, experience: 7, experienceText: "7 years", match: 89, skills: ["React", "Redux", "Next.js", "TypeScript"], about: "React specialist with focus on performance optimization.", salary: "$135k - $160k", active: "3h ago", avatar: "https://ui-avatars.com/api/?name=James+W&background=1a1f36&color=fff", portfolio: "#" }
+        ],
+        backend: [
+            { id: 5, name: "David Kim", title: "Senior Backend Engineer", location: "Seattle, WA", remote: true, experience: 9, experienceText: "9 years", match: 96, skills: ["Python", "Django", "PostgreSQL", "AWS", "Redis"], about: "Backend specialist with expertise in microservices and high-throughput systems. Previously at Amazon and Microsoft.", salary: "$160k - $200k", active: "3h ago", avatar: "https://ui-avatars.com/api/?name=David+Kim&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 6, name: "Lisa Thompson", title: "Backend Architect", location: "New York, NY", remote: false, experience: 12, experienceText: "12 years", match: 93, skills: ["Java", "Spring Boot", "Kafka", "MongoDB", "Kubernetes"], about: "Distributed systems expert. Built scalable solutions for financial institutions handling billions of transactions.", salary: "$170k - $210k", active: "1h ago", avatar: "https://ui-avatars.com/api/?name=Lisa+T&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 7, name: "Alex Kumar", title: "Python Backend Developer", location: "Remote", remote: true, experience: 5, experienceText: "5 years", match: 88, skills: ["Python", "FastAPI", "Django", "PostgreSQL", "Docker"], about: "Full-stack Python developer with strong backend focus.", salary: "$110k - $140k", active: "6h ago", avatar: "https://ui-avatars.com/api/?name=Alex+K&background=1a1f36&color=fff", portfolio: "#" }
+        ],
+        designer: [
+            { id: 8, name: "Alex Morgan", title: "Senior Product Designer", location: "Los Angeles, CA", remote: true, experience: 7, experienceText: "7 years", match: 95, skills: ["Figma", "Adobe XD", "Sketch", "ProtoPie", "User Testing"], about: "Award-winning product designer focused on B2B SaaS platforms. Previously at Salesforce and Dropbox.", salary: "$130k - $165k", active: "4h ago", avatar: "https://ui-avatars.com/api/?name=Alex+M&background=1a1f36&color=fff", portfolio: "#" },
+            { id: 9, name: "Nina Patel", title: "UI/UX Designer", location: "Remote", remote: true, experience: 4, experienceText: "4 years", match: 86, skills: ["Figma", "Adobe Creative Suite", "Framer", "Miro"], about: "Creative designer passionate about creating intuitive and beautiful user interfaces.", salary: "$90k - $120k", active: "1 day ago", avatar: "https://ui-avatars.com/api/?name=Nina+P&background=1a1f36&color=fff", portfolio: "#" }
+        ]
+    };
+
+    let currentRole = 'frontend';
+    let selectedCandidate = null;
+    let currentSort = 'match';
+
+    // Load and filter candidates
+    function loadCandidates() {
+        const remoteOnly = document.getElementById('remoteOnly').checked;
+        const experience = document.querySelector('input[name="experience"]:checked').value;
+        const selectedSkills = Array.from(document.querySelectorAll('.skill-filter:checked')).map(cb => cb.value);
+
+        let candidates = [...(developersData[currentRole] || [])];
+
+        // Apply remote filter
+        if (remoteOnly) {
+            candidates = candidates.filter(c => c.remote === true);
+        }
+
+        // Apply experience filter
+        if (experience === 'entry') {
+            candidates = candidates.filter(c => c.experience <= 2);
+        } else if (experience === 'mid') {
+            candidates = candidates.filter(c => c.experience >= 3 && c.experience <= 5);
+        } else if (experience === 'senior') {
+            candidates = candidates.filter(c => c.experience >= 6);
+        }
+
+        // Apply skills filter
+        if (selectedSkills.length > 0) {
+            candidates = candidates.filter(c =>
+                selectedSkills.some(skill =>
+                    c.skills.some(cSkill => cSkill.toLowerCase().includes(skill.toLowerCase()))
+                )
+            );
+        }
+
+        // Apply sorting
+        candidates = sortCandidates(candidates);
+
+        // Update UI
+        const roleTitles = { frontend: 'Sr. Frontend Developer', backend: 'Backend Architect', designer: 'Product Designer' };
+        const roleCounts = { frontend: developersData.frontend.length, backend: developersData.backend.length, designer: developersData.designer.length };
+
+        document.getElementById('selectedRoleTitle').textContent = roleTitles[currentRole];
+        document.getElementById('candidateCount').textContent = `Found ${candidates.length} candidates`;
+
+        // Update role counts in sidebar
+        document.querySelectorAll('[data-count]').forEach(el => {
+            const role = el.getAttribute('data-count');
+            if (roleCounts[role]) {
+                el.textContent = roleCounts[role];
+            }
+        });
+
+        const container = document.getElementById('candidatesList');
+
+        if (candidates.length === 0) {
+            container.innerHTML = `<div class="text-center py-5 bg-white rounded-3 border"><i class="fa-solid fa-user-slash fa-2x text-muted mb-2 d-block"></i><p class="text-muted">No candidates found with current filters</p><button onclick="resetAllFilters()" class="btn btn-link small">Reset Filters</button></div>`;
+            return;
+        }
+
+        container.innerHTML = candidates.map(candidate => `
+            <div class="candidate-card p-3 bg-white rounded-3 ${selectedCandidate?.id === candidate.id ? 'selected' : ''}" onclick="selectCandidate(${candidate.id})">
+                <div class="d-flex gap-3 align-items-start">
+                    <img src="${candidate.avatar}" class="rounded-circle" width="48" height="48">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                            <h6 class="fw-bold mb-0" style="color: #1a1f36;">${candidate.name}</h6>
+                            <span class="badge bg-primary bg-opacity-10 text-primary small">${candidate.match}% Match</span>
+                            ${candidate.remote ? '<span class="badge bg-success bg-opacity-10 text-success small"><i class="fa-solid fa-globe"></i> Remote</span>' : ''}
+                        </div>
+                        <p class="small text-muted mb-1">${candidate.title}</p>
+                        <div class="d-flex gap-3 small text-muted">
+                            <span><i class="fa-solid fa-location-dot me-1"></i> ${candidate.location}</span>
+                            <span><i class="fa-regular fa-clock me-1"></i> ${candidate.experienceText}</span>
+                            <span class="text-success">Active ${candidate.active}</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-1">
+                        ${candidate.skills.slice(0, 2).map(s => `<span class="badge bg-light text-dark border small">${s}</span>`).join('')}
+                        ${candidate.skills.length > 2 ? `<span class="badge bg-light text-dark border small">+${candidate.skills.length - 2}</span>` : ''}
+                    </div>
+                    <i class="fa-regular fa-bookmark text-muted"></i>
+                </div>
+            </div>
+        `).join('');
+
+        // Update total candidates count
+        document.getElementById('totalCandidates').textContent = (developersData.frontend.length + developersData.backend.length + developersData.designer.length).toLocaleString();
+
+        if (!selectedCandidate && candidates.length) selectCandidate(candidates[0].id);
+        else if (selectedCandidate && !candidates.find(c => c.id === selectedCandidate.id) && candidates.length) selectCandidate(candidates[0].id);
+    }
+
+    // Sort candidates
+    function sortCandidates(candidates) {
+        const sortBy = document.getElementById('sortSelect').value;
+        if (sortBy === 'match') {
+            return [...candidates].sort((a, b) => b.match - a.match);
+        } else if (sortBy === 'experience') {
+            return [...candidates].sort((a, b) => b.experience - a.experience);
+        } else if (sortBy === 'name') {
+            return [...candidates].sort((a, b) => a.name.localeCompare(b.name));
+        }
+        return candidates;
+    }
+
+    // Select candidate and show details
+    function selectCandidate(candidateId) {
+        const allCandidates = [...developersData.frontend, ...developersData.backend, ...developersData.designer];
+        selectedCandidate = allCandidates.find(c => c.id === candidateId);
+
+        if (selectedCandidate) {
+            document.getElementById('detailName').textContent = selectedCandidate.name;
+            document.getElementById('detailTitle').textContent = selectedCandidate.title;
+            document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot me-1"></i> ${selectedCandidate.location}`;
+            document.getElementById('detailAvatar').src = selectedCandidate.avatar;
+            document.getElementById('detailMatch').textContent = `${selectedCandidate.match}%`;
+            document.getElementById('detailMatchBar').style.width = `${selectedCandidate.match}%`;
+            document.getElementById('detailSalary').textContent = `Salary Expectation: ${selectedCandidate.salary}`;
+
+            const portfolioLink = document.getElementById('detailPortfolioLink');
+            portfolioLink.href = selectedCandidate.portfolio;
+
+            document.getElementById('detailAbout').innerHTML = `
+                <h6 class="text-uppercase text-muted small fw-bold mb-2">About</h6>
+                <p class="small text-muted">${selectedCandidate.about}</p>
+            `;
+
+            document.getElementById('detailSkills').innerHTML = selectedCandidate.skills.map(s =>
+                `<span class="badge bg-light text-dark border skill-tag">${s}</span>`
+            ).join('');
+        }
+        loadCandidates();
+    }
+
+    // Reset all filters
+    function resetAllFilters() {
+        document.getElementById('remoteOnly').checked = false;
+        document.querySelector('input[name="experience"][value="senior"]').checked = true;
+        document.querySelectorAll('.skill-filter:checked').forEach(cb => cb.checked = false);
+        document.getElementById('sortSelect').value = 'match';
+        loadCandidates();
+    }
+
+    // Role filtering
+    document.querySelectorAll('.role-filter').forEach(role => {
+        role.addEventListener('click', function () {
+            document.querySelectorAll('.role-filter').forEach(r => r.classList.remove('active'));
+            this.classList.add('active');
+            currentRole = this.dataset.role;
+            selectedCandidate = null;
+            loadCandidates();
+        });
+    });
+
+    // Filter event listeners
+    document.getElementById('remoteOnly').addEventListener('change', loadCandidates);
+    document.querySelectorAll('input[name="experience"]').forEach(radio => {
+        radio.addEventListener('change', loadCandidates);
+    });
+    document.querySelectorAll('.skill-filter').forEach(skill => {
+        skill.addEventListener('change', loadCandidates);
+    });
+    document.getElementById('sortSelect').addEventListener('change', loadCandidates);
+    document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+
+    // Set initial active role
+    document.querySelector('.role-filter[data-role="frontend"]').classList.add('active');
+    // Replace the developersData with API call
+    async function loadDevelopersFromDB() {
+        try {
+            const response = await fetch('/api/developers/');
+            const data = await response.json();
+            if (data.success) {
+                // Organize by role
+                const dbDevelopers = {
+                    frontend: data.developers.filter(d => d.role === 'frontend'),
+                    backend: data.developers.filter(d => d.role === 'backend'),
+                    designer: data.developers.filter(d => d.role === 'designer')
+                };
+
+                // Merge with static data
+                Object.keys(developersData).forEach(role => {
+                    developersData[role] = [...developersData[role], ...dbDevelopers[role]];
+                });
+
+                loadCandidates();
+            }
+        } catch (error) {
+            console.error('Error loading developers:', error);
+        }
+    }
+
+    // Call this on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        loadDevelopersFromDB();
+    });
+    // Initialize
+    loadCandidates();
+</script>
+{% endblock %}

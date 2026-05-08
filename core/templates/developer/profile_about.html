@@ -1,0 +1,248 @@
+
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- LEFT COLUMN: Content -->
+        <div class="col-lg-8">
+            <!-- Professional Summary -->
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+                <div class="header-icon"><i class="fa-solid fa-chevron-right"></i></div>
+                <h4 class="fw-bold mb-0">Professional Summary</h4>
+            </div>
+            <div class="card card-custom p-4 mb-5">
+                <p class="summary-text">
+                    I am a Senior Full-Stack Engineer with over 14 years of experience building scalable, high-availability web applications. My philosophy centers on engineering simplicity: tackling complex business requirements with elegant, maintainable code architectures. Throughout my career, I've led cross-functional teams at high-growth startups and established tech firms, consistently bridging the gap between sophisticated backend logic and intuitive, accessible frontend experiences. I specialize in the <strong>React ecosystem, Node.js microservices, and Cloud Architecture (AWS).</strong>
+                </p>
+            </div>
+
+            <!-- Technical Highlights -->
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+                <div class="header-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h4 class="fw-bold mb-0">Selected Technical Highlights</h4>
+            </div>
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="card card-custom p-4 h-100 highlight-card">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold">Real-time Analytics Engine</h6>
+                            <i class="fa-solid fa-chevron-right text-muted small"></i>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-uppercase text-warning fw-bold smallest">The Challenge</span>
+                            <p class="small text-muted mt-1">Scaling a dashboard to handle 10k concurrent WebSocket connections with sub-200ms latency for financial data processing.</p>
+                            
+                            <span class="text-uppercase text-warning fw-bold smallest">The Solution</span>
+                            <p class="small text-muted mt-1">Implemented a Redis-backed pub/sub architecture with Node.js worker threads to offload heavy computation from the event loop.</p>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mt-auto pt-3">
+                            <span class="badge-tech">Redis</span>
+                            <span class="badge-tech">WebSockets</span>
+                            <span class="badge-tech">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-custom p-4 h-100 highlight-card">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-bold">Design System Migration</h6>
+                            <i class="fa-solid fa-chevron-right text-muted small"></i>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-uppercase text-warning fw-bold smallest">The Challenge</span>
+                            <p class="small text-muted mt-1">Legacy codebase with fragmented UI components across 4 different micro-frontends leading to visual inconsistency.</p>
+                            
+                            <span class="text-uppercase text-warning fw-bold smallest">The Solution</span>
+                            <p class="small text-muted mt-1">Architected a unified, accessible component library using Tailwind and Radix UI, reducing CSS bundle size by 65% and improving DX.</p>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 mt-auto pt-3">
+                            <span class="badge-tech">React</span>
+                            <span class="badge-tech">Tailwind</span>
+                            <span class="badge-tech">Accessibility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="section-header d-flex align-items-center gap-2 mb-4">
+                <div class="header-icon"><i class="fa-regular fa-bookmark"></i></div>
+                <h4 class="fw-bold mb-0">Education & Credentials</h4>
+            </div>
+            <div class="card card-custom p-4 mb-5">
+                <div class="edu-item border-bottom pb-4 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="fw-bold mb-0">M.S. in Computer Science</h6>
+                        <span class="text-muted small">2014 — 2016</span>
+                    </div>
+                    <p class="text-muted small mb-2">Stanford University</p>
+                    <p class="small mb-0">Specialization in Distributed Systems and Human-Computer Interaction. Graduated with honors (GPA 3.9/4.0).</p>
+                </div>
+                <div class="edu-item">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="fw-bold mb-0">B.S. in Software Engineering</h6>
+                        <span class="text-muted small">2010 — 2014</span>
+                    </div>
+                    <p class="text-muted small mb-2">UC Berkeley</p>
+                    <p class="small mb-0">President of the Open Source Society. Focused on algorithms, data structures, and database management.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Sidebars -->
+        <div class="col-lg-4">
+            <!-- Available Card -->
+            <div class="card card-custom p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="dot-online pulse"></span>
+                        <span class="fw-bold small">Available for Work</span>
+                    </div>
+                    <span class="badge-active">Active</span>
+                </div>
+                <h5 class="fw-bold text-warning">Hire Alex Sterling</h5>
+                <p class="text-muted small mb-4">Open to full-time roles or high-impact consulting projects starting Q3 2024.</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-dark-blue py-2 fw-bold"><i class="fa-solid fa-briefcase me-2"></i>Book a Consultation</button>
+                    <button class="btn btn-outline-secondary py-2 fw-bold"><i class="fa-regular fa-comment me-2"></i>Message Direct</button>
+                </div>
+            </div>
+
+            <!-- Key Skills -->
+            <div class="card card-custom p-4 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <div class="header-icon-sm"><i class="fa-solid fa-code"></i></div>
+                    <h6 class="fw-bold mb-0">Key Skills</h6>
+                </div>
+                
+                <div class="skill-category mb-4">
+                    <span class="text-uppercase text-muted fw-bold smallest d-block mb-2">Frontend</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge-skill">React</span><span class="badge-skill">Next.js</span>
+                        <span class="badge-skill">TypeScript</span><span class="badge-skill">Tailwind CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-category mb-4 pt-3 border-top-dotted">
+                    <span class="text-uppercase text-muted fw-bold smallest d-block mb-2">Backend</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge-skill">Node.js</span><span class="badge-skill">Python</span>
+                        <span class="badge-skill">PostgreSQL</span><span class="badge-skill">Redis</span>
+                    </div>
+                </div>
+
+                <div class="skill-category border-top-dotted pt-3">
+                    <span class="text-uppercase text-muted fw-bold smallest d-block mb-2">Cloud & DevOps</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge-skill">AWS</span><span class="badge-skill">CI/CD</span>
+                        <span class="badge-skill">Terraform</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools & Tech -->
+            <div class="card card-custom p-4">
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <div class="header-icon-sm"><i class="fa-solid fa-layer-group"></i></div>
+                    <h6 class="fw-bold mb-0">Tools & Technologies</h6>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6"><div class="tool-box"><i class="fa-solid fa-terminal me-2"></i> VS Code</div></div>
+                    <div class="col-6"><div class="tool-box"><i class="fa-solid fa-globe me-2"></i> Postman</div></div>
+                    <div class="col-6"><div class="tool-box"><i class="fa-brands fa-github me-2"></i> Git/GitHub</div></div>
+                    <div class="col-6"><div class="tool-box"><i class="fa-brands fa-figma me-2"></i> Figma</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Collaboration CTA (Footer Section) -->
+<div class="cta-section text-center py-5 mt-5">
+    <h2 class="fw-bold">Interested in collaborating?</h2>
+    <p class="text-muted mx-auto" style="max-width: 500px;">Whether you have a specific technical challenge or just want to discuss the future of the web, my inbox is always open.</p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-warning px-5 py-2 fw-bold shadow-warning">Hire Me</button>
+        <button class="btn btn-outline-secondary px-5 py-2 fw-bold">Message</button>
+    </div>
+</div>
+<style>
+    :root {
+        --bg-light: #f8fafc;
+        --card-bg: #ffffff;
+        --accent-yellow: #eab308;
+        --dark-navy: #0f172a;
+        --text-muted: #64748b;
+    }
+
+    body { background-color: var(--bg-light); color: #1e293b; }
+
+    /* Card Styling */
+    .card-custom {
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    
+    .highlight-card:hover { border-color: var(--accent-yellow); transform: translateY(-2px); transition: 0.3s; }
+
+    /* Section Icons */
+    .header-icon {
+        width: 32px; height: 32px; background: #f1f5f9;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 8px; font-size: 14px;
+    }
+    .header-icon-sm {
+        width: 36px; height: 36px; background: #e2e8f0;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 10px; font-size: 16px;
+    }
+
+    /* Text & Badges */
+    .smallest { font-size: 10px; letter-spacing: 0.5px; }
+    .summary-text { line-height: 1.8; color: #334155; }
+    
+    .badge-tech {
+        background: #f1f5f9; color: #475569; font-size: 11px;
+        padding: 4px 10px; border-radius: 6px; font-weight: 500;
+    }
+    
+    .badge-skill {
+        background: #f1f5f9; color: #1e293b; font-size: 12px;
+        padding: 6px 12px; border-radius: 20px; font-weight: 500;
+        border: 1px solid #e2e8f0;
+    }
+
+    .badge-active {
+        background: #f8fafc; border: 1px solid #e2e8f0;
+        font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    }
+
+    /* Sidebars & Tools */
+    .border-top-dotted { border-top: 2px dotted #e2e8f0; }
+    
+    .dot-online {
+        width: 10px; height: 10px; background: #0f172a;
+        border-radius: 50%; display: inline-block;
+    }
+
+    .tool-box {
+        border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px;
+        font-size: 13px; font-weight: 600; text-align: center;
+    }
+
+    .btn-dark-blue { background: #0f172a; color: white; border: none; }
+    .btn-dark-blue:hover { background: #1e293b; color: white; }
+
+    /* CTA Section */
+    .shadow-warning { box-shadow: 0 10px 15px -3px rgba(234, 179, 8, 0.3); }
+
+    /* Animation for Pulse */
+    .pulse { animation: pulse-blue 2s infinite; }
+    @keyframes pulse-blue {
+        0% { box-shadow: 0 0 0 0 rgba(15, 23, 42, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(15, 23, 42, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(15, 23, 42, 0); }
+    }
+</style>
+{% endblock %}

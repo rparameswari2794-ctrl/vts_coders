@@ -1,0 +1,526 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --sidebar-bg: #f8fafc;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --vts-yellow: #eab308;
+    }
+
+    body {
+        background-color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Layout Wrapper */
+    .explore-container {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+        width: 300px;
+        background: rgb(226, 230, 232);
+        border-right: 1px solid #e2e8f0;
+        padding: 2rem;
+        flex-shrink: 0;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: black;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 1.5rem 0 1rem;
+        font-family: 'exo', sans-serif;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+        background: rgba(232, 230, 230, 0.1);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Project Cards */
+    .project-card {
+        background: white;
+        border-radius: 1rem;
+        border: 1px solid #e2e8f0;
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    /* Developer Chips */
+    .dev-filter-chip {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .dev-filter-chip.active {
+        border-color: var(--vts-yellow);
+        background: #fefce8;
+    }
+
+    /* Community Card */
+    .community-box {
+        background: #fef9c3;
+        border: 1px dashed #facc15;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .medal-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #eab308;
+        font-size: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: 0.3s ease;
+    }
+
+    .img-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .img-wrapper:hover .medal-badge {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+
+    .img-wrapper:hover .img-overlay {
+        opacity: 1;
+    }
+
+    .view-btn {
+        background: #eab308;
+        color: #1a1f36;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    @media (max-width:768px) {
+        .explore-container {
+            flex-direction: column;
+        }
+
+        .sidebar {
+            width: 100%;
+            height: auto;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-container" style="background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);padding:10px 20px;">
+    <div class="hero-banner">
+        <div>
+            <h3 class="fw-bold mb-1" style="font-size: 20px;font-family: 'exo',sans-serif;">Building a high-performance
+                team?</h3>
+            <p class="mb-0 opacity-75" style="font-size: 12px;color: white;">Get exclusive access to pre-vetted senior
+                talent and <br>streamlined tools with VTS Coders Pro.</p>
+        </div>
+        <div class="d-flex gap-3">
+            <button class="btn btn-outline-light px-4">✨ AI Assistant</button>
+            <button class="btn btn-warning px-4 text-white" style="font-weight: 600;"
+                onclick="window.location.href='/recruiter/developers/'">
+                + Explore Developers
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="explore-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <button class="btn btn-outline-dark btn-sm fw-bold"><i class="fas fa-sliders-h me-2"></i> Filters</button>
+            <button class="btn btn-link btn-sm text-muted text-decoration-none" onclick="resetFilters()">Reset
+                All</button>
+        </div>
+
+        <div class="sidebar-title">Discovery</div>
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="trending">
+            <label class="form-check-label small" for="trending"><i class="fas fa-chart-line me-2"></i> Trending</label>
+        </div>
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="newest">
+            <label class="form-check-label small" for="newest"><i class="fas fa-clock me-2"></i> Newest</label>
+        </div>
+
+        <div class="sidebar-title">Categories</div>
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search stack...">
+        </div>
+
+        <div id="categoryGroup">
+            <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                <span>
+                    <input class="form-check-input cat-check" type="checkbox" value="ai" id="cat-ai">
+                    <label class="form-check-label small" for="cat-ai"><i class="fas fa-bolt me-2"></i> AI & ML</label>
+                </span>
+                <span class="badge rounded-pill bg-light text-dark">42</span>
+            </div>
+            <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                <span>
+                    <input class="form-check-input cat-check" type="checkbox" value="web" id="cat-web">
+                    <label class="form-check-label small" for="cat-web"><i class="fas fa-code me-2"></i> Web
+                        Apps</label>
+                </span>
+                <span class="badge rounded-pill bg-light text-dark">189</span>
+            </div>
+            <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                <span>
+                    <input class="form-check-input cat-check" type="checkbox" value="mobile" id="cat-mobile">
+                    <label class="form-check-label small" for="cat-mobile"><i class="fas fa-mobile-alt me-2"></i>
+                        Mobile</label>
+                </span>
+                <span class="badge rounded-pill bg-light text-dark">64</span>
+            </div>
+            <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                <span>
+                    <input class="form-check-input cat-check" type="checkbox" value="backend" id="cat-backend">
+                    <label class="form-check-label small" for="cat-backend"><i class="fas fa-server me-2"></i>
+                        Backend</label>
+                </span>
+                <span class="badge rounded-pill bg-light text-dark">84</span>
+            </div>
+            <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                <span>
+                    <input class="form-check-input cat-check" type="checkbox" value="system" id="cat-system">
+                    <label class="form-check-label small" for="cat-system"><i class="fas fa-cog me-2"></i>
+                        System</label>
+                </span>
+                <span class="badge rounded-pill bg-light text-dark">12</span>
+            </div>
+        </div>
+
+        <div class="community-box">
+            <h6 class="fw-bold small mb-1">Join our community</h6>
+            <p class="text-muted" style="font-size: 0.7rem;">Showcase your repos and get discovered by recruiters.</p>
+            <button class="btn btn-dark btn-sm w-100 fw-bold" style="font-size: 12px;">Get Started</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow-1 p-4 p-lg-5">
+        <!-- Featured Developers -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold text-uppercase m-0 small" style="font-family: 'exo',sans-serif;font-size: 25px;"><i
+                    class="fas fa-users me-2"></i> Featured Developers</h6>
+            <a href="#" class="text-dark small fw-bold text-decoration-none">Explore Talent <i
+                    class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+        <div class="row g-3 mb-5" id="devContainer">
+            {% for dev in featured_devs %}
+            <div class="col-md-3">
+                <div class="dev-filter-chip d-flex align-items-center gap-3" data-dev-name="{{ dev.name|lower }}">
+                    <img src="{{ dev.img }}" class="rounded-circle" width="40" height="40"
+                        onerror="this.src='https://randomuser.me/api/portraits/men/1.jpg'">
+                    <div class="overflow-hidden">
+                        <div class="fw-bold small text-truncate">{{ dev.name }}</div>
+                        <div class="text-muted" style="font-size: 0.7rem;">{{ dev.role }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Project Grid -->
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h2 class="fw-bold m-0">Explore Projects</h2>
+                <p class="text-muted small">Discover the best code repositories and developer portfolio.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-white border btn-sm">Filter</button>
+                <div class="btn-group" id="sortButtonGroup">
+                    <button class="btn btn-light border btn-sm active" data-sort="popular">Popular</button>
+                    <button class="btn btn-light border btn-sm" data-sort="recent">Recent</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row g-4 mt-2" id="projectGrid">
+            {% for project in projects %}
+            <div class="col-md-4 project-item" data-category="{{ project.category }}"
+                data-author="{{ project.author|lower }}" data-stars="{{ project.stars }}"
+                data-date="{{ project.created_at|date:'Ymd'}}">
+                <div class="project-card" data-project-slug="{{ project.slug }}"
+                    onclick="viewProject('{{ project.slug }}')">
+                    <div class="img-wrapper">
+                        <img src="{{ project.image }}" class="card-img-top" alt="{{ project.title }}">
+                        <div class="medal-badge">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="img-overlay">
+                            <a href="{% url 'core:project_detail' slug=project.slug %}" class="view-btn">View
+                                Project</a>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h6 class="fw-bold mb-1">{{ project.title }}</h6>
+                        <p class="text-muted small mb-3">{{ project.author }}</p>
+                        <div class="d-flex gap-1 flex-wrap">
+                            {% for tag in project.tags %}
+                            <span class="badge bg-light text-dark fw-bold">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="text-center mt-5 pt-5 border-top border-dashed">
+            <h5 class="fw-bold">Want to see more?</h5>
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <button class="btn btn-warning btn-sm px-3 active">1</button>
+                <button class="btn btn-light border btn-sm px-3">2</button>
+                <button class="btn btn-light border btn-sm px-3">3</button>
+                <span class="mx-2">...</span>
+                <button class="btn btn-light border btn-sm px-3">12</button>
+                <button class="btn btn-light border btn-sm px-3 ms-2">Next <i
+                        class="fas fa-arrow-right small"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- AI ASSISTANT OVERLAY -->
+<div id="aiOverlay"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
+    <div
+        style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 30px;color:white;">
+            <div>
+                <h4 style="margin:0;">✨ AI Assistant</h4>
+                <small style="opacity:0.7;">Powered by advanced AI</small>
+            </div>
+            <button id="closeAIOverlay"
+                style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
+        </div>
+        <div style="flex:1;padding:30px;color:white;overflow:auto;" id="aiChatContainer">
+            <div style="background:rgba(255,255,255,0.08);padding:20px;border-radius:15px;margin-bottom:20px;">
+                <strong>✨ AI Assistant</strong>
+                <p style="margin-top:10px;">Hi! I'm your AI assistant. I can help improve your projects, suggest optimal
+                    pricing, review your code, and provide career advice.</p>
+            </div>
+        </div>
+        <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:10px;">
+            <input type="text" id="aiInput" placeholder="Ask me anything..."
+                style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
+            <button id="aiSendBtn"
+                style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const catChecks = document.querySelectorAll('.cat-check');
+        const devChips = document.querySelectorAll('.dev-filter-chip');
+        const projectItems = document.querySelectorAll('.project-item');
+        let activeDev = null;
+
+        function filterProjects() {
+            const selectedCats = Array.from(catChecks).filter(c => c.checked).map(c => c.value);
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const trendingChecked = document.getElementById('trending').checked;
+            const newestChecked = document.getElementById('newest').checked;
+
+            projectItems.forEach(item => {
+                const title = item.querySelector('h6').innerText.toLowerCase();
+                const tags = item.innerText.toLowerCase();
+                const catMatch = selectedCats.length === 0 || selectedCats.includes(item.dataset.category);
+                const devMatch = !activeDev || item.dataset.author === activeDev;
+                const searchMatch = title.includes(searchValue) || tags.includes(searchValue);
+                let extraMatch = true;
+                if (trendingChecked) {
+                    extraMatch = extraMatch && parseInt(item.dataset.stars) > 100;
+                }
+                if (newestChecked) {
+                    const today = new Date();
+                    const itemDate = new Date(item.dataset.date);
+                    const diffDays = (today - itemDate) / (1000 * 60 * 60 * 24);
+                    extraMatch = extraMatch && diffDays < 30;
+                }
+                item.style.display = (catMatch && devMatch && searchMatch && extraMatch) ? 'block' : 'none';
+            });
+        }
+
+        function resetFilters() {
+            catChecks.forEach(c => c.checked = false);
+            devChips.forEach(c => c.classList.remove('active'));
+            activeDev = null;
+            filterProjects();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterProjects);
+        document.getElementById('trending').addEventListener('change', filterProjects);
+        document.getElementById('newest').addEventListener('change', filterProjects);
+        catChecks.forEach(c => c.addEventListener('change', filterProjects));
+
+        devChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                if (activeDev === chip.dataset.devName) {
+                    activeDev = null;
+                    chip.classList.remove('active');
+                } else {
+                    devChips.forEach(c => c.classList.remove('active'));
+                    activeDev = chip.dataset.devName;
+                    chip.classList.add('active');
+                }
+                filterProjects();
+            });
+        });
+
+        const sortButtons = document.querySelectorAll('#sortButtonGroup .btn');
+        sortButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sortButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                sortProjects(btn.dataset.sort);
+            });
+        });
+
+        function sortProjects(criteria) {
+            const grid = document.getElementById('projectGrid');
+            const items = Array.from(projectItems);
+            items.sort((a, b) => {
+                if (criteria === 'popular') {
+                    return parseInt(b.dataset.stars) - parseInt(a.dataset.stars);
+                } else {
+                    return parseInt(b.dataset.date) - parseInt(a.dataset.date);
+                }
+            });
+            items.forEach(item => grid.appendChild(item));
+            filterProjects();
+        }
+
+        // View Project function - opens project details page using slug
+        function viewProject(slug) {
+            window.location.href = '/project/' + slug + '/';
+        }
+
+        // AI Assistant
+        const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
+        const aiOverlay = document.getElementById('aiOverlay');
+        const closeAIOverlay = document.getElementById('closeAIOverlay');
+        if (aiBtn && aiOverlay && closeAIOverlay) {
+            aiBtn.addEventListener('click', () => { aiOverlay.style.display = 'flex'; });
+            closeAIOverlay.addEventListener('click', () => { aiOverlay.style.display = 'none'; });
+        }
+
+        const aiInput = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const aiChatContainer = document.getElementById('aiChatContainer');
+
+        function getAIReply(message) {
+            message = message.toLowerCase();
+            if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
+            if (message.includes("code")) return "Follow clean architecture and reusable components.";
+            if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
+            return "Nice question! I can help more if you give details 🚀";
+        }
+
+        function sendMessage() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+            const userMsg = document.createElement('div');
+            userMsg.style.textAlign = "right";
+            userMsg.style.margin = "10px 0";
+            userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;">${text}</span>`;
+            aiChatContainer.appendChild(userMsg);
+            aiInput.value = "";
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.style.margin = "10px 0";
+                aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;">🤖 ${getAIReply(text)}</span>`;
+                aiChatContainer.appendChild(aiMsg);
+                aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+            }, 600);
+        }
+        if (aiSendBtn) aiSendBtn.addEventListener("click", sendMessage);
+        if (aiInput) aiInput.addEventListener("keypress", function (e) { if (e.key === "Enter") sendMessage(); });
+
+        // =========================
+        // UPLOAD PROJECT BUTTON - NO REDIRECT, JUST ALERT
+        // =========================
+        const uploadProjectBtn = document.getElementById('uploadProjectBtn');
+
+        if (uploadProjectBtn) {
+            uploadProjectBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                alert('📁 Upload Project feature coming soon!');
+                // No redirect - just shows an alert
+            });
+        }
+
+        // Make resetFilters available globally for the Reset All button
+        window.resetFilters = resetFilters;
+    });
+</script>
+{% endblock %}

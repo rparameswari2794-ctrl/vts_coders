@@ -1,0 +1,305 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .form-header h2 {
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .form-body {
+        padding: 40px;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .form-section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-section-title i {
+        color: #eab308;
+        font-size: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #eab308;
+        box-shadow: 0 0 0 0.2rem rgba(234, 179, 8, 0.25);
+    }
+    
+    .btn-submit {
+        background: #eab308;
+        color: #000;
+        font-weight: 700;
+        padding: 12px 40px;
+        border-radius: 10px;
+        border: none;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    .btn-submit:hover {
+        background: #ca8a04;
+        color: #000;
+        transform: translateY(-2px);
+    }
+    
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 5px;
+    }
+    
+    .help-text {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 5px;
+    }
+    
+    .error-text {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+    
+    /* Image preview styles */
+    .profile-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #eab308;
+        margin-bottom: 15px;
+    }
+    
+    .image-preview-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .current-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #eab308;
+    }
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fa-solid fa-user-astronaut me-2"></i> Complete Your Developer Profile</h2>
+        <p class="mb-0 opacity-75">Tell us about yourself and showcase your skills to potential clients</p>
+    </div>
+    
+    <div class="form-body">
+        <form method="post" id="profileForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Personal Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Personal Information</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3 image-preview-container">
+                        <label class="form-label">Profile Picture</label>
+                        <div>
+                            <img id="profilePreview" class="profile-preview" 
+                                 src="{% if form.instance.profile_picture %}{{ form.instance.profile_picture.url }}{% else %}https://ui-avatars.com/api/?name=User&background=eab308&color=fff&size=100{% endif %}" 
+                                 alt="Profile Preview">
+                        </div>
+                        {{ form.profile_picture }}
+                        <div class="help-text">Upload a professional profile picture (JPG, PNG)</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required-field">Full Name</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                            <div class="error-text">{{ form.full_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Professional Title</label>
+                        {{ form.title }}
+                        <div class="help-text">e.g., Senior Full-Stack Developer</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">User Type</label>
+                        {{ form.user_type }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Experience Level</label>
+                        {{ form.experience_level }}
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Bio</label>
+                        {{ form.bio }}
+                        <div class="help-text">Tell us about your experience, expertise, and what makes you unique</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Location</label>
+                        {{ form.location }}
+                        <div class="help-text">City, Country or "Remote"</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skills & Pricing -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Skills & Pricing</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="form-label required-field">Technical Skills</label>
+                        {{ form.skills }}
+                        <div class="help-text">Enter your skills separated by commas (e.g., Python, Django, React, PostgreSQL)</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Hourly Rate</label>
+                        <div class="input-group">
+                            {{ form.currency }}
+                            {{ form.hourly_rate }}
+                        </div>
+                        <div class="help-text">Your desired hourly rate in USD/EUR/GBP</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social & Portfolio Links -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-link"></i>
+                    <span>Online Presence</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">GitHub URL</label>
+                        {{ form.github_url }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Portfolio URL</label>
+                        {{ form.portfolio_url }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">LinkedIn URL</label>
+                        {{ form.linkedin_url }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Twitter URL</label>
+                        {{ form.twitter_url }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Core Competencies -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Core Competencies</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Architecture</label>
+                        {{ form.architecture_desc }}
+                        <div class="help-text">e.g., Scalable distributed systems</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Modern Web</label>
+                        {{ form.modern_web_desc }}
+                        <div class="help-text">e.g., React, Next.js, edge computing</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Performance</label>
+                        {{ form.performance_desc }}
+                        <div class="help-text">e.g., Core Web Vitals optimization</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-save me-2"></i> Save Profile & Continue
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profilePreview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    // Add event listener for profile picture input
+    document.addEventListener('DOMContentLoaded', function() {
+        const profilePicInput = document.querySelector('[name="profile_picture"]');
+        if (profilePicInput) {
+            profilePicInput.addEventListener('change', function() {
+                previewImage(this);
+            });
+        }
+    });
+    
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        const fullName = document.querySelector('[name="full_name"]').value;
+        const skills = document.querySelector('[name="skills"]').value;
+        
+        if (!fullName.trim()) {
+            e.preventDefault();
+            alert('Please enter your full name');
+            return false;
+        }
+        
+        if (!skills.trim()) {
+            e.preventDefault();
+            alert('Please enter at least one skill');
+            return false;
+        }
+    });
+</script>
+{% endblock %}

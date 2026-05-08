@@ -1,0 +1,441 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .form-header h2 {
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .form-body {
+        padding: 40px;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .form-section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-section-title i {
+        color: #eab308;
+        font-size: 20px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #eab308;
+        box-shadow: 0 0 0 0.2rem rgba(234, 179, 8, 0.25);
+    }
+    
+    .btn-submit {
+        background: #eab308;
+        color: #000;
+        font-weight: 700;
+        padding: 12px 40px;
+        border-radius: 10px;
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-submit:hover {
+        background: #ca8a04;
+        color: #000;
+        transform: translateY(-2px);
+    }
+    
+    .btn-cancel {
+        background: #f1f5f9;
+        color: #475569;
+        font-weight: 700;
+        padding: 12px 40px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .btn-cancel:hover {
+        background: #e2e8f0;
+    }
+    
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 5px;
+    }
+    
+    .help-text {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 5px;
+    }
+    
+    .error-text {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+    
+    /* Image preview styles */
+    .profile-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #eab308;
+        margin-bottom: 15px;
+    }
+    
+    .image-preview-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .current-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #eab308;
+    }
+    
+    .alert-info {
+        background-color: #e0f2fe;
+        border: 1px solid #bae6fd;
+        color: #0369a1;
+        padding: 12px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .current-image-section {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .current-image-section img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .d-flex {
+        display: flex;
+    }
+    
+    .justify-content-between {
+        justify-content: space-between;
+    }
+    
+    .gap-3 {
+        gap: 1rem;
+    }
+    
+    .align-items-center {
+        align-items: center;
+    }
+    
+    .mb-0 {
+        margin-bottom: 0;
+    }
+    
+    .mt-2 {
+        margin-top: 0.5rem;
+    }
+    
+    .small {
+        font-size: 0.875rem;
+    }
+    
+    .text-muted {
+        color: #6c757d;
+    }
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fa-solid fa-user-pen me-2"></i> Edit Your Profile</h2>
+        <p class="mb-0 opacity-75">Update your professional information and skills</p>
+    </div>
+    
+    <div class="form-body">
+        <div class="alert-info">
+            <i class="fa-solid fa-info-circle me-2"></i>
+            Your profile helps recruiters find you. Keep it updated!
+        </div>
+        
+        <form method="post" id="profileForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Personal Information -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Personal Information</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Profile Picture</label>
+                        
+                        <!-- Show current profile picture -->
+                        {% if developer.profile_picture %}
+                        <div class="current-image-section d-flex align-items-center gap-3 mb-3">
+                            <img src="{{ developer.profile_picture.url }}" alt="Current Profile">
+                            <div>
+                                <p class="mb-0 small text-muted">Current picture</p>
+                                <label class="small">
+                                    <input type="checkbox" name="profile_picture-clear" id="profile_picture-clear">
+                                    Remove current picture
+                                </label>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- File upload input -->
+                        <input type="file" name="profile_picture" id="id_profile_picture" 
+                               class="form-control" accept="image/*" onchange="previewImage(this)">
+                        <div class="help-text">Upload a new profile picture (JPG, PNG) - Leave empty to keep current</div>
+                        
+                        <!-- Preview container -->
+                        <div id="imagePreviewContainer" style="display: none; margin-top: 15px;">
+                            <img id="profilePreview" class="profile-preview" alt="Preview">
+                            <button type="button" class="btn btn-sm btn-danger mt-2" onclick="clearPreview()">Cancel Upload</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required-field">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" value="{{ form.full_name.value|default:developer.full_name }}" required>
+                        {% if form.full_name.errors %}
+                            <div class="error-text">{{ form.full_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Professional Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ form.title.value|default:developer.title }}">
+                        <div class="help-text">e.g., Senior Full-Stack Developer</div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">User Type</label>
+                        <select name="user_type" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="freelancer" {% if form.user_type.value == 'freelancer' or developer.user_type == 'freelancer' %}selected{% endif %}>Freelancer</option>
+                            <option value="agency" {% if form.user_type.value == 'agency' or developer.user_type == 'agency' %}selected{% endif %}>Agency</option>
+                            <option value="company" {% if form.user_type.value == 'company' or developer.user_type == 'company' %}selected{% endif %}>Company</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Experience Level</label>
+                        <select name="experience_level" class="form-select">
+                            <option value="">Select...</option>
+                            <option value="entry" {% if form.experience_level.value == 'entry' or developer.experience_level == 'entry' %}selected{% endif %}>Entry Level (0-2 years)</option>
+                            <option value="junior" {% if form.experience_level.value == 'junior' or developer.experience_level == 'junior' %}selected{% endif %}>Junior (2-4 years)</option>
+                            <option value="mid" {% if form.experience_level.value == 'mid' or developer.experience_level == 'mid' %}selected{% endif %}>Mid Level (4-7 years)</option>
+                            <option value="senior" {% if form.experience_level.value == 'senior' or developer.experience_level == 'senior' %}selected{% endif %}>Senior (7-10 years)</option>
+                            <option value="expert" {% if form.experience_level.value == 'expert' or developer.experience_level == 'expert' %}selected{% endif %}>Expert (10+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Bio</label>
+                        <textarea name="bio" class="form-control" rows="4" placeholder="Passionate AI Python Full-Stack Developer focused on building scalable, responsive, and user-friendly web applications. Skilled in Python, Django, React, JavaScript, Bootstrap, REST APIs, and MySQL. Interested in creating modern digital solutions with clean UI, strong backend architecture, and real-world problem-solving abilities.">{{ form.bio.value|default:developer.bio }}</textarea>
+                        <div class="help-text">Tell us about your experience, expertise, and what makes you unique</div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Location</label>
+                        <input type="text" name="location" class="form-control" value="{{ form.location.value|default:developer.location }}">
+                        <div class="help-text">City, Country or "Remote"</div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" name="phone_number" class="form-control" value="{{ form.phone_number.value|default:developer.phone_number }}">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skills & Pricing -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Skills & Pricing</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="form-label required-field">Technical Skills</label>
+                        <input type="text" name="skills" class="form-control" value="{{ form.skills.value|default:developer.skills }}" required>
+                        <div class="help-text">Enter your skills separated by commas (e.g., Python, Django, React, PostgreSQL)</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Hourly Rate</label>
+                        <div class="input-group">
+                            <select name="currency" class="form-select" style="width: 100px;">
+                                <option value="USD" {% if form.currency.value == 'USD' or developer.currency == 'USD' %}selected{% endif %}>USD ($)</option>
+                                <option value="EUR" {% if form.currency.value == 'EUR' or developer.currency == 'EUR' %}selected{% endif %}>EUR (€)</option>
+                                <option value="GBP" {% if form.currency.value == 'GBP' or developer.currency == 'GBP' %}selected{% endif %}>GBP (£)</option>
+                                <option value="INR" {% if form.currency.value == 'INR' or developer.currency == 'INR' %}selected{% endif %}>INR (₹)</option>
+                            </select>
+                            <input type="number" name="hourly_rate" class="form-control" step="0.01" value="{{ form.hourly_rate.value|default:developer.hourly_rate }}">
+                        </div>
+                        <div class="help-text">Your desired hourly rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social & Portfolio Links -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-link"></i>
+                    <span>Online Presence</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">GitHub URL</label>
+                        <input type="url" name="github_url" class="form-control" value="{{ form.github_url.value|default:developer.github_url }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Portfolio URL</label>
+                        <input type="url" name="portfolio_url" class="form-control" value="{{ form.portfolio_url.value|default:developer.portfolio_url }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">LinkedIn URL</label>
+                        <input type="url" name="linkedin_url" class="form-control" value="{{ form.linkedin_url.value|default:developer.linkedin_url }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Twitter URL</label>
+                        <input type="url" name="twitter_url" class="form-control" value="{{ form.twitter_url.value|default:developer.twitter_url }}">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Core Competencies -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Core Competencies</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Architecture</label>
+                        <input type="text" name="architecture_desc" class="form-control" value="{{ form.architecture_desc.value|default:developer.architecture_desc }}">
+                        <div class="help-text">e.g., Scalable distributed systems</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Modern Web</label>
+                        <input type="text" name="modern_web_desc" class="form-control" value="{{ form.modern_web_desc.value|default:developer.modern_web_desc }}">
+                        <div class="help-text">e.g., React, Next.js, edge computing</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Performance</label>
+                        <input type="text" name="performance_desc" class="form-control" value="{{ form.performance_desc.value|default:developer.performance_desc }}">
+                        <div class="help-text">e.g., Core Web Vitals optimization</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between gap-3">
+                <a href="{% url 'core:developer_profile' %}" class="btn-cancel">
+                    <i class="fa-solid fa-times me-2"></i> Cancel
+                </a>
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-save me-2"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const previewImg = document.getElementById('profilePreview');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewContainer.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    function clearPreview() {
+        const previewContainer = document.getElementById('imagePreviewContainer');
+        const fileInput = document.getElementById('id_profile_picture');
+        previewContainer.style.display = 'none';
+        fileInput.value = '';
+    }
+    
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+        const fullName = document.querySelector('[name="full_name"]').value;
+        const skills = document.querySelector('[name="skills"]').value;
+        
+        if (!fullName.trim()) {
+            e.preventDefault();
+            alert('Please enter your full name');
+            return false;
+        }
+        
+        if (!skills.trim()) {
+            e.preventDefault();
+            alert('Please enter at least one skill');
+            return false;
+        }
+        
+        console.log('Form validation passed, submitting...');
+    });
+    
+    // Debug: Check if form exists
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('profileForm');
+        if (form) {
+            console.log('Form found successfully');
+        } else {
+            console.log('Form not found!');
+        }
+    });
+</script>
+{% endblock %}

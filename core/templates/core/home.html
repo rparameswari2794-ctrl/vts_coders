@@ -1,0 +1,1804 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Hero Section - Elite Coders Hub -->
+<section class="elite-hero">
+    <div class="col-lg-6 col-md-12 -col-sm-12">
+        <div class="hero-container">
+            <!-- Top Badge / Label -->
+            <div class="hero-badge">
+                <img src="{% static 'core/star.png' %}" alt="Star" class="hero-icon">The Hub for Elite Coders
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="hero-title">
+                Build, Collaborate<br>
+                <span class="gradient-text">Get Hired</span>
+            </h1>
+
+            <!-- Description -->
+            <p class="hero-description">
+                The premium platform connecting developers, recruiters, and clients.
+                Showcase projects, find talent, and monetize your skills.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary rotating-btn" id="dynamicJoinBtn">
+                    <span class="btn-text-wrapper">
+                        <span class="static-prefix"></span>
+                        <span class="animated-text" id="animatedButtonText1">Start Showcasing</span>
+                        <span class="static-suffix"><i class="fa-solid fa-arrow-right icon-tilt"></i></span>
+                    </span>
+                </a>
+                <!-- Dynamic button with rotating text animation -->
+                <a href="#" class="btn-secondary rotating-btn" id="dynamicJoinBtn">
+                    <span class="btn-text-wrapper">
+                        <span class="static-prefix"></span>
+                        <span class="animated-text" id="animatedButtonText">Join as a Developer</span>
+                        <span class="static-suffix"><i class="fa-solid fa-arrow-right"></i></span>
+                    </span>
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <span class="stats-badge"><img src="{% static 'core/people.png' %}" alt="people" class="people-img">
+                    Joined by <strong>2,500+</strong> elite developers</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="tech-stack-row">
+            <div class="tech-card1">
+                <div class="tech-icon">&lt;&gt;</div>
+                <div class="tech-info">
+                    <strong>React/Next.js</strong>
+                    <span>Frontend</span>
+                </div>
+            </div>
+            <div class="tech-card2">
+                <div class="tech-icon"><i class="fa-solid fa-database"></i></div>
+                <div class="tech-info">
+                    <strong>MongoDB</strong>
+                    <span>Database</span>
+                </div>
+            </div>
+
+            <div class="tech-card3">
+                <div class="tech-icon">&ge;</div>
+                <div class="tech-info">
+                    <strong>Node.js</strong>
+                    <span>Backend</span>
+                </div>
+            </div>
+            <div class="tech-card4">
+                <div class="tech-icon"><i class="fa-solid fa-code-branch"></i></div>
+                <div class="tech-info">
+                    <strong>Git/CI/CD</strong>
+                    <span>DevOps</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="trust">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <h5>TRUSTED BY INNOVATIVE TEAMS WORLDWIDE</h5>
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <!-- First set of logos -->
+                <div class="logo-item">
+                    <img src="{% static 'core/ic.png' %}" alt="Infinite Cloudscale" class="trust-logo">
+                    <span>Infinite Cloudscale</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/ds.png' %}" alt="Data Systems" class="trust-logo">
+                    <span>Data Systems</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/tc.png' %}" alt="Tech Corp" class="trust-logo">
+                    <span>Tech Corp</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/swift.png' %}" alt="Swiftant" class="trust-logo">
+                    <span>Swiftant</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/cf.png' %}" alt="Code Foundry" class="trust-logo">
+                    <span>Code Foundry</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/vtslogo.jpg' %}" alt="Vetri IT Systems" class="trust-logo">
+                    <span>Vetri IT Systems</span>
+                </div>
+                <!-- Duplicate set for seamless scrolling -->
+                <div class="logo-item">
+                    <img src="{% static 'core/ic.png' %}" alt="Infinite Cloudscale" class="trust-logo">
+                    <span>Infinite Cloudscale</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/ds.png' %}" alt="Data Systems" class="trust-logo">
+                    <span>Data Systems</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/tc.png' %}" alt="Tech Corp" class="trust-logo">
+                    <span>Tech Corp</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/swift.png' %}" alt="Swiftant" class="trust-logo">
+                    <span>Swiftant</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/cf.png' %}" alt="Code Foundry" class="trust-logo">
+                    <span>Code Foundry</span>
+                </div>
+                <div class="logo-item">
+                    <img src="{% static 'core/vtslogo.jpg' %}" alt="Vetri IT Systems" class="trust-logo">
+                    <span>Vetri IT Systems</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="collabration">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        <h6 class="colla-h6">A revolutionary platform connecting talent, opportunity, and innovation in one seamless
+            ecosystem</h6>
+        <div class="collab">
+            <div class="collab1">
+                <i class="fa-solid fa-code"></i>
+                <h6>Premium Portfolio</h6>
+                <p>Showcase your projects with live demos and interactive previews</p>
+            </div>
+            <div class="collab2">
+                <i class="fa-solid fa-briefcase"></i>
+                <h6>Smart Matching</h6>
+                <p>AI-powered connection between developers and opportunities</p>
+            </div>
+            <div class="collab2">
+                <i class="fa-solid fa-user-group"></i>
+                <h6>Real-time Collabration</h6>
+                <p>Work together seamlessly with our integrated messaging and tools</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="why-vts">
+
+    <div class="col-lg-12 text-center">
+        <h2 class="why-title">Why <span class="gradient-title">VTS Coders</span> Stands Out</h2>
+        <p class="why-subtitle">We're not just another platform - we're a complete ecosystem designed for
+            success.</p>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="features-row">
+            <!-- Feature 1 - Active Community -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fas fa-user-group awesome"></i>
+                </div>
+
+                <h3 class="feature-title">Active Community</h3>
+                <p class="feature-description">
+                    Join 10,000+ developers, recruiters, and clients in a thriving professional ecosystem.
+                </p>
+            </div>
+
+
+            <!-- Feature 2 - Verified Profiles (FEATURED with Ribbon & Star) -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fa-solid fa-medal awesome"></i>
+                </div>
+
+                <h3 class="feature-title">Verified Profiles</h3>
+                <p class="feature-description">
+                    All users are verified with skill assessments and background checks for trust and quality.
+                </p>
+            </div>
+
+
+            <!-- Feature 3 - Secure Escrow System -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fas fa-shield-alt awesome"></i>
+                </div>
+                <h3 class="feature-title">Secure Escrow System</h3>
+                <p class="feature-description">
+                    Your payments are protected with our advanced escrow system until project delivery is confirmed.
+                </p>
+            </div>
+
+
+            <!-- Feature 4 - Growth Analytics -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fas fa-chart-line awesome"></i>
+                </div>
+
+                <h3 class="feature-title">Growth Analytics</h3>
+                <p class="feature-description">
+                    Track your portfolio performance, earnings, and engagement with detailed analytics.
+                </p>
+            </div>
+
+
+            <!-- Feature 5 - Instant Connections -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fas fa-bolt awesome"></i>
+                </div>
+
+                <h3 class="feature-title">Instant Connections</h3>
+                <p class="feature-description">
+                    Connect with developers, recruiters, and clients in real-time without intermediaries.
+                </p>
+            </div>
+
+
+            <!-- Feature 6 - Competitive Rates -->
+
+            <div class="feature-card">
+                <div class="ribbon-star">
+                    <i class="fas fa-star star"></i>
+                    <i class="fa-solid fa-dollar-sign awesome"></i>
+                </div>
+
+                <h3 class="feature-title">Competitive Rates</h3>
+                <p class="feature-description">
+                    Keep 85-95% of your earnings with our transparent, genuine, low-fee pricing structure.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="live-projects">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        <div class="projects-header">
+            <h2 class="projects-title">Live Projects</h2>
+            <p class="projects-subtitle">Explore premium projects ready for purchase</p>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="project-row">
+            <!-- Card 1: Nexflow AI -->
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="{% static 'core/image12.png' %}" alt="Nexflow AI">
+                </div>
+                <div class="project-content">
+                    <h4 class="p-title">Nexflow AI</h4>
+                    <p class="p-author">by Alex Rivers</p>
+                    <div class="p-tags">
+                        <span class="tag-blue">Rust</span><span class="tag-blue">Typescript</span><span
+                            class="tag-blue">Wasm</span>
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">$1,110</span>
+                        <a href="#" class="btn-view">View</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Card 2: Mobile Banking App -->
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="{% static 'core/Imagem.png' %}" alt="Mobile Banking">
+                </div>
+                <div class="project-content">
+                    <h4 class="p-title">Mobile Banking App</h4>
+                    <p class="p-author">by Mark John</p>
+                    <div class="p-tags">
+                        <span class="tag-blue">React Native</span><span class="tag-blue">Firebase</span>
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">$1,200</span>
+                        <a href="#" class="btn-view">View</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Card 3: AI Analytics Platform -->
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="{% static 'core/Imagem2.png' %}" alt="AI Analytics">
+                </div>
+                <div class="project-content">
+                    <h4 class="p-title">AI Analytics Platform</h4>
+                    <p class="p-author">by Elena Dev</p>
+                    <div class="p-tags">
+                        <span class="tag-blue">Python</span><span class="tag-blue">TensorFlow</span><span
+                            class="tag-blue">React</span>
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">$1,200</span>
+                        <a href="#" class="btn-view">View</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Card 4: Social Media Manager -->
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="{% static 'core/Imagem1.png' %}" alt="Social Media">
+                </div>
+                <div class="project-content">
+                    <h4 class="p-title">Social Media Manager</h4>
+                    <p class="p-author">by Alex Kim</p>
+                    <div class="p-tags">
+                        <span class="tag-blue">Vue.js</span><span class="tag-blue">Express</span><span
+                            class="tag-blue">PostgreSQL</span>
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">$1,200</span>
+                        <a href="#" class="btn-view">View</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Card 5: E-commerce Dashboard -->
+
+            <div class="project-card">
+                <div class="project-img-wrapper">
+                    <img src="{% static 'core/Image8.png' %}" alt="E-commerce">
+                </div>
+                <div class="project-content">
+                    <h4 class="p-title">E-commerce Dashboard</h4>
+                    <p class="p-author">by Sarah Chen</p>
+                    <div class="p-tags">
+                        <span class="tag-blue">React</span><span class="tag-blue">Node.js</span><span
+                            class="tag-blue">MongoDB</span>
+                    </div>
+                    <div class="p-footer">
+                        <span class="p-price">$1,200</span>
+                        <a href="#" class="btn-view">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ecosystem-section">
+    <!-- Header Text -->
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="ecosystem-header text-center">
+            <h2 class="eco-title">A Thriving Professional Ecosystem</h2>
+            <p class="eco-subtitle">
+                VTS Coders brings together technology, security, and community to create a dynamic environment
+                where talent meets opportunity and ideas become reality.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="eco-row d-flex justify-content-center mt-5 gap-5">
+            <!-- Left Side: Custom Shaped Image -->
+
+            <div class="illustration-container">
+                <div class="shape-outline">
+                    <img src="{% static 'core/Frame1.png' %}" alt="Team Collaboration" class="eco-img">
+                </div>
+            </div>
+
+
+            <!-- Right Side: Checklist -->
+            <div class="showcase-content">
+                <div class="showcase-title-wrapper">
+                    <h3 class="showcase-title">Showcase & Discover</h3>
+                    <div class="bulb-icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                </div>
+
+                <ul class="eco-list">
+                    <li><i class="fa-regular fa-circle-check"></i> Browse curated projects</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Discover verified talent</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Explore ready solutions</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Showcase your creative process</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Connect with industry professionals</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Participate in design challenges</li>
+                </ul>
+            </div>
+            <div class="showcase-content">
+                <div class="showcase-title-wrapper">
+                    <h3 class="showcase-title">Collabrate & Grow</h3>
+                    <div class="bulb-icon">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                </div>
+
+                <ul class="eco-list">
+                    <li><i class="fa-regular fa-circle-check"></i> Real-time collaboration</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Direct communication</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Skill-based matching</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Global networking </li>
+                    <li><i class="fa-regular fa-circle-check"></i> Innovation hubs </li>
+                    <li><i class="fa-regular fa-circle-check"></i> Project management tools</li>
+                </ul>
+            </div>
+            <div class="illustration-container">
+                <div class="shape-outline1">
+                    <img src="{% static 'core/Frame2.png' %}" alt="Team Collaboration" class="eco-img">
+                </div>
+            </div>
+            <div class="illustration-container">
+                <div class="shape-outline">
+                    <img src="{% static 'core/Frame3.png' %}" alt="Team Collaboration" class="eco-img">
+                </div>
+            </div>
+            <div class="showcase-content">
+                <div class="showcase-title-wrapper">
+                    <h3 class="showcase-title">Monetize & Succeed</h3>
+                    <div class="bulb-icon">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                </div>
+
+                <ul class="eco-list">
+                    <li><i class="fa-regular fa-circle-check"></i> Fair pricing models</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Secure transactions</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Performance tracking</li>
+                    <li><i class="fa-regular fa-circle-check"></i> Growth analytics </li>
+                    <li><i class="fa-regular fa-circle-check"></i> Real-time data updates </li>
+                    <li><i class="fa-regular fa-circle-check"></i> Automated reporting tools</li>
+                </ul>
+            </div>
+            <div class="showcase-content1">
+                <div class="showcase-title-wrapper">
+                    <div class="bulb-icon">
+                        <i class="fa-solid fa-shield"></i>
+                    </div>
+                    <h3 class="showcase-title">Secure Escrow System</h3>
+                    
+
+                </div>
+                <p class="show-pa">Your money is safe with our advanced escrow protection. Funds are held securely until both parties confirm successful project delivery.</p>
+
+                <ul class="eco-list1">
+                    <li><i class="fa-regular fa-circle-check"></i> Payment Protection<br></li>
+                    <p class="eco-span">Funds are helds in escrow until project delivery is confirmed</p>
+                    <li><i class="fa-regular fa-circle-check"></i> Milestone Payments </li>
+                    <p class="eco-span">Release payments in stages as project milestones are completed</p>
+                    <li><i class="fa-regular fa-circle-check"></i> Transparent Process </li>
+                    <p class="eco-span">Track every transaction and communication in your dashboard</p>
+                    
+                </ul>
+            </div>
+            <div class="illustration-container1">
+                <img src="{% static 'core/Frame4.png' %}" alt="Team Collaboration" class="eco-img1">
+                
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="test-row">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"VTS Coders transformed my career! I've built an amazing portfolio, connected
+                    with incredible opportunities, and grown my professional network exponentially."</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/sarah.png' %}" alt="Sarah">
+                        <div>
+                            <strong>Sarah</strong>
+                            <span>Software Engineer</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">15+ connections</span>
+                </div>
+            </div>
+
+
+            <!-- Testimonial 2 -->
+
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Finally, a platform where I can see real work and genuine talent. The quality
+                    and transparency here is exceptional. Best decision I made this year!"</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/michael.png' %}" alt="Michael">
+                        <div>
+                            <strong>Michael</strong>
+                            <span>Tech Professional</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">Top collaborations</span>
+                </div>
+            </div>
+
+
+            <!-- Testimonial 3 -->
+
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"The analytics dashboard and direct connections are incredible. No more middlemen
+                    taking huge cuts. VTS Coders puts professionals first!"</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/david.png' %}" alt="David">
+                        <div>
+                            <strong>David</strong>
+                            <span>Full-Stack Developer</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">40+ projects</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Found exactly what I needed in half the time and cost. The escrow system gave me
+                    complete confidence. This platform is a game-changer!"</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/emily.png' %}" alt="Emily">
+                        <div>
+                            <strong>Emily</strong>
+                            <span>Business Owner</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">Saved months</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"Amazing platform! Found great solutions and talented people to work with. The
+                    entire process was smooth, secure, and professional throughout."</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/alex.png' %}" alt="Alex">
+                        <div>
+                            <strong>Alex</strong>
+                            <span>Entrepreneur</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">Multiple wins</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                <div class="stars">★★★★★</div>
+                <p class="test-text">"We use VTS Coders for all our collabration needs. The verified profiles and
+                    transparent process make everything so much easier. Highly recommended!"</p>
+                <div class="test-footer">
+                    <div class="user-info">
+                        <img src="{% static 'core/jessica.png' %}" alt="Jessica">
+                        <div>
+                            <strong>Jessica</strong>
+                            <span>Team Leader</span>
+                        </div>
+                    </div>
+                    <span class="test-badge">Team success</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="cta-banner">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="cta-wrapper">
+            <div class="cta-content">
+                <h2 class="cta-title">
+                    Ready to upscale your <span class="highlight">professional</span> path
+                </h2>
+                <p class="cta-subtitle">upgrade today and get the top benefit of 30%</p>
+                
+                <div class="cta-buttons">
+                    <a href="#" class="btn-upgrade">Upgrade Today</a>
+                    <a href="#" class="btn-browse">Browse More</a>
+                </div>
+            </div>
+            
+            <!-- Rocket Illustration -->
+            <div class="cta-image">
+                <img src="{% static 'core/image115.png' %}" alt="Rocket Launch">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+    .cta-banner {
+    padding-top: 80px;
+    background-color: #f8f9fc; /* Light background for the section itself */
+    position: relative;
+    overflow: visible;
+    padding-bottom: 40px;
+    margin-left: 50px;
+    width: 100%;
+
+}
+
+.cta-wrapper {
+    background: linear-gradient(90deg, #020b2d 0%, #05144d 100%);
+    border-radius: 20px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    overflow: visible;
+    width:1000px;
+}
+
+.cta-content {
+    flex: 1;
+    z-index: 2;
+}
+
+.cta-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-family: 'Exo',sans-serif;
+}
+
+.cta-title .highlight {
+    color: #e9bb0d; /* Yellow from image */
+}
+
+.cta-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-upgrade {
+    background-color: #e9bb0d;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+
+.btn-browse {
+    background-color: transparent;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: 1px solid #fff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+
+/* Rocket Positioning */
+.cta-image {
+    position: absolute;
+    height: 250px;
+    left:63%;
+    bottom:0%;
+    overflow: visible;
+    top:-2px;
+}
+
+.cta-image img {
+    max-width: 250px;
+    /* This makes the rocket look like it's coming out of the bottom cloud */
+    margin-bottom: -50px; 
+    display: block;
+}
+
+
+    /* Section Base */
+    .ecosystem-section {
+        padding: 30px 0;
+        background-color: #f8f9fc;
+        /* Light background to contrast with previous dark sections */
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Header */
+    .eco-title {
+        color: #021b76;
+        font-family: 'Exo', sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .eco-subtitle {
+        color: #6b7280;
+        max-width: 730px;
+        margin: 0 auto;
+        line-height: 1.6;
+        font-size: 15px;
+    }
+
+    .eco-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Illustration with Custom Shape */
+    .illustration-container {
+        position: relative;
+        padding: 20px;
+    }
+    .illustration-container1 {
+        height: 280px;
+        width:450px;
+    }
+    .shape-outline {
+        background: #fff;
+        border: 1px solid #021b76;
+        border-radius: 20px 400px 20px 400px / 20px 600px 20px 400px;
+        padding: 40px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        width: 450px;
+        height: 250px;
+    }
+
+    .shape-outline1 {
+        background: #fff;
+        border: 1px solid #021b76;
+        border-radius: 400px 40px 400px 40px / 600px 40px 400px 40px;
+        padding: 40px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        width: 450px;
+        height: 250px;
+    }
+
+    .eco-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    .eco-img1{
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Checklist Side */
+    .showcase-content {
+        padding-left: 40px;
+        margin-right: 80px;
+        width:420px;
+    }
+    .showcase-content1{
+        padding-left: 40px;
+        width:550px;
+    }
+
+    .showcase-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .showcase-title {
+        color: #021b76;
+        font-family: 'Exo', sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        margin: 0;
+    }
+
+    .bulb-icon {
+        background-color: #e9bb0d;
+        color: rgb(1, 1, 72);
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .eco-list {
+        list-style: none;
+        padding: 0;
+    }
+    .eco-list1 {
+        list-style: none;
+        padding: 0;
+    }
+
+    .eco-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: rgba(75, 85, 99, 0.8);
+        font-size: 15px;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    .eco-list1 li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: rgb(59, 67, 79);
+        font-size: 15px;
+        margin-bottom: 3px;
+        font-weight: 500;
+    }
+
+    .eco-list li i {
+        color: #e9bb0d;
+        font-size: 18px;
+    }
+    .eco-list1 li i {
+        color: #e9bb0d;
+        font-size: 18px;
+    }
+    .show-pa{color: rgba(1, 1, 72,0.6);font-size: 14px;}
+    .eco-span{font-size: 12px;color: rgba(1, 1, 72, 0.669);margin-left: 30px;}
+    
+
+
+
+    /* Testimonials Styles */
+    .testimonials {
+        background: linear-gradient(175deg, #020618 0%, #011764 50%, #0F172B 100%);
+        /* Dark navy background from image */
+        padding: 80px 0;
+    }
+
+    .test-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .testimonial-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px;
+        position: relative;
+        height: 260px;
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .quote-icon {
+        position: absolute;
+        top: -15px;
+        right: 25px;
+        background: #E9BB0D;
+        /* Yellow circle */
+        color: white;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .stars {
+        color: #E9BB0D;
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    .test-text {
+        color: #4B5563;
+        /* Gray text */
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 10px;
+        flex-grow: 1;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .test-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .user-info img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user-info strong {
+        display: block;
+        font-size: 14px;
+        color: #021B76;
+    }
+
+    .user-info span {
+        font-size: 12px;
+        color: #6B7280;
+    }
+
+    .test-badge {
+        color: #E9BB0D;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+
+    /* Section Base */
+    .live-projects {
+        background: linear-gradient(175deg, #020618 0%, #011764 50%, #0F172B 100%);
+        padding: 30px 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .projects-header {
+        margin-bottom: 20px;
+        padding-left: 100px !important;
+    }
+
+    .projects-title {
+        color: rgba(255, 255, 255, 1);
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 5px;
+
+    }
+
+    .projects-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+
+    }
+
+    .project-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-left: 100px;
+    }
+
+
+    /* Project Cards */
+    .project-card {
+        background: rgba(139, 140, 143, 0.4);
+        /* Card dark blue */
+        border-radius: 15px;
+        overflow: hidden;
+        height: 270px;
+        width: 210px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .project-img-wrapper {
+        height: 120px;
+        overflow: hidden;
+    }
+
+    .project-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .project-content {
+        padding: 15px;
+    }
+
+    .p-title {
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .p-author {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* Tags */
+    .p-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        min-height: 24px;
+    }
+
+    .p-tags .tag-blue {
+        background: rgba(59, 130, 246, 0.2);
+        color: rgba(96, 165, 250, 0.8);
+        font-size: 11px;
+        text-align: center;
+        height: 15px;
+        padding: 0 5px;
+    }
+
+    /* Footer & Buttons */
+    .p-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+    }
+
+    .p-price {
+        color: #fbbf24;
+        /* Yellow price */
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .btn-view {
+        background: #e9bb0d;
+        color: #f7f5f5;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 1px 6px;
+        width: 50px;
+        text-align: center;
+        border-radius: 8px;
+        height: 20px;
+    }
+
+    .why-vts {
+        padding: 20px 0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .why-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: rgb(1, 1, 72);
+        margin-bottom: 15px;
+        font-family: 'Exo', sans-serif;
+    }
+
+
+    .why-subtitle {
+        font-size: 16px;
+        color: rgba(1, 1, 72, 0.669);
+        margin-bottom: 50px;
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+    }
+
+    .features-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        justify-content: center;
+    }
+
+    /* Feature Card Styles */
+    .feature-card {
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        height: 200px;
+        width: 350px;
+        position: relative;
+        overflow: hidden;
+        color: rgb(1, 1, 72);
+    }
+
+    .feature-card:hover {
+        background: rgba(218, 217, 217, 0.5);
+
+    }
+
+
+    /* Star Ribbon Badge (Top Right Corner) */
+    .ribbon-star {
+        position: absolute;
+        top: 0px;
+        left: 36px;
+        width: 20px;
+        height: 40px;
+        background: rgb(1, 1, 72);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+
+
+    }
+
+    .ribbon-star .star {
+        font-size: 40px;
+        color: #f9c60e;
+        position: absolute;
+        top: 25px;
+    }
+
+    .ribbon-star .awesome {
+        font-size: 12px;
+        position: absolute;
+        top: 41px;
+    }
+
+
+    /* Feature Title */
+    .feature-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: rgb(1, 1, 72);
+        margin-bottom: 5px;
+        font-family: 'Exo', sans-serif;
+        margin-top: 80px;
+        padding: 0 40px;
+    }
+
+    /* Feature Description */
+    .feature-description {
+        font-size: 12px;
+        line-height: 2;
+        color: rgba(1, 1, 72, 0.7);
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 0;
+        padding-left: 40px;
+        padding-right: 80px;
+    }
+
+    /* ===== ELITE CODERS SECTION STYLES ===== */
+    .elite-hero {
+        background: linear-gradient(155deg, #020618 0%, #011764 50%, #0F172B 100%);
+        font-family: 'Exo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+    }
+
+    .hero-container {
+        padding-left: 50px;
+        padding-top: 20px;
+    }
+
+    /* Badge */
+    .hero-badge {
+        display: inline-flex;
+        gap: 0.3rem;
+        background: rgba(233, 185, 13, 0.07);
+        border: 1px solid hsla(47, 89%, 48%, 0.2);
+        border-radius: 30px;
+        padding: 0.3rem 0.8rem;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgb(218, 217, 217);
+        margin-bottom: 2px;
+        width: 210px;
+    }
+
+    .hero-icon {
+        height: 15px;
+        width: 15px;
+    }
+
+    /* Title */
+    .hero-title {
+        font-size: 60px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+        margin-bottom: 0.3rem;
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, #62b3f1, #fcea84);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+
+    /* Description */
+    .hero-description {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgb(218, 217, 217, 0.8);
+        padding-right: 150px;
+        margin-bottom: 20px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Buttons */
+    .hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        margin-bottom: 4rem;
+    }
+
+    .btn-primary {
+        background: hsl(47, 89%, 48%);
+        padding: 0.5rem 1.4rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 15px;
+        color: white;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .icon-tilt {
+        display: inline-block;
+        transform: rotate(-30deg);
+        /* tilt upward */
+    }
+
+    /* Enhanced rotating button with smooth transitions */
+    .btn-secondary {
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        padding: 0.85rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #DDDDFF;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+    }
+
+
+    /* Text wrapper to ensure smooth animation */
+    .btn-text-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.15rem;
+    }
+
+    .people-img {
+        height: 30px;
+        width: 100px;
+        margin-right: 10px;
+    }
+
+    .hero-stats {
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        color: #E2E8F0;
+    }
+
+    .static-prefix,
+    .static-suffix {
+        display: inline-block;
+    }
+
+    .animated-text {
+        display: inline-block;
+        min-width: 160px;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        animation: gentlePulse 2s infinite ease-in-out;
+    }
+
+    /* Subtle animation on the text while rotating */
+    @keyframes gentlePulse {
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.95;
+            transform: scale(1.02);
+        }
+    }
+
+    /* Tech Stack Row (exactly like design) */
+    .tech-stack-row {
+        background-image: url('/static/core/home.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 470px;
+        width: 100%;
+    }
+
+    /* UP AND DOWN ANIMATION for tech-card1, tech-card2, tech-card4 */
+    @keyframes upDown {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    /* LEFT TO RIGHT ANIMATION for tech-card3 */
+    @keyframes leftRight {
+        0% {
+            transform: translateX(0px);
+        }
+
+        50% {
+            transform: translateX(20px);
+        }
+
+        100% {
+            transform: translateX(0px);
+        }
+    }
+
+    .tech-card1 {
+        display: flex;
+        background: rgba(218, 217, 217, 0.1);
+        font-family: 'Inter', sans-serif;
+        height: auto;
+        width: 90px;
+        border-radius: 10px;
+        border: 1px solid rgba(181, 209, 248, 0.2);
+        transition: all 0.2s;
+        flex-direction: column;
+        margin-left: 80%;
+        padding: 5px;
+        animation: upDown 3s ease-in-out infinite;
+        margin-top: 20px;
+    }
+
+    .tech-card2 {
+        display: flex;
+        background: rgba(218, 217, 217, 0.1);
+        font-family: 'Inter', sans-serif;
+        height: auto;
+        width: 90px;
+        border-radius: 10px;
+        border: 1px solid rgba(181, 209, 248, 0.2);
+        transition: all 0.2s;
+        flex-direction: column;
+        margin-top: -50px;
+        margin-left: 20%;
+        padding: 5px;
+        animation: upDown 3s ease-in-out infinite 0.5s;
+    }
+
+    .tech-card3 {
+        display: flex;
+        background: rgba(218, 217, 217, 0.1);
+        font-family: 'Inter', sans-serif;
+        height: auto;
+        width: 90px;
+        border-radius: 10px;
+        border: 1px solid rgba(181, 209, 248, 0.2);
+        transition: all 0.2s;
+        flex-direction: column;
+        margin-top: 50px;
+        padding: 5px;
+        animation: leftRight 3s ease-in-out infinite;
+    }
+
+    .tech-card4 {
+        display: flex;
+        background: rgba(218, 217, 217, 0.1);
+        font-family: 'Inter', sans-serif;
+        height: auto;
+        width: 100px;
+        border-radius: 10px;
+        border: 1px solid rgba(181, 209, 248, 0.2);
+        transition: all 0.2s;
+        flex-direction: column;
+        margin-top: 50px;
+        margin-left: 90px;
+        padding: 5px;
+        animation: upDown 3s ease-in-out infinite 1s;
+    }
+
+    .tech-icon {
+        font-size: 1.6rem;
+        color: #E9BB0D;
+        ;
+    }
+
+    .tech-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+    }
+
+    .tech-info strong {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgb(218, 217, 217);
+    }
+
+    .tech-info span {
+        font-size: 0.7rem;
+        color: rgb(218, 217, 217, 0.6);
+        letter-spacing: -0.2px;
+    }
+
+    .trust {
+        padding: 50px 0;
+
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .trust h5 {
+        text-align: center;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: rgb(1, 1, 72);
+        margin-bottom: 30px;
+        font-family: 'Exo', sans-serif;
+    }
+
+    /* Marquee container - hides scrollbar */
+    .marquee-container {
+        width: 100%;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* Marquee content - automatic scrolling */
+    .marquee-content {
+        display: flex;
+        gap: 40px;
+        animation: scrollMarquee 20s linear infinite;
+        width: fit-content;
+    }
+
+    .logo-item {
+        display: flex;
+        gap: 10px;
+        background: transparent;
+        transition: all 0.3s ease;
+        color: rgb(1, 1, 72);
+        margin-top: 20px;
+        min-width: 280px;
+    }
+
+    .trust-logo {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        transition: all 0.3s ease;
+    }
+
+    .logo-item span {
+        font-size: 24px;
+        font-weight: 500;
+        color: rgb(1, 1, 72);
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Scrolling animation */
+    @keyframes scrollMarquee {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .collabration {
+        background-color: #EBECF1;
+        padding: 30px 0;
+    }
+
+    .collab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 100px;
+        gap: 50px;
+    }
+
+    .collab1,
+    .collab2,
+    .collab3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: rgb(1, 1, 72);
+        width: 250px;
+    }
+
+    .collab1 i,
+    .collab2 i,
+    .collab3 i {
+        color: white;
+        font-size: 18px;
+        background-color: #E9BB0D;
+        padding: 8px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    .colla-h6 {
+        text-align: center;
+        font-size: 20px;
+        padding: 0px 250px;
+        line-height: 1.5;
+        color: #021b76;
+        font-family: 'Exo', sans-serif;
+        font-weight: 600;
+    }
+
+    .collab1 h6,
+    .collab2 h6,
+    .collab3 h6 {
+        color: #021b76;
+        font-weight: 600;
+    }
+
+    .collab1 p,
+    .collab2 p,
+    .collab3 p {
+        font-size: 12px;
+        color: rgba(2, 27, 118, 0.8);
+        text-align: center;
+    }
+
+    /* Responsive adjustments for animated text */
+    @media (max-width: 768px) {
+        .elite-hero {
+            flex-direction: column;
+        }
+
+        .tech-stack-row {
+            min-height: 520px !important;
+        }
+
+        .tech-card4 {
+            margin-top: 80px;
+        }
+
+        .tech-card3 {
+            margin-left: 60px;
+            margin-top: 70px;
+        }
+
+        .colla-h6 {
+            padding: 0px 50px;
+        }
+        .cta-banner {margin-left: 0;width:100%;}
+        .cta-wrapper{width: 100%;}
+        .cta-title{width: 60%;}
+        .cta-image{top:42px}
+
+    }
+
+    @media (min-width:769px) and (max-width: 1024px) {
+        .elite-hero {
+            flex-direction: column;
+
+        }
+
+        .tech-stack-row {
+            height: 100%;
+            min-height: 700px;
+        }
+
+        .tech-card1 {
+            margin-top: 30px;
+        }
+
+        .tech-card2 {
+            margin-top: 20px;
+        }
+
+        .tech-card3 {
+            margin-top: 120px;
+            margin-left: 30px;
+        }
+
+        .tech-card4 {
+            margin-top: 80px;
+            margin-left: 170px;
+        }
+
+        .colla-h6 {
+            padding: 0px 50px;
+        }
+        .cta-banner {margin-left: 0;width:100%;}
+        .cta-wrapper{width: 100%;}
+        .cta-title{width: 60%;}
+        .cta-image{top:42px}
+        
+    }
+</style>
+
+<!-- JavaScript for endless rotating text animation on the "Join as Developer" button -->
+<script>
+    // JavaScript for Button 1 - "Start Showcasing" button
+    (function () {
+        const actionPhrases1 = [
+            "Start Showcasing",
+            "Explore Marketplace",
+
+        ];
+
+        let currentIndex1 = 0;  // Declared only once
+        const textElement1 = document.getElementById('animatedButtonText1');
+
+        function updateButtonText1() {
+            if (!textElement1) return;
+
+            textElement1.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+            textElement1.style.opacity = '0';
+            textElement1.style.transform = 'scale(0.98)';
+
+            setTimeout(() => {
+                currentIndex1 = (currentIndex1 + 1) % actionPhrases1.length;
+                textElement1.textContent = actionPhrases1[currentIndex1];
+                textElement1.style.opacity = '1';
+                textElement1.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        let intervalId1 = setInterval(updateButtonText1, 2800);
+
+        const button1 = document.getElementById('dynamicBtn1');
+        if (button1) {
+            button1.addEventListener('mouseenter', function () {
+                if (intervalId1) {
+                    clearInterval(intervalId1);
+                    intervalId1 = null;
+                }
+            });
+
+            button1.addEventListener('mouseleave', function () {
+                if (!intervalId1) {
+                    intervalId1 = setInterval(updateButtonText1, 2800);
+                }
+            });
+        }
+
+        // Cleanup on page visibility change
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (intervalId1) {
+                    clearInterval(intervalId1);
+                    intervalId1 = null;
+                }
+            } else {
+                if (!intervalId1) {
+                    intervalId1 = setInterval(updateButtonText1, 2800);
+                }
+            }
+        });
+    })();
+
+    // JavaScript for Button 2 - "Join as a Developer" button
+    (function () {
+        const actionPhrases2 = [
+            "Join as a Developer",
+            "Upload Your Project",
+
+        ];
+
+        let currentIndex2 = 0;  // Declared only once
+        const textElement2 = document.getElementById('animatedButtonText');
+
+        function updateButtonText2() {
+            if (!textElement2) return;
+
+            textElement2.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+            textElement2.style.opacity = '0';
+            textElement2.style.transform = 'scale(0.98)';
+
+            setTimeout(() => {
+                currentIndex2 = (currentIndex2 + 1) % actionPhrases2.length;
+                textElement2.textContent = actionPhrases2[currentIndex2];
+                textElement2.style.opacity = '1';
+                textElement2.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        let intervalId2 = setInterval(updateButtonText2, 2800);
+
+        const button2 = document.getElementById('dynamicJoinBtn');
+        if (button2) {
+            button2.addEventListener('mouseenter', function () {
+                if (intervalId2) {
+                    clearInterval(intervalId2);
+                    intervalId2 = null;
+                }
+            });
+
+            button2.addEventListener('mouseleave', function () {
+                if (!intervalId2) {
+                    intervalId2 = setInterval(updateButtonText2, 2800);
+                }
+            });
+        }
+
+        // Cleanup on page visibility change
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (intervalId2) {
+                    clearInterval(intervalId2);
+                    intervalId2 = null;
+                }
+            } else {
+                if (!intervalId2) {
+                    intervalId2 = setInterval(updateButtonText2, 2800);
+                }
+            }
+        });
+    })();
+</script>
+{% endblock %}

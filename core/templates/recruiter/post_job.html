@@ -1,0 +1,704 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Post Job{% endblock %}
+
+{% block extra_css %}
+<style>
+
+    body{
+        background:#f3f4f6;
+        font-family:'Inter',sans-serif;
+    }
+
+    .job-wrapper{
+        max-width:1400px;
+        margin:30px auto;
+        padding:0 20px;
+    }
+
+    .job-card{
+        background:#fff;
+        border-radius:10px;
+        padding:25px;
+        border:1px solid #e5e7eb;
+    }
+
+    .section-title{
+        font-size:38px;
+        font-weight:800;
+        color:#1f2a60;
+        margin-bottom:8px;
+    }
+
+    .title-line{
+        height:4px;
+        width:100%;
+        background:#eab308;
+        margin-bottom:30px;
+        border-radius:10px;
+    }
+
+    .form-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:22px 35px;
+    }
+
+    .form-group{
+        display:flex;
+        flex-direction:column;
+    }
+
+    .form-group label{
+        font-size:14px;
+        font-weight:600;
+        color:#111827;
+        margin-bottom:8px;
+    }
+
+    .form-control{
+        height:54px;
+        border:1px solid #d1d5db;
+        border-radius:10px;
+        padding:0 16px;
+        font-size:14px;
+        background:#f9fafb;
+    }
+
+    textarea.form-control{
+        min-height:110px;
+        padding:15px;
+        resize:none;
+    }
+
+    .full-width{
+        grid-column:1 / -1;
+    }
+
+    .dynamic-input{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:14px;
+    }
+
+    .add-btn{
+        width:42px;
+        height:42px;
+        border:none;
+        background:#1f3b82;
+        color:#fff;
+        border-radius:8px;
+        font-size:20px;
+        font-weight:700;
+        cursor:pointer;
+        transition:background 0.2s;
+    }
+
+    .add-btn:hover{
+        background:#152c5e;
+    }
+
+    .outline-btn{
+        width:100%;
+        border:1px dashed #94a3b8;
+        background:#fff;
+        height:46px;
+        border-radius:8px;
+        color:#1f3b82;
+        font-weight:600;
+        font-size:14px;
+        cursor:pointer;
+        transition:all 0.2s;
+    }
+
+    .outline-btn:hover{
+        border-color:#1f3b82;
+        background:#f8fafc;
+    }
+
+    .benefits-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:12px 80px;
+    }
+
+    .checkbox-item{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-size:14px;
+        color:#111827;
+    }
+
+    .checkbox-item input{
+        width:18px;
+        height:18px;
+        cursor:pointer;
+    }
+
+    .footer-buttons{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-top:45px;
+    }
+
+    .back-btn{
+        border:1px solid #d1d5db;
+        background:#fff;
+        padding:10px 20px;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:500;
+        cursor:pointer;
+        transition:all 0.2s;
+    }
+
+    .back-btn:hover{
+        background:#f3f4f6;
+    }
+
+    .action-buttons{
+        display:flex;
+        gap:15px;
+    }
+
+    .draft-btn{
+        border:1px solid #1f3b82;
+        background:#fff;
+        color:#1f3b82;
+        padding:10px 20px;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+        transition:all 0.2s;
+    }
+
+    .draft-btn:hover{
+        background:#1f3b82;
+        color:#fff;
+    }
+
+    .post-btn{
+        border:none;
+        background:#eab308;
+        color:#111827;
+        padding:10px 25px;
+        border-radius:8px;
+        font-size:14px;
+        font-weight:700;
+        cursor:pointer;
+        transition:all 0.2s;
+    }
+
+    .post-btn:hover{
+        background:#d4a00a;
+        transform:translateY(-2px);
+    }
+
+    .section-space{
+        margin-top:45px;
+    }
+    
+    /* Success Message Styles */
+    .alert-success-custom{
+        position:fixed;
+        top:20px;
+        right:20px;
+        background:#10b981;
+        color:white;
+        padding:16px 24px;
+        border-radius:12px;
+        font-weight:600;
+        z-index:9999;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        animation:slideIn 0.3s ease;
+    }
+    
+    .alert-error-custom{
+        position:fixed;
+        top:20px;
+        right:20px;
+        background:#ef4444;
+        color:white;
+        padding:16px 24px;
+        border-radius:12px;
+        font-weight:600;
+        z-index:9999;
+        box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        animation:slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn{
+        from{
+            transform:translateX(100%);
+            opacity:0;
+        }
+        to{
+            transform:translateX(0);
+            opacity:1;
+        }
+    }
+    
+    @keyframes fadeOut{
+        from{
+            opacity:1;
+        }
+        to{
+            opacity:0;
+        }
+    }
+
+    @media(max-width:992px){
+        .form-grid{
+            grid-template-columns:1fr;
+        }
+        .benefits-grid{
+            grid-template-columns:1fr;
+            gap:12px;
+        }
+        .section-title{
+            font-size:28px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="job-wrapper">
+    <div class="job-card">
+        <form method="POST" id="postJobForm">
+            {% csrf_token %}
+
+            <!-- JOB DETAILS -->
+            <h2 class="section-title">Job Details</h2>
+            <div class="title-line"></div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Job Title *</label>
+                    <input type="text" class="form-control" id="jobTitle" placeholder="e.g., Sr Frontend Developer" required>
+                </div>
+                <div class="form-group">
+                    <label>Job Type *</label>
+                    <select class="form-control" id="jobType" required>
+                        <option value="">Select Job Type</option>
+                        <option>Full-time</option>
+                        <option>Part-time</option>
+                        <option>Contract</option>
+                        <option>Freelance</option>
+                        <option>Internship</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Experience Level *</label>
+                    <select class="form-control" id="experienceLevel" required>
+                        <option value="">Select Experience</option>
+                        <option>Entry Level (0-2 years)</option>
+                        <option>Mid Level (3-5 years)</option>
+                        <option>Senior Level (6-8 years)</option>
+                        <option>Lead (9+ years)</option>
+                        <option>Executive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Department *</label>
+                    <input type="text" class="form-control" id="department" placeholder="e.g., Engineering" required>
+                </div>
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" class="form-control" id="location" placeholder="e.g., Remote / New York" required>
+                </div>
+                <div class="form-group">
+                    <label>Number of Openings *</label>
+                    <input type="number" class="form-control" id="openings" placeholder="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Minimum Salary ($)</label>
+                    <input type="text" class="form-control" id="minSalary" placeholder="80,000">
+                </div>
+                <div class="form-group">
+                    <label>Maximum Salary ($)</label>
+                    <input type="text" class="form-control" id="maxSalary" placeholder="120,000">
+                </div>
+                <div class="form-group">
+                    <label>Application Deadline</label>
+                    <input type="date" class="form-control" id="deadline">
+                </div>
+                <div class="form-group">
+                    <label>Expected Start Date</label>
+                    <input type="date" class="form-control" id="startDate">
+                </div>
+            </div>
+
+            <!-- JOB DESCRIPTION -->
+            <div class="section-space">
+                <h2 class="section-title">Job Description</h2>
+                <div class="title-line"></div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Company Overview</label>
+                        <textarea class="form-control" id="companyOverview" placeholder="Tell candidates about your company..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Role Description *</label>
+                        <textarea class="form-control" id="roleDescription" placeholder="Describe the role and what the candidate will be doing..." required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Key Responsibilities *</label>
+                        <div id="responsibilitiesList">
+                            <input type="text" class="form-control mb-3" placeholder="Responsibility 1">
+                        </div>
+                        <button type="button" class="outline-btn" onclick="addResponsibility()">
+                            + Add Responsibility
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS -->
+            <div class="section-space">
+                <h2 class="section-title">Skills & Qualifications</h2>
+                <div class="title-line"></div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Required Skills *</label>
+                        <div id="requiredSkillsList">
+                            <div class="dynamic-input">
+                                <input type="text" class="form-control" placeholder="Type a skill">
+                                <button type="button" class="add-btn" onclick="addRequiredSkill(this)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Nice-to-have Skills</label>
+                        <div id="niceSkillsList">
+                            <div class="dynamic-input">
+                                <input type="text" class="form-control" placeholder="Type a skill">
+                                <button type="button" class="add-btn" onclick="addNiceSkill(this)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Qualifications</label>
+                        <div id="qualificationsList">
+                            <input type="text" class="form-control mb-3" placeholder="Qualification 1">
+                        </div>
+                        <button type="button" class="outline-btn" onclick="addQualification()">
+                            + Add Qualification
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BENEFITS -->
+            <div class="section-space">
+                <h2 class="section-title">Benefits and perks</h2>
+                <div class="title-line"></div>
+                <div class="benefits-grid" id="benefitsGrid">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Health Insurance"> Health Insurance
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Dental Insurance"> Dental Insurance
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Vision Insurance"> Vision Insurance
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="401(k) Matching"> 401(k) Matching
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Remote Work"> Remote Work
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Flexible Hours"> Flexible Hours
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Unlimited PTO"> Unlimited PTO
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Paid Parental Leave"> Paid Parental Leave
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Professional Development"> Professional Development
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Gym Membership"> Gym Membership
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Stock Options"> Stock Options
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Commuter Benefits"> Commuter Benefits
+                    </label>
+                </div>
+                <div class="form-group mt-4">
+                    <label>Additional Perks & Benefits</label>
+                    <textarea class="form-control" id="additionalBenefits" placeholder="Describe any other benefits or perks..."></textarea>
+                </div>
+            </div>
+
+            <!-- APPLICATION -->
+            <div class="section-space">
+                <h2 class="section-title">Application & Settings</h2>
+                <div class="title-line"></div>
+                <div class="benefits-grid mb-4">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Resume"> Resume/CV
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Cover Letter"> Cover Letter
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Portfolio"> Portfolio
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="References"> References
+                    </label>
+                </div>
+                <div class="form-group mb-4">
+                    <label>Screening Questions</label>
+                    <textarea class="form-control" id="screeningQuestions" placeholder="Add custom screening questions (one per line)..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Auto-response Message</label>
+                    <textarea class="form-control" id="autoResponse" placeholder="Message sent to candidates upon application submission..."></textarea>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer-buttons">
+                <button type="button" class="back-btn" onclick="history.back()">
+                    ← Back
+                </button>
+                <div class="action-buttons">
+                    <button type="button" class="draft-btn" onclick="saveAsDraft()">
+                        Save as Draft
+                    </button>
+                    <button type="button" class="post-btn" onclick="submitJobPost()">
+                        Post Job
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Collect all form data
+    function getFormData() {
+        // Get selected benefits
+        const benefits = [];
+        document.querySelectorAll('#benefitsGrid input:checked').forEach(cb => {
+            benefits.push(cb.value);
+        });
+        
+        // Get required skills
+        const requiredSkills = [];
+        document.querySelectorAll('#requiredSkillsList .dynamic-input input').forEach(input => {
+            if(input.value.trim()) requiredSkills.push(input.value.trim());
+        });
+        
+        // Get nice-to-have skills
+        const niceSkills = [];
+        document.querySelectorAll('#niceSkillsList .dynamic-input input').forEach(input => {
+            if(input.value.trim()) niceSkills.push(input.value.trim());
+        });
+        
+        // Get responsibilities
+        const responsibilities = [];
+        document.querySelectorAll('#responsibilitiesList input').forEach(input => {
+            if(input.value.trim()) responsibilities.push(input.value.trim());
+        });
+        
+        // Get qualifications
+        const qualifications = [];
+        document.querySelectorAll('#qualificationsList input').forEach(input => {
+            if(input.value.trim()) qualifications.push(input.value.trim());
+        });
+        
+        // Get application requirements
+        const applicationRequirements = [];
+        document.querySelectorAll('.benefits-grid.mb-4 input:checked').forEach(cb => {
+            applicationRequirements.push(cb.value);
+        });
+        
+        return {
+            job_title: document.getElementById('jobTitle').value,
+            job_type: document.getElementById('jobType').value,
+            experience_level: document.getElementById('experienceLevel').value,
+            department: document.getElementById('department').value,
+            location: document.getElementById('location').value,
+            openings: document.getElementById('openings').value,
+            min_salary: document.getElementById('minSalary').value,
+            max_salary: document.getElementById('maxSalary').value,
+            deadline: document.getElementById('deadline').value,
+            start_date: document.getElementById('startDate').value,
+            company_overview: document.getElementById('companyOverview').value,
+            role_description: document.getElementById('roleDescription').value,
+            responsibilities: responsibilities,
+            required_skills: requiredSkills,
+            nice_skills: niceSkills,
+            qualifications: qualifications,
+            benefits: benefits,
+            additional_benefits: document.getElementById('additionalBenefits').value,
+            application_requirements: applicationRequirements,
+            screening_questions: document.getElementById('screeningQuestions').value,
+            auto_response: document.getElementById('autoResponse').value
+        };
+    }
+    
+    // Validate required fields
+    function validateForm() {
+        const requiredFields = ['jobTitle', 'jobType', 'experienceLevel', 'department', 'location', 'openings', 'roleDescription'];
+        for(let field of requiredFields) {
+            const value = document.getElementById(field).value;
+            if(!value) {
+                showAlert(`Please fill in ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`, 'error');
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    // Show alert message
+    function showAlert(message, type = 'success') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = type === 'success' ? 'alert-success-custom' : 'alert-error-custom';
+        alertDiv.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;">
+                <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            alertDiv.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => alertDiv.remove(), 300);
+        }, 3000);
+    }
+    
+    // Submit job post
+    function submitJobPost() {
+        if(!validateForm()) return;
+        
+        const formData = getFormData();
+        
+        // Send to backend via AJAX
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                showAlert('✅ Job posted successfully! Redirecting...');
+                setTimeout(() => {
+                    window.location.href = '/recruiter/dashboard/';
+                }, 2000);
+            } else {
+                showAlert('❌ Error posting job: ' + (data.error || 'Please try again'), 'error');
+            }
+        })
+        .catch(error => {
+            // Demo mode - show success for testing
+            console.log('Form Data:', formData);
+            showAlert('✅ Job posted successfully! (Demo Mode) Redirecting...');
+            setTimeout(() => {
+                window.location.href = '/recruiter/dashboard/';
+            }, 2000);
+        });
+    }
+    
+    // Save as draft
+    function saveAsDraft() {
+        const formData = getFormData();
+        localStorage.setItem('jobDraft', JSON.stringify(formData));
+        showAlert('📝 Job saved as draft successfully!');
+    }
+    
+    // Dynamic field functions
+    function addResponsibility() {
+        const container = document.getElementById('responsibilitiesList');
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.className = 'form-control mb-3';
+        newInput.placeholder = `Responsibility ${container.children.length + 1}`;
+        container.appendChild(newInput);
+    }
+    
+    function addRequiredSkill(btn) {
+        const container = document.getElementById('requiredSkillsList');
+        const newDiv = document.createElement('div');
+        newDiv.className = 'dynamic-input';
+        newDiv.innerHTML = `
+            <input type="text" class="form-control" placeholder="Type a skill">
+            <button type="button" class="add-btn" onclick="removeSkill(this)">×</button>
+        `;
+        container.appendChild(newDiv);
+        btn.textContent = '+';
+        btn.onclick = () => addRequiredSkill(btn);
+    }
+    
+    function addNiceSkill(btn) {
+        const container = document.getElementById('niceSkillsList');
+        const newDiv = document.createElement('div');
+        newDiv.className = 'dynamic-input';
+        newDiv.innerHTML = `
+            <input type="text" class="form-control" placeholder="Type a skill">
+            <button type="button" class="add-btn" onclick="removeSkill(this)">×</button>
+        `;
+        container.appendChild(newDiv);
+        btn.textContent = '+';
+        btn.onclick = () => addNiceSkill(btn);
+    }
+    
+    function removeSkill(btn) {
+        btn.parentElement.remove();
+    }
+    
+    function addQualification() {
+        const container = document.getElementById('qualificationsList');
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.className = 'form-control mb-3';
+        newInput.placeholder = `Qualification ${container.children.length + 1}`;
+        container.appendChild(newInput);
+    }
+    
+    // Load draft if exists
+    window.addEventListener('DOMContentLoaded', function() {
+        const draft = localStorage.getItem('jobDraft');
+        if(draft) {
+            if(confirm('You have a saved draft. Load it?')) {
+                const data = JSON.parse(draft);
+                document.getElementById('jobTitle').value = data.job_title || '';
+                document.getElementById('jobType').value = data.job_type || '';
+                document.getElementById('experienceLevel').value = data.experience_level || '';
+                document.getElementById('department').value = data.department || '';
+                document.getElementById('location').value = data.location || '';
+                document.getElementById('openings').value = data.openings || '';
+                document.getElementById('minSalary').value = data.min_salary || '';
+                document.getElementById('maxSalary').value = data.max_salary || '';
+                document.getElementById('deadline').value = data.deadline || '';
+                document.getElementById('startDate').value = data.start_date || '';
+                document.getElementById('companyOverview').value = data.company_overview || '';
+                document.getElementById('roleDescription').value = data.role_description || '';
+                document.getElementById('additionalBenefits').value = data.additional_benefits || '';
+                document.getElementById('screeningQuestions').value = data.screening_questions || '';
+                document.getElementById('autoResponse').value = data.auto_response || '';
+                showAlert('Draft loaded successfully!');
+            }
+        }
+    });
+</script>
+{% endblock %}

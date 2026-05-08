@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}VTS Coders - Connect • Showcase • Monetize{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', 'Exo', sans-serif;
+            background: #f5f7fb;
+            color: #1a202c;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .promo-banner {
+            background-color: #E9BB0D;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 500;
+            font-size: 13px;
+            position: relative;
+            z-index: 1001;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .promo-banner a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+
+        .promo-banner a:hover {
+            text-decoration: underline;
+        }
+
+        .banner-one {
+            background-color: white;
+            color: #E9BB0D;
+            font-size: 13px;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 4px;
+        }
+
+        .promo-banner i {
+            margin-right: 6px;
+        }
+
+        .navbar {
+            background: linear-gradient(175deg, #020618 0%, #021868 50%, #0F172B 100%);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            padding: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 25px;
+            font-weight: 600;
+            font-family: 'Exo', sans-serif;
+            text-decoration: none;
+            margin-right: 30px;
+        }
+
+        .brand-logo {
+            height: 45px;
+            width: auto;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: white !important;
+        }
+
+        .nav-links-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: auto;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #ffffff;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #E9BB0D !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .role-badge {
+            background: #E9BB0D;
+            color: #0B1F4B;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+
+        .right-side-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .icon-btn {
+            position: relative;
+            border: none;
+            background: transparent;
+            color: white !important;
+            font-size: 22px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .icon-btn:hover {
+            color: #E9BB0D !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .badge-red {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff4444;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            border: 1px solid white;
+        }
+
+        .badge-number {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 1px solid white;
+        }
+
+        .icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .icon-wrapper:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .login-btn,
+        .logout-btn {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover,
+        .logout-btn:hover {
+            color: #E9BB0D !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #E9BB0D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0B1F4B;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .footer {
+            background-color: #0B1F4B;
+            color: rgb(218, 217, 217);
+            padding: 40px 30px 20px;
+            margin-top: auto;
+        }
+
+        .footer-logo {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .footer h5 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: rgb(218, 217, 217);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #E9BB0D;
+        }
+
+        .foot-h5 {
+            color: #E9BB0D !important;
+            font-size: 14px !important;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-info p {
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #E9BB0D;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #E9BB0D;
+            color: #0B1F4B;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .notifications-dropdown {
+            min-width: 350px;
+            max-height: 450px;
+            overflow-y: auto;
+            background: white;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+
+        .notification-item.unread {
+            background: #fffbf0;
+            border-left: 3px solid #E9BB0D;
+        }
+
+        .dropdown-header {
+            color: #0B1F4B;
+            font-weight: 700;
+            background: #f8f9fa;
+            border-radius: 12px 12px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .close-dropdown-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-dropdown-btn:hover {
+            color: #333;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 992px) {
+            .nav-links-container {
+                flex-direction: column;
+                margin: 15px 0;
+                width: 100%;
+            }
+
+            .right-side-icons {
+                flex-direction: column;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .navbar-toggler-icon {
+                background-color: white !important;
+            }
+
+            .nav-link {
+                width: 100%;
+            }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+        {% if user.is_authenticated %}
+        {% if user.role == 'recruiter' %}
+        <i class="fas fa-rocket me-2"></i>
+        <strong class="banner-one">Discover</strong> ·
+        <strong class="banner-one">Evaluate</strong> ·
+        <strong class="banner-one">Hire</strong> -
+        Find top tech talent faster with VTS Coders Pro
+        <a href="#" onclick="return false;">Learn More →</a>
+        {% elif user.role == 'developer' %}
+        <i class="fas fa-rocket me-0"></i>
+        <strong class="banner-one" style="background-color: transparent;color: white;">Showcase what you have built,Own
+            your Impact - Get Discovered </strong>
+        <strong class="banner-one" style="background-color: transparent;color: white;"></strong>
+        <a href="#" onclick="return false;"></a>
+        {% else %}
+        <i class="fas fa-gift me-2"></i>
+        Limited Time Offer: Use code <strong class="banner-one">VTS2026</strong> for 30% OFF Pro Plan -
+        <a href="#" onclick="return false;">Upgrade Today!</a>
+        {% endif %}
+        {% else %}
+        <i class="fas fa-gift me-2"></i>
+        Limited Time Offer: Use code <strong class="banner-one">VTS2026</strong> for 30% OFF Pro Plan -
+        <a href="#" onclick="return false;">Upgrade Today!</a>
+        {% endif %}
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'core:home' %}">
+                {% load static %}
+                <img src="{% static 'core/vtslogo.jpg' %}" alt="VTS Logo" class="brand-logo">
+                <span class="brand-name">VTS Coders</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <!-- NAVIGATION LINKS -->
+                <div class="nav-links-container">
+
+                    <!-- ========== COMMON USER (NOT LOGGED IN) ========== -->
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                        href="{% url 'core:home' %}">
+                        Home
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}"
+                        href="{% url 'core:explore' %}">
+                        Explore
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'developers' %}active{% endif %}"
+                        href="{% url 'core:developers' %}">
+                        Developers
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'joblisting' %}active{% endif %}"
+                        href="{% url 'core:joblisting' %}">
+                        Job Listing
+                    </a>
+                    {% endif %}
+
+                    <!-- ========== RECRUITER ROLE (LOGGED IN) ========== -->
+                    {% if user.is_authenticated and user.role == 'recruiter' %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'recruiter_home' %}active{% endif %}"
+                        href="{% url 'core:recruiter_home' %}">
+                         Home
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'recruiter_explore' %}active{% endif %}"
+                        href="{% url 'core:recruiter_explore' %}">
+                         Explore
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'recruiter_developers' %}active{% endif %}"
+                        href="{% url 'core:recruiter_developers' %}">
+                         Developers
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'recruiter_dashboard' %}active{% endif %}"
+                        href="{% url 'core:recruiter_dashboard' %}">
+                         Dashboard
+                    </a>
+                    {% endif %}
+
+                    <!-- ========== DEVELOPER ROLE (LOGGED IN) ========== -->
+                    {% if user.is_authenticated and user.role == 'developer' %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'developer_home' %}active{% endif %}"
+                        href="{% url 'core:developer_home' %}">
+                        Home
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'developer_explore' %}active{% endif %}"
+                        href="{% url 'core:developer_explore' %}">
+                        Explore
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'developer_developers' %}active{% endif %}"
+                        href="{% url 'core:developer_developers' %}">
+                        Developers
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'developer_profile' %}active{% endif %}"
+                        href="{% url 'core:developer_profile' %}">
+                        My Profile
+                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'joblisting' %}active{% endif %}"
+                        href="{% url 'core:joblisting' %}">
+                        Job Listing
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- RIGHT SIDE ICONS -->
+                <div class="right-side-icons">
+
+                    <!-- BELL (Notifications - No Login Required) -->
+                    <div class="icon-wrapper">
+                        <div class="dropdown">
+                            <button class="icon-btn dropdown-toggle" data-bs-toggle="dropdown" id="notificationBell">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge-number" id="notificationBadge">3</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end notifications-dropdown"
+                                id="notificationDropdown">
+                                <div
+                                    class="dropdown-header px-3 py-2 d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-bell me-2"></i>Notifications</span>
+                                    <button class="close-dropdown-btn" onclick="closeNotificationDropdown()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div id="notificationList">
+                                    <!-- Notifications will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MESSAGE (Chat) -->
+                    <div class="icon-wrapper">
+                        {% if user.is_authenticated %}
+                        <a class="icon-btn" href="{% url 'core:chat' %}">
+                            <i class="fas fa-envelope"></i>
+                            {% if unread_messages_count > 0 %}
+                            <span class="badge-red"></span>
+                            {% endif %}
+                        </a>
+                        {% else %}
+                        <a class="icon-btn" href="{% url 'core:login' %}">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <span class="tooltip-text">Login to view messages</span>
+                        {% endif %}
+                    </div>
+
+                    {% if user.is_authenticated %}
+                    <a class="logout-btn" href="{% url 'core:logout' %}">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                    {% else %}
+                    <a class="login-btn" href="{% url 'core:login' %}">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </a>
+                    {% endif %}
+                </div>                              
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <i
+                    class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-logo">
+                        <img src="{% static 'core/vtslogo.jpg' %}" alt="VTS Logo" class="brand-logo">
+                        <h5>VTS Coders</h5>
+                    </div>
+                    <p style="font-size: 11px; color: #E9BB0D; margin-top: 5px;">CONNECT • SHOWCASE • MONETIZE</p>
+                    <p style="font-size: 12px; opacity: 0.8;">The ultimate platform connecting talent, opportunity, and
+                        innovation.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="foot-h5">Platform</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Showcase Work</a></li>
+                        <li><a href="#">Browse Projects</a></li>
+                        <li><a href="#">Find Talent</a></li>
+                        <li><a href="#">Collaborate</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="foot-h5">Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="foot-h5">Resources</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="foot-h5">Contact Info</h5>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> support@vtscoders.com</p>
+                        <p><i class="fas fa-phone-alt"></i> +91-8438524427</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Surandai, Tenkasi District, Tamil Nadu</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-md-6 text-md-start text-center">
+                        <a href="#" class="text-decoration-none me-3" style="color: rgb(218, 217, 217);">Privacy
+                            Policy</a>
+                        <a href="#" class="text-decoration-none me-3" style="color: rgb(218, 217, 217);">Terms of
+                            Service</a>
+                        <a href="#" class="text-decoration-none" style="color: rgb(218, 217, 217);">Cookie Policy</a>
+                    </div>
+                    <div class="col-md-6 text-md-end text-center">
+                        <p>&copy; 2026 VTS Coders. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Notification data
+        const notifications = [
+            {
+                id: 1,
+                title: "🌟 General Conference for Future World",
+                message: "June 23, 2026 - Bangalore. Join industry experts to explore future technologies, AI advancements, and career growth opportunities.",
+                date: "June 23, 2026",
+                icon: "fas fa-calendar-alt",
+                color: "#E9BB0D",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 2,
+                title: "🏢 MultiNational Companies General Conference",
+                message: "Delhi - Top MNCs are coming together! Network with recruiters, attend workshops, and boost your career.",
+                date: "July 15, 2026",
+                icon: "fas fa-building",
+                color: "#E9BB0D",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 3,
+                title: "🚀 AML Technologies - Bulk Hiring",
+                message: "Walk-in Drive for multiple roles: Full Stack Developers, DevOps, Data Scientists. Freshers Welcome! Bring your resume.",
+                date: "May 20, 2026",
+                icon: "fas fa-briefcase",
+                color: "#E9BB0D",
+                read: false,
+                link: "#"
+            }
+        ];
+
+        // Load notifications on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadNotifications();
+            updateNotificationBadge();
+        });
+
+        function loadNotifications() {
+            const notificationList = document.getElementById('notificationList');
+            if (!notificationList) return;
+
+            notificationList.innerHTML = '';
+
+            if (notifications.length === 0) {
+                notificationList.innerHTML = '<div class="notification-item text-center"><small>No new notifications</small></div>';
+                return;
+            }
+
+            notifications.forEach(notification => {
+                const notificationDiv = document.createElement('div');
+                notificationDiv.className = `notification-item ${!notification.read ? 'unread' : ''}`;
+                notificationDiv.setAttribute('data-id', notification.id);
+
+                notificationDiv.innerHTML = `
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="flex-shrink-0">
+                            <div style="width: 40px; height: 40px; background: rgba(233, 187, 13, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="${notification.icon}" style="color: ${notification.color}; font-size: 18px;"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h6 class="mb-1" style="font-weight: 600;">${notification.title}</h6>
+                                <small class="text-muted" style="font-size: 10px;">${notification.date}</small>
+                            </div>
+                            <p class="mb-1 small" style="color: #666;">${notification.message}</p>
+                            ${!notification.read ? '<span class="badge bg-warning text-dark" style="font-size: 9px;">New</span>' : ''}
+                        </div>
+                    </div>
+                `;
+                notificationList.appendChild(notificationDiv);
+            });
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notificationBadge');
+            if (badge) {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        function closeNotificationDropdown() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown) {
+                const bsDropdown = bootstrap.Dropdown.getInstance(document.getElementById('notificationBell'));
+                if (bsDropdown) {
+                    bsDropdown.hide();
+                }
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

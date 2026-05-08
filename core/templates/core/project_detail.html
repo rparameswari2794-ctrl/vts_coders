@@ -1,0 +1,360 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} | VTS Coders{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f1f5f9;
+        color: #1e293b;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-banner {
+        background: #0f172a;
+        border-radius: 24px;
+        color: white;
+        padding: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-img-container {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        overflow: hidden;
+        background: #000;
+        position: relative;
+    }
+
+    .glass-badge {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+    }
+
+    /* --- BUTTONS --- */
+    .btn-yellow {
+        background-color: #eab308;
+        color: #000;
+        font-weight: 700;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-yellow:hover {
+        background-color: #ca8a04;
+        transform: translateY(-2px);
+    }
+
+    .btn-preview {
+        background: white;
+        color: #0f172a;
+        font-weight: 600;
+        border: none;
+    }
+
+    .btn-heart {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: #f43f5e;
+    }
+
+    /* --- CARDS --- */
+    .main-card {
+        background: white;
+        border-radius: 24px;
+        border: 1px solid #e2e8f0;
+        padding: 40px;
+    }
+
+    .problem-header {
+        border-bottom: 4px solid #1e3a8a;
+        display: inline-block;
+        padding-bottom: 4px;
+        font-weight: 800;
+    }
+
+    .solution-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 24px;
+        height: 100%;
+        transition: 0.3s;
+    }
+
+    .solution-item:hover {
+        border-color: #cbd5e1;
+        transform: translateY(-5px);
+    }
+
+    /* --- SIDEBAR --- */
+    .profile-sidebar {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 30px;
+        position: sticky;
+        top: 20px;
+    }
+
+    .avatar-lg {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="hero-banner mb-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-5">
+                <div class="hero-img-container">
+                    {% if project.cover_image %}
+                        <img src="{{ project.cover_image.url }}" class="img-fluid opacity-75" alt="{{ project.title }}">
+                    {% else %}
+                        <img src="{% static 'core/Image12.png' %}" class="img-fluid" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="position-absolute bottom-0 start-0 p-3 d-flex gap-2">
+                        <span class="glass-badge text-white">💻 {{ project.category|title }}</span>
+                        {% if project.visibility == 'public' %}
+                            <span class="glass-badge text-white">🌍 Public</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 ps-lg-5">
+                <div class="d-flex gap-2 mb-3">
+                    <span class="badge rounded-1 px-2 py-1"
+                        style="background: rgba(234,179,8,0.2); color: #eab308; border: 1px solid rgba(234,179,8,0.3); font-size: 10px;">FEATURED
+                        PROJECT</span>
+                    <span class="badge rounded-1 px-2 py-1"
+                        style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 10px;">
+                        {{ project.created_at|date:"Y" }}
+                    </span>
+                </div>
+                <h1 class="display-4 fw-bold mb-3">{{ project.title }}</h1>
+                <p class="text-secondary mb-4 fs-5" style="opacity: 0.8;">{{ project.summary }}</p>
+
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    {% if tech_stack %}
+                        {% for tech in tech_stack %}
+                            <span class="badge bg-white text-dark rounded-pill px-3 py-2 fw-bold" style="font-size: 12px;">{{ tech }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="badge bg-white text-dark rounded-pill px-3 py-2 fw-bold">No tech stack listed</span>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex gap-3">
+                    {% if project.demo_url and project.demo_url != '#' %}
+                        <a href="{{ project.demo_url }}" target="_blank" class="btn btn-yellow px-4 py-2">View Live Demo ↗</a>
+                    {% endif %}
+                    {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="btn btn-preview px-4 py-2">GitHub Repository</a>
+                    {% endif %}
+                    <button class="btn btn-heart px-3 py-2">❤️ <span class="likes-count">{{ project.likes_count|default:"0" }}</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+
+            <div class="row mb-5 text-center text-md-start g-3">
+                <div class="col-md-3 col-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 text-primary"><i class="fas fa-eye"></i></div>
+                        <div>
+                            <div class="text-muted fw-bold small text-uppercase" style="font-size: 10px;">Views</div>
+                            <div class="h4 fw-bold mb-0">{{ project.views_count|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3 text-success"><i class="fas fa-heart"></i></div>
+                        <div>
+                            <div class="text-muted fw-bold small text-uppercase" style="font-size: 10px;">Likes</div>
+                            <div class="h4 fw-bold mb-0">{{ project.likes_count|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 text-warning"><i class="fas fa-code-branch"></i></div>
+                        <div>
+                            <div class="text-muted fw-bold small text-uppercase" style="font-size: 10px;">Tech Stack</div>
+                            <div class="h4 fw-bold mb-0">{{ tech_stack|length|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-info bg-opacity-10 p-3 text-info"><i class="fas fa-calendar"></i></div>
+                        <div>
+                            <div class="text-muted fw-bold small text-uppercase" style="font-size: 10px;">Created</div>
+                            <div class="h6 fw-bold mb-0">{{ project.created_at|date:"M d, Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-card mb-5">
+                <h2 class="problem-header mb-4">The Problem</h2>
+                <p class="fs-5 text-muted lh-base mb-4">{{ project.description }}</p>
+                <div class="row g-4">
+                    <div class="col-md-6 d-flex gap-3">
+                        <div class="text-danger mt-1"><i class="fas fa-exclamation-circle"></i></div>
+                        <p class="small text-muted mb-0">Complex technical challenges require innovative solutions and cutting-edge technology.</p>
+                    </div>
+                    <div class="col-md-6 d-flex gap-3">
+                        <div class="text-primary mt-1"><i class="fas fa-rocket"></i></div>
+                        <p class="small text-muted mb-0">Modern development demands scalable, maintainable, and performant applications.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="fw-bold mb-4">The Solution: {{ project.title }}</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="solution-item">
+                        <div class="text-primary mb-3"><i class="fas fa-brain fa-2x"></i></div>
+                        <h5 class="fw-bold">Modern Architecture</h5>
+                        <p class="small text-muted mb-0">Built with the latest technologies and best practices for optimal performance.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="solution-item">
+                        <div class="text-danger mb-3"><i class="fas fa-microchip fa-2x"></i></div>
+                        <h5 class="fw-bold">Scalable Design</h5>
+                        <p class="small text-muted mb-0">Designed to handle growth and adapt to changing requirements.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="solution-item">
+                        <div class="text-success mb-3"><i class="fas fa-database fa-2x"></i></div>
+                        <h5 class="fw-bold">Robust Backend</h5>
+                        <p class="small text-muted mb-0">Reliable server-side architecture with efficient data management.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="solution-item">
+                        <div class="text-warning mb-3"><i class="fas fa-shield-alt fa-2x"></i></div>
+                        <h5 class="fw-bold">Security First</h5>
+                        <p class="small text-muted mb-0">Implementing best security practices to protect user data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="profile-sidebar shadow-sm text-center">
+                {% if developer.profile_picture %}
+                    <img src="{{ developer.profile_picture.url }}" class="avatar-lg mb-3" alt="{{ developer.full_name }}">
+                {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ developer.full_name|urlencode }}&background=1e2a78&color=fff&size=100" class="avatar-lg mb-3" alt="{{ developer.full_name }}">
+                {% endif %}
+                <h4 class="fw-bold mb-1">{{ developer.full_name }}</h4>
+                <p class="text-muted small mb-3">{{ developer.title|default:"Full-stack Engineer" }}</p>
+
+                <div class="d-flex justify-content-center gap-2 mb-4">
+                    {% if developer.github_url %}
+                        <a href="{{ developer.github_url }}" target="_blank" class="btn btn-sm btn-light border rounded-circle"><i class="fab fa-github"></i></a>
+                    {% endif %}
+                    {% if developer.portfolio_url %}
+                        <a href="{{ developer.portfolio_url }}" target="_blank" class="btn btn-sm btn-light border rounded-circle"><i class="fas fa-globe"></i></a>
+                    {% endif %}
+                    <a href="{% url 'core:chat' %}?user={{ developer.user.id }}" class="btn btn-sm btn-light border rounded-circle"><i class="fas fa-envelope"></i></a>
+                </div>
+
+                <div class="text-start mb-4">
+                    <p class="small fw-bold text-uppercase text-muted mb-2">Main Expertise</p>
+                    <div class="d-flex flex-wrap gap-1">
+                        {% if developer.skills %}
+                            {# Display skills as a comma-separated string, truncating if needed #}
+                            <span class="badge bg-light text-dark border fw-normal px-2 py-1">{{ developer.skills|truncatechars:50 }}</span>
+                        {% else %}
+                            <span class="badge bg-light text-dark border fw-normal px-2 py-1">Web Development</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <a href="{% url 'core:chat' %}?user={{ developer.user.id }}" class="btn btn-primary w-100 py-2 fw-bold" style="background: #1e3a8a; border: none;">
+                    Hire {{ developer.full_name|default:"Developer" }}
+                </a>
+                <p class="mt-3 small text-muted"><i class="far fa-comment-dots me-1"></i> Send Message</p>
+
+                <hr class="my-4">
+                <div class="text-start">
+                    <p class="small fw-bold text-uppercase text-muted mb-2">Project Info</p>
+                    <p class="small text-muted">
+                        <strong>Category:</strong> {{ project.category|title }}<br>
+                        <strong>License:</strong> {{ project.license_type|default:"MIT" }}<br>
+                        <strong>Visibility:</strong> {{ project.visibility|title }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="small text-muted">{{ project.created_at|date:"M d, Y" }}</span>
+                        <span class="badge bg-light text-dark border">{{ project.license_type|default:"Open Source" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if other_projects %}
+        <div class="mt-5 pt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold mb-0">More from {{ developer.full_name }}</h3>
+                <a href="{% url 'core:developer_profile' %}" class="text-dark text-decoration-none small fw-bold">View Profile <i class="fas fa-chevron-right ms-1"></i></a>
+            </div>
+
+            <div class="row g-4">
+                {% for other_project in other_projects|slice:":2" %}
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                        {% if other_project.cover_image %}
+                            <img src="{{ other_project.cover_image.url }}" class="card-img-top" alt="{{ other_project.title }}" style="height: 240px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'core/Image12.png' %}" class="card-img-top" alt="{{ other_project.title }}" style="height: 240px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-2">{{ other_project.title }}</h5>
+                            <p class="text-muted small mb-0">{{ other_project.summary|truncatechars:80 }}</p>
+                            <a href="{% url 'core:project_detail' slug=other_project.url_slug %}" class="btn btn-sm btn-outline-dark mt-3">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="container-fluid bg-white border-top mt-5 py-5">
+        <div class="container text-center py-4">
+            <h2 class="fw-bold mb-3">Interested in collaborating?</h2>
+            <p class="text-muted mx-auto mb-4" style="max-width: 600px;">
+                Whether you have a specific technical challenge or just want to discuss the
+                future of the web, my inbox is always open.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'core:chat' %}?user={{ developer.user.id }}" class="btn btn-yellow px-5 py-3 shadow-sm">Hire Me</a>
+                <a href="{% url 'core:chat' %}?user={{ developer.user.id }}" class="btn btn-outline-secondary px-5 py-3 bg-white">Message</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

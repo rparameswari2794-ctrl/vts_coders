@@ -1,0 +1,511 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    :root {
+        --navy-dark: #0f172a;
+        --navy-header: #1e293b;
+        --accent-yellow: #eab308;
+        --border-color: #e2e8f0;
+        --input-fill: #f8fafc;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --green-success: #22c55e;
+    }
+
+    body {
+        background-color: #f1f5f9;
+        font-family: 'Inter', sans-serif;
+        color: var(--text-main);
+    }
+
+    /* Header & Stepper (Image 1 & 5) */
+    .form-header-bg {
+        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        padding: 60px 0 100px;
+        color: white;
+        text-align: center;
+        border-radius: 0 0 24px 24px;
+    }
+
+    .stepper-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 35px;
+        position: relative;
+        max-width: 700px;
+        margin-inline: auto;
+    }
+
+    .step-item {
+        z-index: 2;
+        text-align: center;
+        width: 25%;
+    }
+
+    .step-icon-bg {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: white;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        border: 2px solid transparent;
+        font-size: 16px;
+    }
+
+    .step-item.active .step-icon-bg {
+        border-color: var(--accent-yellow);
+        color: var(--navy-dark);
+    }
+
+    .step-title {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #94a3b8;
+        letter-spacing: 0.8px;
+    }
+
+    .step-item.active .step-title {
+        color: var(--accent-yellow);
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 21px;
+        left: 12%;
+        right: 12%;
+        height: 2px;
+        background: #334155;
+        z-index: 1;
+    }
+
+    /* Main Card Styling */
+    .form-card-main {
+        margin-top: -65px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+
+    /* Section Headings with Yellow Left Border (Image 5 & 6) */
+    .yellow-section-line {
+        border-left: 4px solid var(--accent-yellow);
+        padding-left: 15px;
+        margin-bottom: 25px;
+        margin-top: 40px;
+    }
+
+    .yellow-section-line h6 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    /* Review Summary Card (Image 5) */
+    .review-summary-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 24px;
+        display: flex;
+        gap: 24px;
+        align-items: center;
+    }
+
+    /* URL Slug Input Group (Image 6) */
+    .url-slug-input-group {
+        display: flex;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #cbd5e1;
+    }
+
+    .url-slug-prefix {
+        background: #cbd5e1;
+        color: #475569;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .label-style {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .field-style {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 15px;
+        background: var(--input-fill);
+    }
+
+    /* Visibility Option Cards (Image 6) */
+    .visibility-option-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        position: relative;
+        cursor: pointer;
+        transition: 0.2s;
+        height: 100%;
+    }
+
+    .visibility-option-card.selected {
+        border-color: var(--accent-yellow);
+        background-color: #fffef0;
+    }
+
+    /* Checklist Items (Image 7) */
+    .checklist-item {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .status-badge-complete {
+        background: #dcfce7;
+        color: #166534;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    /* Success Modal Styling (Image 5 Success State) */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .success-modal {
+        background: white;
+        width: 90%;
+        max-width: 650px;
+        border-radius: 24px;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+    }
+
+    .success-icon-badge {
+        color: var(--green-success);
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .modal-project-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        gap: 20px;
+        text-align: left;
+        margin: 25px 0;
+        border: 1px solid #e2e8f0;
+    }
+
+    .modal-thumb {
+        width: 140px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Buttons */
+    .btn-next {
+        background: var(--accent-yellow);
+        color: var(--navy-dark);
+        font-weight: 800;
+        padding: 12px 30px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.3);
+    }
+
+    .modal-action-btn {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 13px;
+        border: 1px solid #e2e8f0;
+        background: white;
+        transition: 0.2s;
+    }
+
+    .btn-view-live {
+        background: var(--accent-yellow);
+        border: none;
+        color: var(--navy-dark);
+    }
+</style>
+
+<div class="pb-5">
+    <div class="form-header-bg">
+        <h2 class="fw-bold mb-2">Create New Project</h2>
+        <p class="text-white-50 small">Showcase your hard work to the community. Fill in the details below to publish your project.</p>
+
+        <div class="stepper-row">
+            <div class="progress-line" style="width: 87.5%;"></div>
+            <div class="step-item active"><div class="step-icon-bg"><i class="fa-solid fa-layer-group"></i></div><div class="step-title">Basic Info</div></div>
+            <div class="step-item active"><div class="step-icon-bg"><i class="fa-solid fa-image"></i></div><div class="step-title">Visuals</div></div>
+            <div class="step-item active"><div class="step-icon-bg"><i class="fa-solid fa-code"></i></div><div class="step-title">Technical</div></div>
+            <div class="step-item active"><div class="step-icon-bg"><i class="fa-solid fa-rocket"></i></div><div class="step-title">Publish</div></div>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 1000px;">
+        <div class="form-card-main shadow-sm">
+            <form method="POST" action="#" id="publishForm">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Publish Project</h3>
+                        <p class="text-muted">Confirm details and publish your project to the community.</p>
+                    </div>
+                    <span class="badge border text-muted px-3 py-2 rounded-pill bg-white shadow-sm">Step 4 of 4</span>
+                </div>
+
+                <div class="yellow-section-line"><h6>Review Summary</h6></div>
+                
+                <div class="review-summary-card mb-5">
+                    <img id="reviewCoverImage" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=300" class="rounded-3" style="width: 180px; height: 120px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <h4 class="fw-bold mb-0" id="reviewTitle">Loading...</h4>
+                            <span class="badge bg-warning text-dark" style="font-size: 10px;" id="reviewVersion">v1.0.0</span>
+                        </div>
+                        <p class="text-muted small mb-3" id="reviewSummary">Loading project summary...</p>
+                        <div class="d-flex gap-2 mb-3" id="reviewTechStack">
+                            </div>
+                        <div class="d-flex gap-4 text-muted" style="font-size: 12px;">
+                            <span id="reviewGithub"><i class="fa-brands fa-github me-1"></i> Loading repo...</span>
+                            <span id="reviewDemo"><i class="fa-solid fa-globe me-1"></i> Loading demo...</span>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <a href="{% url 'core:upload_project_step1' %}" class="btn btn-link text-warning p-0 fw-bold text-decoration-none small"><i class="fa-solid fa-pen-to-square me-1"></i> Edit</a>
+                    </div>
+                </div>
+
+                <div class="yellow-section-line"><h6>Discoverability</h6></div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <label class="label-style">Project URL Slug</label>
+                        <div class="url-slug-input-group mb-2">
+                            <div class="url-slug-prefix">vtscoders.io/p/</div>
+                            <input type="text" id="projectSlug" class="form-control border-0 bg-white" placeholder="hyperscale-analytics">
+                        </div>
+                        <p class="text-muted" style="font-size: 11px;">This is how your project will be accessed directly.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-style">Keywords (SEO Tags)</label>
+                        <input type="text" id="seoKeywords" class="field-style" placeholder="Add keywords separated by commas...">
+                    </div>
+                    <div class="col-12">
+                        <label class="label-style">Meta Description</label>
+                        <textarea id="metaDescription" class="field-style" rows="2" placeholder="Brief SEO description for search engines..."></textarea>
+                    </div>
+                </div>
+
+                <div class="yellow-section-line"><h6>Visibility & Launch</h6></div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="visibility-option-card selected" data-visibility="public">
+                            <i class="fa-solid fa-globe text-warning mb-3 fs-4"></i>
+                            <i class="fa-solid fa-circle-check position-absolute text-warning" style="top:20px; right:20px;"></i>
+                            <h6 class="fw-bold mb-1">Public</h6>
+                            <p class="text-muted small mb-0">Visible to everyone on the platform and search engines.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="visibility-option-card" data-visibility="private">
+                            <i class="fa-solid fa-lock text-muted mb-3 fs-4"></i>
+                            <h6 class="fw-bold mb-1">Private</h6>
+                            <p class="text-muted small mb-0">Only you and people with the secret link can view this.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="visibility-option-card" data-visibility="draft">
+                            <i class="fa-solid fa-eye-slash text-muted mb-3 fs-4"></i>
+                            <h6 class="fw-bold mb-1">Draft Only</h6>
+                            <p class="text-muted small mb-0">Hidden from public and direct links. Perfect for staging.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-light p-3 rounded-3 mb-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-calendar-days text-warning"></i>
+                        <div>
+                            <p class="mb-0 fw-bold small">Schedule Publication</p>
+                            <p class="text-muted mb-0" style="font-size: 11px;">Leave empty to publish immediately.</p>
+                        </div>
+                    </div>
+                    <input type="date" id="scheduleDate" class="form-control form-control-sm w-auto">
+                </div>
+
+                <div class="yellow-section-line"><h6>Publication Checklist</h6></div>
+
+                <div class="checklist-item">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        <span class="small fw-bold">README.md successfully attached</span>
+                    </div>
+                    <span class="status-badge-complete">Complete</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        <span class="small fw-bold">Open Source License (MIT) selected</span>
+                    </div>
+                    <span class="status-badge-complete">Complete</span>
+                </div>
+                <div class="checklist-item">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-danger"></i>
+                        <span class="small fw-bold">Check for sensitive keys/secrets in source files</span>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-primary py-0 px-3 fw-bold" style="font-size: 10px;">Action Required</button>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-5 pt-4 border-top">
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'core:upload_project_step3' %}" class="btn text-muted fw-bold small p-0">Back to Technical</a>
+                        <div class="vr"></div>
+                        <button type="button" class="btn text-muted fw-bold small p-0" onclick="saveDraft()">Save as Draft</button>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <button type="button" class="btn btn-outline-warning fw-bold px-4" onclick="previewProject()">Preview Live Page</button>
+                        <button type="button" onclick="publishProject()" class="btn btn-next px-5">Publish Project</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="successModal" class="modal-overlay" style="display: none;">
+    <div class="success-modal">
+        <div class="success-icon-badge"><i class="fa-solid fa-circle-check"></i></div>
+        <h2 class="fw-bold text-dark mb-1">Project Published!</h2>
+        <p class="text-muted">Your project is now live on VTSCoders. Great job on bringing your vision to life!</p>
+
+        <div class="modal-project-card">
+            <img id="modalCoverImage" src="" class="modal-thumb shadow-sm">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <h4 class="fw-bold mb-0" id="modalProjectTitle">Project Title</h4>
+                    <span id="modalVisibilityBadge" class="badge bg-success">Public</span>
+                </div>
+                <p class="text-muted small mb-2" id="modalProjectSummary">Summary description goes here...</p>
+                <div class="d-flex gap-2 mb-2" id="modalTechStack"></div>
+                <div class="small text-danger fw-medium" id="modalProjectUrl">
+                    <i class="fa-solid fa-link me-1"></i> vtscoders.io/p/url-slug
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <button class="modal-action-btn btn-view-live" onclick="goToExplore()">View Live Project</button>
+            <button class="modal-action-btn" onclick="shareProject()">Share</button>
+            <button class="modal-action-btn" onclick="goToDeveloperHome()">Back to Home</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadAllProjectData() {
+        const projectData = JSON.parse(localStorage.getItem('projectData') || '{}');
+        const techStack = JSON.parse(sessionStorage.getItem('techStack') || '["React", "TypeScript", "Tailwind CSS"]');
+        
+        return {
+            projectData: projectData,
+            coverImage: sessionStorage.getItem('coverImage'),
+            techStack: techStack,
+            githubUrl: sessionStorage.getItem('githubUrl') || 'github.com/user/repo',
+            demoUrl: sessionStorage.getItem('demoUrl') || 'live-demo.app'
+        };
+    }
+
+    function generateSlug(title) {
+        return title ? title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') : 'untitled-project';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const data = loadAllProjectData();
+        
+        if (data.projectData.title) {
+            document.getElementById('reviewTitle').textContent = data.projectData.title;
+            document.getElementById('reviewSummary').textContent = data.projectData.summary || 'No summary provided';
+            document.getElementById('projectSlug').value = generateSlug(data.projectData.title);
+            document.getElementById('metaDescription').value = data.projectData.summary || '';
+        }
+
+        document.getElementById('reviewTechStack').innerHTML = data.techStack.map(t => `<span class="badge border text-muted bg-white">${t}</span>`).join('');
+        document.getElementById('reviewGithub').innerHTML = `<i class="fa-brands fa-github me-1"></i> ${data.githubUrl}`;
+        document.getElementById('reviewDemo').innerHTML = `<i class="fa-solid fa-globe me-1"></i> ${data.demoUrl}`;
+        
+        if (data.coverImage) document.getElementById('reviewCoverImage').src = data.coverImage;
+    });
+
+    function publishProject() {
+        const data = loadAllProjectData();
+        const modal = document.getElementById('successModal');
+        
+        document.getElementById('modalProjectTitle').textContent = data.projectData.title;
+        document.getElementById('modalProjectSummary').textContent = data.projectData.summary;
+        document.getElementById('modalCoverImage').src = data.coverImage || document.getElementById('reviewCoverImage').src;
+        document.getElementById('modalTechStack').innerHTML = data.techStack.map(t => `<span class="badge border text-muted">${t}</span>`).join('');
+        document.getElementById('modalProjectUrl').innerHTML = `<i class="fa-solid fa-link me-1"></i> vtscoders.io/p/${document.getElementById('projectSlug').value}`;
+        
+        modal.style.display = 'flex';
+    }
+
+    // Visibility Toggle Logic
+    document.querySelectorAll('.visibility-option-card').forEach(card => {
+        card.addEventListener('click', function() {
+            document.querySelectorAll('.visibility-option-card').forEach(c => {
+                c.classList.remove('selected');
+                const check = c.querySelector('.fa-circle-check');
+                if (check) check.remove();
+            });
+            this.classList.add('selected');
+            this.innerHTML += '<i class="fa-solid fa-circle-check position-absolute text-warning" style="top:20px; right:20px;"></i>';
+        });
+    });
+
+    function goToDeveloperHome() { window.location.href = "{% url 'core:developer_home' %}"; }
+    function goToExplore() { window.location.href = "{% url 'core:developer_explore' %}"; }
+    function shareProject() { alert('Link copied to clipboard!'); }
+</script>
+{% endblock %}

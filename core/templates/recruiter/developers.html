@@ -1,0 +1,1453 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .developers-page {
+        background: #f8f9fc;
+        min-height: 100vh;
+        padding: 40px 0;
+    }
+
+    /* Filters Sidebar */
+    .filters-card {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        top: 90px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .filters-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eef2f6;
+    }
+
+    .filters-header h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1f36;
+        margin: 0;
+    }
+
+    .reset-btn {
+        font-size: 12px;
+        color: #8b8f9e;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .filter-section {
+        margin-bottom: 24px;
+    }
+
+    .filter-section h5 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a1f36;
+        margin-bottom: 12px;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .filter-option input[type="checkbox"],
+    .filter-option input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #f5a623;
+        cursor: pointer;
+    }
+
+    .filter-option label {
+        font-size: 13px;
+        color: #4a5568;
+        cursor: pointer;
+    }
+
+    .search-stack {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 13px;
+        margin-bottom: 12px;
+        outline: none;
+    }
+
+    .search-stack:focus {
+        border-color: #f5a623;
+    }
+
+    .apply-filters-btn {
+        width: 100%;
+        background: #1e293b;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-top: 16px;
+        cursor: pointer;
+    }
+
+    /* Discover Header */
+    .discover-header {
+        margin-bottom: 28px;
+    }
+
+    .discover-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a1f36;
+        margin-bottom: 6px;
+    }
+
+    .discover-header p {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    /* Developer Card - Explore Page Style */
+    /* Developer Card - Exact Match to Image */
+    /* Card Image Wrapper with Overlay */
+    .card-img-wrapper {
+        position: relative;
+        overflow: visible;
+        height: 130px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        cursor: pointer;
+    }
+
+    .developer-card {
+        width: 250px;
+        height: 300px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+
+    /* Image Overlay */
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 5;
+    }
+
+    .card-img-wrapper:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .overlay-view-btn {
+        background: #eab308;
+        color: #1a1f36;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transform: translateY(10px);
+        transition: transform 0.3s ease, background 0.2s;
+    }
+
+    .card-img-wrapper:hover .overlay-view-btn {
+        transform: translateY(0);
+    }
+
+    .overlay-view-btn:hover {
+        background: #d4a00a;
+        transform: scale(1.05);
+    }
+
+    /* Avatar Overlay - stays on top of image overlay */
+    .avatar-overlay {
+        position: absolute;
+        bottom: -25px;
+        left: 15px;
+        overflow: visible;
+        ;
+    }
+
+    /* Medal Badge - stays on top */
+    .medal-badge-card {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #eab308;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        z-index: 6;
+    }
+
+    /* Developer Avatar */
+    .developer-avatar-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 3px solid white;
+        object-fit: cover;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    }
+
+    .avatar-placeholder {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 3px solid white;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Card Body */
+    .card-body-content {
+        padding: 30px 15px 15px 15px;
+    }
+
+    .developer-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a1f36;
+        margin-bottom: 2px;
+    }
+
+    .developer-title {
+        font-size: 12px;
+        color: #6c757d;
+        margin-bottom: 6px;
+    }
+
+    .developer-location {
+        font-size: 11px;
+        color: #a0aec0;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .tech-stack {
+        display: flex;
+        gap: 5px;
+        flex-wrap: nowrap;
+        margin-bottom: 12px;
+    }
+
+    .tech-badge {
+        background: #f0f2f5;
+        padding: 1px;
+        border-radius: 16px;
+        font-size: 10px;
+        color: #4a5568;
+        font-weight: 500;
+    }
+
+    .tech-badge-more {
+        background: transparent;
+        padding: 3px 8px;
+        border-radius: 16px;
+        font-size: 10px;
+        color: #8b8f9e;
+        font-weight: 500;
+    }
+
+    .card-footer-rating {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        padding-top: 8px;
+        border-top: 1px solid #e2e8f0;
+        gap: 2px;
+        color: #f5a623;
+        font-size: 11px;
+    }
+
+
+
+    .stars span {
+        color: #6c757d;
+        margin-left: 4px;
+        font-size: 11px;
+    }
+
+    .view-profile-link {
+        background: transparent;
+        border: none;
+        font-size: 11px;
+        font-weight: 600;
+        color: #1a1f36;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-left: 50%;
+    }
+
+    .view-profile-link:hover {
+        color: #eab308;
+    }
+
+    .developer-initials {
+        font-size: 64px;
+        font-weight: 700;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Medal Badge */
+    .medal-badge {
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        background: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #eab308;
+        font-size: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 1;
+        transform: translateY(-10px);
+        transition: 0.3s ease;
+        z-index: 2;
+    }
+
+    /* Overlay */
+    .img-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: 0.3s ease;
+        z-index: 3;
+    }
+
+    .img-wrapper:hover .medal-badge {
+        opacity: 0;
+        transform: translateY(0);
+    }
+
+    .img-wrapper:hover .img-overlay {
+        opacity: 1;
+    }
+
+    .overlay-view-btn {
+        background: #eab308;
+        color: #1a1f36;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transform: scale(0.9);
+        transition: transform 0.2s;
+    }
+
+    .overlay-view-btn:hover {
+        transform: scale(1);
+        background: #d4a00a;
+    }
+
+    /* Card Content */
+    .card-content {
+        padding: 20px;
+    }
+
+    .experience-badge {
+        background: #e8f4e8;
+        color: #2e7d32;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .rating-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .stars {
+        color: #f5a623;
+        font-size: 13px;
+    }
+
+    .stars span {
+        color: #6c757d;
+        margin-left: 6px;
+        font-size: 12px;
+    }
+
+    .view-profile-btn {
+        background: transparent;
+        border: 1px solid #e2e8f0;
+        padding: 6px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #1a1f36;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .view-profile-btn:hover {
+        background: #eab308;
+        border-color: #eab308;
+        color: #1a1f36;
+    }
+
+    /* Similar Developers Section */
+    .similar-section {
+        margin-top: 40px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1f36;
+        margin-bottom: 16px;
+    }
+
+    .section-desc {
+        font-size: 12px;
+        color: #6c757d;
+        margin-bottom: 24px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .see-more {
+        font-size: 14px;
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .similar-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .similar-card {
+        background: white;
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid #e2e8f0;
+        transition: 0.3s;
+    }
+
+    .similar-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .similar-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    .similar-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #e5e7eb;
+    }
+
+    .similar-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #1a1f36;
+    }
+
+    .similar-role {
+        font-size: 10px;
+        color: #4f46e5;
+    }
+
+    .similar-desc {
+        font-size: 10px;
+        color: #6b7280;
+        margin-bottom: 12px;
+    }
+
+    .similar-tags {
+        display: flex;
+        gap: 2px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    .similar-tags span {
+        background: #f3f4f6;
+        font-size: 9px;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    .similar-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: #1a1f36;
+        cursor: pointer;
+    }
+
+    .similar-footer i {
+        font-size: 12px;
+    }
+
+    .community-box {
+        background: #fef9c3;
+        border: 1px dashed #facc15;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .load-more {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .load-more a {
+        color: #eab308;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 60px;
+        background: white;
+        border-radius: 16px;
+        color: #6c757d;
+    }
+
+    .hero-banner {
+        background: rgba(232, 230, 230, 0.1);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        .similar-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .similar-info {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .rating-section {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .featured-badge {
+            top: 8px;
+            left: 8px;
+        }
+    }
+</style>
+
+<div class="hero-container" style="background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);padding:10px 20px;">
+    <div class="hero-banner">
+        <div>
+            <h3 class="fw-bold mb-1" style="font-size: 20px;font-family: 'exo',sans-serif;">Building a high-performance
+                team?</h3>
+            <p class="mb-0 opacity-75" style="font-size: 12px;color: white;">Get exclusive access to pre-vetted senior
+                talent and <br>streamlined tools with VTS Coders Pro.</p>
+        </div>
+        <div class="d-flex gap-3">
+            <button class="btn btn-outline-light px-4">✨ AI Assistant</button>
+            <button class="btn btn-warning px-4 text-white" style="font-weight: 600;" 
+        onclick="window.location.href='/recruiter/explore/'">
+    + Explore Projects
+</button>
+        </div>
+    </div>
+</div>
+
+<div class="developers-page">
+    <div class="container">
+        <div class="row">
+            <!-- Left Sidebar Filters -->
+            <div class="col-lg-3">
+                <div class="filters-card">
+                    <div class="filters-header">
+                        <h4>Filters</h4>
+                        <button class="reset-btn" onclick="resetAllFilters()">Reset All</button>
+                    </div>
+
+                    <div class="filter-section">
+                        <h5>Primary Role</h5>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="frontend" id="role-frontend"
+                                onchange="applyFilters()">
+                            <label for="role-frontend">Frontend Engineer</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="backend" id="role-backend"
+                                onchange="applyFilters()">
+                            <label for="role-backend">Backend Developer</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="fullstack" id="role-fullstack"
+                                onchange="applyFilters()">
+                            <label for="role-fullstack">Fullstack Architect</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="ai" id="role-ai"
+                                onchange="applyFilters()">
+                            <label for="role-ai">AI/ML Researcher</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="cloud" id="role-cloud"
+                                onchange="applyFilters()">
+                            <label for="role-cloud">Cloud Architect</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="role-filter" value="devops" id="role-devops"
+                                onchange="applyFilters()">
+                            <label for="role-devops">DevOps Specialist</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h5>Tech Stack</h5>
+                        <input type="text" class="search-stack" id="techSearch" placeholder="Search stack...">
+                        <div id="techStackList">
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="react" id="tech-react"
+                                    onchange="applyFilters()">
+                                <label for="tech-react">React</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="typescript" id="tech-typescript"
+                                    onchange="applyFilters()">
+                                <label for="tech-typescript">TypeScript</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="nodejs" id="tech-nodejs"
+                                    onchange="applyFilters()">
+                                <label for="tech-nodejs">Node.js</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="python" id="tech-python"
+                                    onchange="applyFilters()">
+                                <label for="tech-python">Python</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="go" id="tech-go"
+                                    onchange="applyFilters()">
+                                <label for="tech-go">Go</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="aws" id="tech-aws"
+                                    onchange="applyFilters()">
+                                <label for="tech-aws">AWS</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" class="tech-filter" value="docker" id="tech-docker"
+                                    onchange="applyFilters()">
+                                <label for="tech-docker">Docker</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h5>Min. Experience</h5>
+                        <div class="filter-option">
+                            <input type="radio" name="experience" value="0" id="exp-0" onchange="applyFilters()">
+                            <label for="exp-0">0 Years</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="experience" value="3" id="exp-3" onchange="applyFilters()">
+                            <label for="exp-3">3+ Years</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="experience" value="5" id="exp-5" onchange="applyFilters()">
+                            <label for="exp-5">5+ Years</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="experience" value="8" id="exp-8" onchange="applyFilters()">
+                            <label for="exp-8">8+ Years</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" name="experience" value="10" id="exp-10" onchange="applyFilters()">
+                            <label for="exp-10">10+ Years</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h5>Availability</h5>
+                        <div class="filter-option">
+                            <input type="checkbox" class="avail-filter" value="immediate" id="avail-immediate"
+                                onchange="applyFilters()">
+                            <label for="avail-immediate">Immediately Available</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="avail-filter" value="interviewing" id="avail-interviewing"
+                                onchange="applyFilters()">
+                            <label for="avail-interviewing">Actively Interviewing</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="avail-filter" value="offers" id="avail-offers"
+                                onchange="applyFilters()">
+                            <label for="avail-offers">Open to Offers</label>
+                        </div>
+                    </div>
+
+                    <button class="apply-filters-btn" onclick="applyFilters()">Apply Filters</button>
+                </div>
+                <div class="community-box">
+                    <h6 class="fw-bold small mb-1">Showcase Your Project</h6>
+                    <p class="text-muted" style="font-size: 0.7rem;">Are you a developer? Start showcasing your live
+                        projects today and grab your opportunity.</p>
+                    <button class="btn btn-dark btn-sm w-100 fw-bold" style="font-size: 12px;">Explore More →</button>
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="col-lg-9">
+                <div class="discover-header d-flex justify-content-between">
+                    <div>
+                        <h1>Discover Talent</h1>
+                        <p id="resultCount" style="font-size: 12px; color:#6c757d;">Explore 1,240 verified developers showcasing their
+                            best work.</p>
+                    </div>
+                    <div class="view-toggles d-flex gap-2">
+                        <button class="btn btn-light border text-muted"><i class="fas fa-th-large"></i></button>
+                        <button class="btn btn-dark" style="background: #0f172a;"><i class="fas fa-list"></i></button>
+                    </div>
+                </div>
+                <hr>
+
+                <div id="developersList" class="d-flex flex-wrap gap-3">
+                    <!-- Developer 1 - Featured -->
+                    <div class="developer-card" data-role="frontend" data-tech='["react","typescript","threejs"]'
+                        data-exp="6" data-avail="immediate">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <!-- Image Overlay with View Profile Button -->
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('Marcus Thorne')">
+                                    View Profile →
+                                </button>
+                            </div>
+
+                            <!-- Medal Badge -->
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <!-- Avatar Overlay -->
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                            <h3 class="developer-name">Marcus Thorne</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> London, UK
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">Three.js</span>
+                                <span class="tech-badge">GLSL</span>
+                                <span class="tech-badge">Next.js</span>
+                                <span class="tech-badge-more">+1 more</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('Marcus Thorne')">View Profile
+                                →</button>
+                        </div>
+                    </div>
+
+                    <!-- Developer 2 -->
+                    <div class="developer-card" data-role="backend" data-tech='["nodejs","go","docker"]' data-exp="12"
+                        data-avail="interviewing">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('Alex Kumar')">
+                                    View Profile →
+                                </button>
+                            </div>
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <h3 class="developer-name">Alex Kumar</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> Bangalore, India
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">Node.js</span>
+                                <span class="tech-badge">Go</span>
+                                <span class="tech-badge">Docker</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('Alex Kumar')">View Profile
+                                →</button>
+                        </div>
+                    </div>
+
+                    <!-- Developer 3 -->
+                    <div class="developer-card" data-role="fullstack" data-tech='["react","nodejs","aws"]' data-exp="8"
+                        data-avail="offers">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('Maya Chen')">
+                                    View Profile →
+                                </button>
+                            </div>
+
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>5.0</span>
+                            </div>
+                            <h3 class="developer-name">Maya Chen</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> San Francisco, USA
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">React</span>
+                                <span class="tech-badge">Node.js</span>
+                                <span class="tech-badge">AWS</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('Maya Chen')">View Profile →</button>
+                        </div>
+                    </div>
+
+                    <!-- Developer 4 -->
+                    <div class="developer-card" data-role="devops" data-tech='["docker","aws","kubernetes"]'
+                        data-exp="10" data-avail="immediate">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('Sarah Rodriguez')">
+                                    View Profile →
+                                </button>
+                            </div>
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                            <h3 class="developer-name">Sarah Rodriguez</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> Austin, USA
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">Docker</span>
+                                <span class="tech-badge">AWS</span>
+                                <span class="tech-badge">K8s</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('Sarah Rodriguez')">View Profile
+                                →</button>
+                        </div>
+                    </div>
+
+                    <!-- Developer 5 -->
+                    <div class="developer-card" data-role="ai" data-tech='["python","tensorflow","pytorch"]'
+                        data-exp="4" data-avail="offers">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('James Wilson')">
+                                    View Profile →
+                                </button>
+                            </div>
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                            <h3 class="developer-name">James Wilson</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> Toronto, Canada
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">TensorFlow</span>
+                                <span class="tech-badge-more">+1 more</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('James Wilson')">View Profile
+                                →</button>
+                        </div>
+                    </div>
+
+                    <!-- Developer 6 -->
+                    <div class="developer-card" data-role="frontend" data-tech='["react","typescript","tailwind"]'
+                        data-exp="3" data-avail="immediate">
+                        <div class="card-img-wrapper">
+                            <img src="{% static 'core/image19.png' %}" alt="Cover" class="card-cover-img"
+                                onerror="this.src='https://picsum.photos/400/160?random=1'">
+
+                            <div class="image-overlay">
+                                <button class="overlay-view-btn" onclick="viewProfile('Emma Lewis')">
+                                    View Profile →
+                                </button>
+                            </div>
+                            <div class="medal-badge-card">
+                                <i class="fas fa-medal"></i>
+                            </div>
+
+                            <div class="avatar-overlay">
+                                <img src="/static/core/Rectangle.png" alt="Marcus Thorne" class="developer-avatar-img">
+                            </div>
+                        </div>
+                        <div class="card-body-content">
+                            <div class="card-footer-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.5</span>
+                            </div>
+                            <h3 class="developer-name">Emma Lewis</h3>
+                            <div class="developer-title">
+                                <i class="fas fa-map-marker-alt" style="font-size: 10px;"></i> New York, USA
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-badge">React</span>
+                                <span class="tech-badge">TypeScript</span>
+                                <span class="tech-badge">Tailwind</span>
+                            </div>
+                            <button class="view-profile-link" onclick="viewProfile('Emma Lewis')">View Profile
+                                →</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-center gap-3 mt-3"
+                    style="flex-direction: column;">
+                    <button type="button" class="btn"
+                        style="background-color: #eab308;color: white;border-radius: 25px;">Load More Creators
+                        ></button>
+                    <p style="font-size: 12px;color: #1a1f36;">Viewing 6 of 1,240 results</p>
+
+                </div>
+
+                <div class="similar-section">
+
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">Similar Developers</div>
+                            <div class="section-desc">
+                                Explore other top-tier engineers with similar skill sets and engineering philosophies.
+                            </div>
+                        </div>
+                        <a href="#" class="see-more">See more creators →</a>
+                    </div>
+
+                    <div class="similar-grid">
+
+                        <!-- Card 1 -->
+                        <div class="similar-card">
+                            <div class="similar-top">
+                                <div class="similar-avatar">
+                                    <img src="/static/core/Rectangle1.png" alt="Maya Chen"
+                                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="similar-name">Maya Chen</div>
+                                    <div class="similar-role">Frontend Specialist</div>
+                                </div>
+                            </div>
+
+                            <div class="similar-desc">
+                                Architecture-focused frontend lead creating immersive web experiences with modern
+                                frameworks.
+                            </div>
+
+                            <div class="similar-tags">
+                                <span>React</span>
+                                <span>Three.js</span>
+                                <span>Motion</span>
+                            </div>
+
+                            <div class="similar-footer">
+                                <span>View Profile</span>
+                                <i>›</i>
+                            </div>
+                        </div>
+
+                        <!-- Repeat same card -->
+                        <div class="similar-card">
+                            <div class="similar-top">
+                                <div class="similar-avatar">
+                                    <img src="/static/core/Rectangle1.png" alt="Maya Chen"
+                                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="similar-name">Maya Chen</div>
+                                    <div class="similar-role">Frontend Specialist</div>
+                                </div>
+                            </div>
+
+                            <div class="similar-desc">
+                                Architecture-focused frontend lead creating immersive web experiences with modern
+                                frameworks.
+                            </div>
+
+                            <div class="similar-tags">
+                                <span>React</span>
+                                <span>Three.js</span>
+                                <span>Motion</span>
+                            </div>
+
+                            <div class="similar-footer">
+                                <span>View Profile</span>
+                                <i>›</i>
+                            </div>
+                        </div>
+
+                        <div class="similar-card">
+                            <div class="similar-top">
+                                <div class="similar-avatar">
+                                    <img src="/static/core/Rectangle1.png" alt="Maya Chen"
+                                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="similar-name">Maya Chen</div>
+                                    <div class="similar-role">Frontend Specialist</div>
+                                </div>
+                            </div>
+
+                            <div class="similar-desc">
+                                Architecture-focused frontend lead creating immersive web experiences with modern
+                                frameworks.
+                            </div>
+
+                            <div class="similar-tags">
+                                <span>React</span>
+                                <span>Three.js</span>
+                                <span>Motion</span>
+                            </div>
+
+                            <div class="similar-footer">
+                                <span>View Profile</span>
+                                <i>›</i>
+                            </div>
+                        </div>
+
+                        <div class="similar-card">
+                            <div class="similar-top">
+                                <div class="similar-avatar">
+                                    <img src="/static/core/Rectangle1.png" alt="Maya Chen"
+                                        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="similar-name">Maya Chen</div>
+                                    <div class="similar-role">Frontend Specialist</div>
+                                </div>
+                            </div>
+
+                            <div class="similar-desc">
+                                Architecture-focused frontend lead creating immersive web experiences with modern
+                                frameworks.
+                            </div>
+
+                            <div class="similar-tags">
+                                <span>React</span>
+                                <span>Three.js</span>
+                                <span>Motion</span>
+                            </div>
+
+                            <div class="similar-footer">
+                                <span>View Profile</span>
+                                <i>›</i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="text-center mt-5 pt-5 border-top border-dashed">
+                    <h5 class="fw-bold">Want to see more?</h5>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button class="btn btn-warning btn-sm px-3 active">1</button>
+                        <button class="btn btn-light border btn-sm px-3">2</button>
+                        <button class="btn btn-light border btn-sm px-3">3</button>
+                        <span class="mx-2">...</span>
+                        <button class="btn btn-light border btn-sm px-3">12</button>
+                        <button class="btn btn-light border btn-sm px-3 ms-2">Next <i
+                                class="fas fa-arrow-right small"></i></button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    function applyFilters() {
+    // Get selected roles
+    const selectedRoles = Array.from(document.querySelectorAll('.role-filter:checked')).map(cb => cb.value);
+
+    // Get selected tech stacks
+    const selectedTechs = Array.from(document.querySelectorAll('.tech-filter:checked')).map(cb => cb.value);
+
+    // Get selected experience
+    const selectedExpRadio = document.querySelector('input[name="experience"]:checked');
+    const selectedExp = selectedExpRadio ? parseInt(selectedExpRadio.value) : null;
+
+    // Get selected availability
+    const selectedAvail = Array.from(document.querySelectorAll('.avail-filter:checked')).map(cb => cb.value);
+
+    // Filter developers
+    const developers = document.querySelectorAll('.developer-card');
+    let visibleCount = 0;
+
+    developers.forEach(dev => {
+        const devRole = dev.dataset.role;
+        const devTech = JSON.parse(dev.dataset.tech);
+        const devExp = parseInt(dev.dataset.exp);
+        const devAvail = dev.dataset.avail;
+
+        let show = true;
+
+        // Role filter
+        if (selectedRoles.length > 0 && !selectedRoles.includes(devRole)) {
+            show = false;
+        }
+
+        // Tech filter
+        if (show && selectedTechs.length > 0) {
+            const hasTech = selectedTechs.some(tech => devTech.includes(tech));
+            if (!hasTech) show = false;
+        }
+
+        // Experience filter
+        if (show && selectedExp !== null) {
+            if (devExp < selectedExp) {
+                show = false;
+            }
+        }
+
+        // Availability filter
+        if (show && selectedAvail.length > 0 && !selectedAvail.includes(devAvail)) {
+            show = false;
+        }
+
+        dev.style.display = show ? 'block' : 'none';
+        if (show) visibleCount++;
+    });
+
+    // Update result count - FIXED: Check if element exists
+    const resultCountEl = document.getElementById('resultCount');
+    const totalDevelopers = developers.length;
+
+    if (resultCountEl) {
+        if (visibleCount === 0) {
+            resultCountEl.innerHTML = 'No developers match your filters. Try adjusting your criteria.';
+        } else if (visibleCount === totalDevelopers) {
+            resultCountEl.innerHTML = `Explore ${totalDevelopers} verified developers showcasing their best work.`;
+        } else {
+            resultCountEl.innerHTML = `Showing ${visibleCount} of ${totalDevelopers} developers matching your filters.`;
+        }
+    }
+
+    // Show/hide no results message
+    const container = document.getElementById('developersList');
+    let noResultsMsg = document.getElementById('noResultsMsg');
+
+    if (visibleCount === 0) {
+        if (!noResultsMsg && container) {
+            noResultsMsg = document.createElement('div');
+            noResultsMsg.id = 'noResultsMsg';
+            noResultsMsg.className = 'no-results';
+            noResultsMsg.innerHTML = '<i class="fas fa-search fa-2x mb-3" style="display:block"></i><h5>No developers found</h5><p>Try adjusting your filters</p>';
+            container.appendChild(noResultsMsg);
+        }
+    } else {
+        if (noResultsMsg) noResultsMsg.remove();
+    }
+}
+function viewProfile(developerName) {
+        alert(`Viewing profile of ${developerName}\nThis will redirect to the developer's profile page.`);
+    }
+
+function resetAllFilters() {
+    // Uncheck all checkboxes
+    document.querySelectorAll('.role-filter, .tech-filter, .avail-filter').forEach(cb => cb.checked = false);
+
+    // Uncheck all radios
+    document.querySelectorAll('input[name="experience"]').forEach(radio => radio.checked = false);
+
+    // Clear search
+    const techSearch = document.getElementById('techSearch');
+    if (techSearch) techSearch.value = '';
+
+    // Show all developers
+    document.querySelectorAll('.developer-card').forEach(dev => dev.style.display = 'block');
+
+    // Reset result count - FIXED: Check if element exists
+    const resultCountEl = document.getElementById('resultCount');
+    const developerCount = document.querySelectorAll('.developer-card').length;
+    
+    if (resultCountEl) {
+        resultCountEl.innerHTML = `Explore ${developerCount} verified developers showcasing their best work.`;
+    }
+
+    // Remove no results message
+    const noResultsMsg = document.getElementById('noResultsMsg');
+    if (noResultsMsg) noResultsMsg.remove();
+
+    // Reset tech stack search display
+    const techItems = document.querySelectorAll('#techStackList .filter-option');
+    techItems.forEach(item => item.style.display = 'flex');
+}
+
+    
+    // View Profile function
+    function viewProfile(developerName) {
+        alert(`Viewing profile of ${developerName}\nThis will redirect to the developer's profile page.`);
+    }
+
+    // Tech stack search functionality
+    document.getElementById('techSearch').addEventListener('input', function (e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const techItems = document.querySelectorAll('#techStackList .filter-option');
+
+        techItems.forEach(item => {
+            const label = item.querySelector('label').innerText.toLowerCase();
+            if (label.includes(searchTerm)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+     // =========================
+        // UPLOAD PROJECT BUTTON - NO REDIRECT, JUST ALERT
+        // =========================
+        const uploadProjectBtn = document.getElementById('uploadProjectBtn');
+        
+        if (uploadProjectBtn) {
+            uploadProjectBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('📁 Upload Project feature coming soon!');
+                // No redirect - just shows an alert
+            });
+        }
+        
+        // Make resetFilters available globally for the Reset All button
+        window.resetFilters = resetFilters;
+
+    // Apply filters on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        applyFilters();
+    });
+</script>
+
+<!-- AI ASSISTANT OVERLAY -->
+<div id="aiOverlay"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
+    <div
+        style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 30px;color:white;">
+            <div>
+                <h4 style="margin:0;">✨ AI Assistant</h4>
+                <small style="opacity:0.7;">Powered by advanced AI</small>
+            </div>
+            <button id="closeAIOverlay"
+                style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
+        </div>
+        <div style="flex:1;padding:30px;color:white;overflow:auto;" id="aiChatContainer">
+            <div style="background:rgba(255,255,255,0.08);padding:20px;border-radius:15px;margin-bottom:20px;">
+                <strong>✨ AI Assistant</strong>
+                <p style="margin-top:10px;">Hi! I'm your AI assistant. I can help improve your projects, suggest optimal
+                    pricing, review your code, and provide career advice.</p>
+            </div>
+        </div>
+        <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:10px;">
+            <input type="text" id="aiInput" placeholder="Ask me anything..."
+                style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
+            <button id="aiSendBtn"
+                style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // AI ASSISTANT functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
+        const aiOverlay = document.getElementById('aiOverlay');
+        const closeAIOverlay = document.getElementById('closeAIOverlay');
+        const aiInput = document.getElementById('aiInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const aiChatContainer = document.getElementById('aiChatContainer');
+
+        if (aiBtn && aiOverlay && closeAIOverlay) {
+            aiBtn.addEventListener('click', () => {
+                aiOverlay.style.display = 'flex';
+            });
+
+            closeAIOverlay.addEventListener('click', () => {
+                aiOverlay.style.display = 'none';
+            });
+        }
+
+        function getAIReply(message) {
+            message = message.toLowerCase();
+            if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
+            if (message.includes("code")) return "Follow clean architecture and reusable components.";
+            if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
+            if (message.includes("developer")) return "Look for developers with relevant experience and strong portfolios.";
+            if (message.includes("hire")) return "Post your requirements and our AI will match you with top talent.";
+            return "Nice question! I can help more if you give details 🚀";
+        }
+
+        function sendMessage() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            const userMsg = document.createElement('div');
+            userMsg.style.textAlign = "right";
+            userMsg.style.margin = "10px 0";
+            userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
+            aiChatContainer.appendChild(userMsg);
+            aiInput.value = "";
+            aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.style.margin = "10px 0";
+                aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
+                aiChatContainer.appendChild(aiMsg);
+                aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+            }, 600);
+        }
+
+        if (aiSendBtn) {
+            aiSendBtn.addEventListener("click", sendMessage);
+        }
+
+        if (aiInput) {
+            aiInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") sendMessage();
+            });
+        }
+    });
+</script>
+{% endblock %}

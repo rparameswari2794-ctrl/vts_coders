@@ -1,0 +1,1104 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #f5f7fb;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* Main Container */
+    .jobs-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px 40px;
+    }
+
+    /* ========== 2 COLUMN LAYOUT ========== */
+    /* LEFT: FILTERS | RIGHT: DISCOVER */
+    .two-column-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 30px;
+    }
+
+    /* ========== LEFT SIDEBAR - FILTERS ONLY ========== */
+    .filters-sidebar {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #e9ecef;
+        height: fit-content;
+        top: 20px;
+    }
+
+    .filters-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .filters-header h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin: 0;
+    }
+
+    .reset-link {
+        font-size: 12px;
+        color: #eab308;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .filter-group {
+        margin-bottom: 28px;
+    }
+
+    .filter-group h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin-bottom: 12px;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .filter-option input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #eab308;
+        cursor: pointer;
+    }
+
+    .filter-option label {
+        font-size: 13px;
+        color: #495057;
+        cursor: pointer;
+    }
+
+    /* Search Stack Input */
+    .stack-search {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 12px;
+        margin-bottom: 12px;
+        outline: none;
+    }
+
+    .stack-search:focus {
+        border-color: #eab308;
+    }
+
+    /* ========== RIGHT SIDE - DISCOVER SECTION ========== */
+    .discover-section {
+        background: transparent;
+    }
+
+    /* Discover Header */
+    .discover-header {
+        margin-bottom: 24px;
+    }
+
+    .discover-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin-bottom: 6px;
+    }
+
+    .discover-header p {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    /* Search Container - One Row */
+    .search-container-unified {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        margin-bottom: 24px;
+        gap: 15px;
+        flex-wrap: nowrap;
+    }
+
+    .search-field {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .search-field i {
+        color: #adb5bd;
+        font-size: 16px;
+    }
+
+    .search-field input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 0;
+        background: transparent;
+    }
+
+    .search-field input::placeholder {
+        color: #adb5bd;
+    }
+
+    .field-divider {
+        width: 1px;
+        height: 30px;
+        background: #e9ecef;
+    }
+
+    .btn-advanced-search {
+        background: #0a0a0a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 13px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-advanced-search:hover {
+        background: #eab308;
+        color: #0a0a0a;
+    }
+
+    /* ========== DISCOVER SPLIT INTO 2 COLUMNS ========== */
+    /* LEFT: JOB CARDS | RIGHT: TOP HIRING COMPANIES */
+    .discover-split {
+        display: grid;
+        grid-template-columns: 3fr 250px;
+        gap: 25px;
+    }
+
+    /* JOB CARDS COLUMN */
+    .job-feed {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .job-card {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #e9ecef;
+        transition: all 0.2s;
+        height: 350px;
+        width: 280px;
+    }
+
+    .job-card:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transform: translateY(-2px);
+    }
+
+    .featured-badge {
+        background: #eab308;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 12px;
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .job-title-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .job-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin: 0;
+    }
+
+    .urgent-badge {
+        background: #fee2e2;
+        color: #ef4444;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 12px;
+    }
+
+    .company-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #3b82f6;
+        margin-bottom: 14px;
+    }
+
+    .job-details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 5px;
+    }
+
+    .job-detail-item {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        font-size: 9px;
+        color: #6c757d;
+    }
+
+    .job-detail-item i {
+        width: 14px;
+        color: #adb5bd;
+    }
+
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+        margin: 5px 0;
+    }
+
+    .tech-tag {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 9px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .posted-time {
+        font-size: 11px;
+        color: #adb5bd;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .apply-btn {
+        background: #0a0a0a;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .apply-btn:hover {
+        background: #eab308;
+        color: #0a0a0a;
+    }
+
+    .bookmark-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #adb5bd;
+        font-size: 16px;
+    }
+
+    .bookmark-btn:hover {
+        color: #eab308;
+    }
+
+    /* TOP HIRING COMPANIES COLUMN */
+    .companies-sidebar {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e9ecef;
+        overflow: hidden;
+        height: fit-content;
+        top: 20px;
+    }
+
+    .companies-header {
+        background: #0a0a0a;
+        color: white;
+        padding: 16px 20px;
+    }
+
+    .companies-header h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .companies-header p {
+        font-size: 11px;
+        color: #adb5bd;
+        margin-top: 4px;
+    }
+
+    .company-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        border-bottom: 1px solid #e9ecef;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .company-item:hover {
+        background: #f8f9fa;
+    }
+
+    .company-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .company-logo {
+        width: 40px;
+        height: 40px;
+        background: #eab308;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        color: #0a0a0a;
+    }
+
+    .company-details h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #0a0a0a;
+        margin: 0;
+    }
+
+    .company-details p {
+        font-size: 11px;
+        color: #adb5bd;
+        margin: 2px 0 0;
+    }
+
+    .job-count {
+        background: #fef9c3;
+        color: #854d0e;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .view-all {
+        padding: 14px 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .view-all-btn {
+        background: white;
+        border: 1px solid #eab308;
+        color: #eab308;
+        padding: 8px;
+        border-radius: 10px;
+        width: 100%;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .view-all-btn:hover {
+        background: #eab308;
+        color: white;
+    }
+
+    /* Load More Button */
+    .load-more {
+        text-align: center;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .load-more-btn {
+        background: #eab308;
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .load-more-btn:hover {
+        background: #d4a00a;
+    }
+
+    .hero-banner {
+        background: rgba(232, 230, 230, 0.1);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .search-container-unified {
+            flex-wrap: wrap;
+            padding: 12px;
+        }
+        
+        .field-divider {
+            display: none;
+        }
+        
+        .search-field {
+            width: 100%;
+            flex: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .btn-advanced-search {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .discover-split {
+            grid-template-columns: 1fr;
+        }
+        
+        .two-column-layout {
+            grid-template-columns: 1fr;
+        }
+        
+        .jobs-container {
+            padding: 20px;
+        }
+        
+        .filters-sidebar,
+        .companies-sidebar {
+            position: static;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .two-column-layout {
+            grid-template-columns: 1fr;
+        }
+        
+        .discover-split {
+            grid-template-columns: 1fr;
+        }
+        
+        .jobs-container {
+            padding: 20px;
+        }
+        
+        .filters-sidebar,
+        .companies-sidebar {
+            position: static;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-container" style="background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);padding:10px 20px;">
+    <div class="hero-banner">
+        <div>
+            <h3 class="fw-bold mb-1" style="font-size: 20px;font-family: 'exo',sans-serif;">Building a high-performance
+                team?</h3>
+            <p class="mb-0 opacity-75" style="font-size: 12px;color: white;">Get exclusive access to pre-vetted senior
+                talent and <br>streamlined tools with VTS Coders Pro.</p>
+        </div>
+        <div class="d-flex gap-3">
+            <button class="btn btn-outline-light px-4">✨ AI Assistant</button>
+            <button class="btn btn-warning px-4 text-white" style="font-weight: 600;">+ New Job Post</button>
+        </div>
+    </div>
+</div>
+
+<div class="jobs-container">
+    <!-- 2 COLUMN LAYOUT: FILTERS | DISCOVER -->
+    <div class="two-column-layout">
+        
+        <!-- ========== LEFT COLUMN: FILTERS ONLY ========== -->
+        <aside class="filters-sidebar">
+            <div class="filters-header">
+                <h3><i class="fas fa-sliders-h" style="font-size: 12px; margin-right: 8px;"></i> Filters</h3>
+                <a href="#" class="reset-link" onclick="resetFilters(); return false;">Reset All</a>
+            </div>
+
+            <!-- Job Type Filter -->
+            <div class="filter-group">
+                <h4>Job Type</h4>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="fulltime" id="fulltime" checked>
+                    <label for="fulltime">Full-Time</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="parttime" id="parttime">
+                    <label for="parttime">Part-Time</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="onsite" id="onsite">
+                    <label for="onsite">On-Site</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="remote" id="remote">
+                    <label for="remote">Remote</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="hybrid" id="hybrid">
+                    <label for="hybrid">Hybrid</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="job-type-filter" value="freelance" id="freelance">
+                    <label for="freelance">Freelance</label>
+                </div>
+            </div>
+
+            <!-- Experience Level Filter -->
+            <div class="filter-group">
+                <h4>Experience Level</h4>
+                <input type="text" class="stack-search" placeholder="Search stack..." id="stackSearch">
+                <div class="filter-option">
+                    <input type="checkbox" class="exp-filter" value="entry" id="entry">
+                    <label for="entry">Entry Level</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="exp-filter" value="mid" id="mid">
+                    <label for="mid">Mid-Level</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="exp-filter" value="senior" id="senior">
+                    <label for="senior">Senior</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="exp-filter" value="lead" id="lead">
+                    <label for="lead">Project Lead</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="tech-filter" value="go" id="go">
+                    <label for="go">Go</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" class="tech-filter" value="aws" id="aws">
+                    <label for="aws">AWS</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ========== RIGHT COLUMN: DISCOVER SECTION ========== -->
+        <div class="discover-section">
+            
+            <!-- Discover Header -->
+            <div class="discover-header">
+                <h1>Discover New opportunity</h1>
+                <p>Explore 1,240 verified Job Postings.</p>
+            </div>
+
+            <!-- Search Bar - One Row -->
+            <div class="search-container-unified">
+                <div class="search-field">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search jobs...">
+                </div>
+                <div class="field-divider"></div>
+                <div class="search-field">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" placeholder="Location">
+                </div>
+                <div class="field-divider"></div>
+                <div class="search-field">
+                    <i class="fas fa-briefcase"></i>
+                    <input type="text" placeholder="Job Category">
+                </div>
+                <button class="btn-advanced-search">
+                    <i class="fas fa-sliders-h me-2"></i> Advanced Filters
+                </button>
+            </div>
+
+            <!-- DISCOVER SPLIT INTO 2: JOB CARDS | TOP HIRING COMPANIES -->
+            <div class="discover-split">
+                
+                <!-- LEFT SIDE OF DISCOVER: JOB CARDS -->
+                <div class="job-feed" id="jobFeed">
+                    
+                    <!-- Job Card 1 - Featured -->
+                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                        <div class="featured-badge">Featured</div>
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">Senior Frontend Developer</h2>
+                                <span class="urgent-badge">Urgent</span>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">TechCorp Innovation</div>
+                        
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Remote</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$120k - $180k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">45 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Tailwind</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 2 hours ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+
+                    <!-- Job Card 2 -->
+                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">Backend Engineer</h2>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">CloudScale Inc</div>
+                        
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>New York, NY</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$130k - $190k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">67 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 1 day ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+
+                    <!-- Job Card 3 -->
+                    <div class="job-card" data-job-type="fulltime" data-exp="mid">
+                        <div class="featured-badge">Featured</div>
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">Product Developer</h2>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">DesignLab Studios</div>
+                        
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>San Francisco, CA</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$100k - $150k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">28 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Next.js</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 5 hours ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+
+                    <!-- Job Card 4 -->
+                    <div class="job-card" data-job-type="fulltime" data-exp="senior">
+                        <div class="job-header">
+                            <div class="job-title-section">
+                                <h2 class="job-title">DevOps Engineer</h2>
+                            </div>
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                        <div class="company-name">Infrastructure Pro</div>
+                        
+                        <div class="job-details-grid">
+                            <div class="job-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>London, UK</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-pound-sign"></i>
+                                <span>£80k - £120k</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="far fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                            <div class="job-detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="applicants">52 applicants</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-tags">
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">CI/CD</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Monitoring</span>
+                        </div>
+
+                        <div class="posted-time">
+                            <i class="far fa-clock"></i> Posted 3 days ago
+                        </div>
+                        <button class="apply-btn">Apply Now →</button>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more">
+                        <button class="load-more-btn">Load More →</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE OF DISCOVER: TOP HIRING COMPANIES -->
+                <aside class="companies-sidebar">
+                    <div class="companies-header">
+                        <h3>Top Hiring Companies</h3>
+                        <p>Explore companies actively recruiting</p>
+                    </div>
+                    
+                    <div class="company-item">
+                        <div class="company-info">
+                            <div class="company-logo">CTS</div>
+                            <div class="company-details">
+                                <h4>CTS</h4>
+                                <p>Chennai • SaaS</p>
+                            </div>
+                        </div>
+                        <span class="job-count">12 Jobs</span>
+                    </div>
+
+                    <div class="company-item">
+                        <div class="company-info">
+                            <div class="company-logo" style="background: #3b82f6; color: white;">TCS</div>
+                            <div class="company-details">
+                                <h4>TCS</h4>
+                                <p>Remote • Design</p>
+                            </div>
+                        </div>
+                        <span class="job-count">8 Jobs</span>
+                    </div>
+
+                    <div class="company-item">
+                        <div class="company-info">
+                            <div class="company-logo" style="background: #ef4444; color: white;">ACN</div>
+                            <div class="company-details">
+                                <h4>Accenture</h4>
+                                <p>Perumgalamathur • Cloud Engg</p>
+                            </div>
+                        </div>
+                        <span class="job-count">15 Jobs</span>
+                    </div>
+
+                    <div class="company-item">
+                        <div class="company-info">
+                            <div class="company-logo" style="background: #10b981; color: white;">AWG</div>
+                            <div class="company-details">
+                                <h4>AppWorks Global</h4>
+                                <p>Remote • Product</p>
+                            </div>
+                        </div>
+                        <span class="job-count">6 Jobs</span>
+                    </div>
+
+                    <div class="view-all">
+                        <button class="view-all-btn">View All Companies →</button>
+                    </div>
+                </aside>
+            </div>
+            <!-- END discover-split -->
+        </div>
+        <!-- END discover-section -->
+    </div>
+    <!-- END two-column-layout -->
+</div>
+
+<script>
+    // =========================
+    // ✅ AI ASSISTANT FUNCTIONALITY
+    // =========================
+    document.addEventListener('DOMContentLoaded', function() {
+        const aiBtn = document.querySelector('.hero-banner .btn-outline-light');
+        const aiOverlay = document.getElementById('aiOverlay');
+        const closeAIOverlay = document.getElementById('closeAIOverlay');
+
+        if (aiBtn && aiOverlay && closeAIOverlay) {
+            aiBtn.addEventListener('click', () => {
+                aiOverlay.style.display = 'flex';
+            });
+
+            closeAIOverlay.addEventListener('click', () => {
+                aiOverlay.style.display = 'none';
+            });
+        }
+
+        const aiInput = document.querySelector('#aiOverlay input');
+        const aiSendBtn = document.querySelector('#aiOverlay button:last-child');
+        const aiChatContainer = document.querySelector('#aiOverlay div[style*="overflow"]');
+
+        if (aiInput && aiSendBtn && aiChatContainer) {
+            function getAIReply(message) {
+                message = message.toLowerCase();
+                if (message.includes("project")) return "Try improving UI/UX, add authentication, and optimize performance.";
+                if (message.includes("code")) return "Follow clean architecture and reusable components.";
+                if (message.includes("price")) return "Compare competitors and adjust pricing smartly.";
+                if (message.includes("job")) return "Check out our featured jobs! Senior Frontend Developer and Backend Engineer positions are open.";
+                if (message.includes("company")) return "Top hiring companies include CTS, TCS, Accenture, and AppWorks Global.";
+                if (message.includes("salary")) return "Salaries range from $80k to $190k depending on role and experience.";
+                return "Nice question! I can help more if you give details 🚀";
+            }
+
+            function sendMessage() {
+                const text = aiInput.value.trim();
+                if (!text) return;
+
+                const userMsg = document.createElement('div');
+                userMsg.style.textAlign = "right";
+                userMsg.style.margin = "10px 0";
+                userMsg.innerHTML = `<span style="background:#eab308;color:black;padding:8px 12px;border-radius:10px;display:inline-block;">${text}</span>`;
+                aiChatContainer.appendChild(userMsg);
+                aiInput.value = "";
+                aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+
+                setTimeout(() => {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.style.margin = "10px 0";
+                    aiMsg.innerHTML = `<span style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:10px;display:inline-block;">🤖 ${getAIReply(text)}</span>`;
+                    aiChatContainer.appendChild(aiMsg);
+                    aiChatContainer.scrollTop = aiChatContainer.scrollHeight;
+                }, 600);
+            }
+
+            aiSendBtn.addEventListener("click", sendMessage);
+            aiInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") sendMessage();
+            });
+        }
+    });
+
+    // =========================
+    // ✅ FILTERS FUNCTIONALITY
+    // =========================
+    function resetFilters() {
+        document.querySelectorAll('.job-type-filter, .exp-filter, .tech-filter').forEach(cb => cb.checked = false);
+        const fulltimeCheckbox = document.getElementById('fulltime');
+        if (fulltimeCheckbox) fulltimeCheckbox.checked = true;
+        document.querySelectorAll('.job-card').forEach(card => card.style.display = 'block');
+    }
+
+    function applyFilters() {
+        const selectedJobTypes = Array.from(document.querySelectorAll('.job-type-filter:checked')).map(cb => cb.value);
+        const selectedExp = Array.from(document.querySelectorAll('.exp-filter:checked')).map(cb => cb.value);
+        
+        const jobCards = document.querySelectorAll('.job-card');
+        
+        jobCards.forEach(card => {
+            let show = true;
+            const cardJobType = card.dataset.jobType;
+            const cardExp = card.dataset.exp;
+            
+            if (selectedJobTypes.length > 0 && !selectedJobTypes.includes(cardJobType)) {
+                show = false;
+            }
+            
+            if (selectedExp.length > 0 && !selectedExp.includes(cardExp)) {
+                show = false;
+            }
+            
+            card.style.display = show ? 'block' : 'none';
+        });
+    }
+
+    // Add event listeners to filters
+    document.querySelectorAll('.job-type-filter, .exp-filter, .tech-filter').forEach(filter => {
+        filter.addEventListener('change', applyFilters);
+    });
+
+    // Initialize filters on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        applyFilters();
+    });
+
+    // =========================
+    // ✅ NEW JOB POST BUTTON - SHOW ALERT
+    // =========================
+    const newJobPostBtn = document.querySelector('.hero-banner .btn-warning');
+    
+    if (newJobPostBtn) {
+        newJobPostBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Check if user is logged in (look for user avatar element)
+            const isLoggedIn = document.querySelector('.user-avatar') !== null;
+            
+            if (isLoggedIn) {
+                alert('📢 Post a New Job Feature Coming Soon!\n\nYou will be able to post job listings here.');
+            } else {
+                const userConfirmed = confirm('⚠️ Please login to post a new job.\n\nClick OK to go to login page.');
+                if (userConfirmed) {
+                    window.location.href = "{% url 'core:login' %}";
+                }
+            }
+        });
+    }
+</script>
+
+<!-- AI ASSISTANT OVERLAY -->
+<div id="aiOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:none;justify-content:center;align-items:center;">
+    <div style="width:600px;max-width:90%;height:85%;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;background:linear-gradient(135deg,#0f172a,#2b447c,#1e293b);box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <!-- HEADER -->
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 30px;color:white;">
+            <div>
+                <h4 style="margin:0;">✨ AI Assistant</h4>
+                <small style="opacity:0.7;">Powered by advanced AI</small>
+            </div>
+            <button id="closeAIOverlay" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">✖</button>
+        </div>
+
+        <!-- BODY -->
+        <div style="flex:1;padding:30px;color:white;overflow:auto;">
+            <p style="opacity:0.7;">Quick actions:</p>
+            <div style="display:flex;flex-direction:column;gap:15px;margin-bottom:25px;">
+                <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;">
+                    <strong>Project Improvements</strong>
+                    <p style="margin:0;font-size:12px;opacity:0.7;">Get AI suggestions to enhance your projects</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;">
+                    <strong>Pricing Recommendations</strong>
+                    <p style="margin:0;font-size:12px;opacity:0.7;">Optimize pricing based on market analysis</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;">
+                    <strong>Code Review</strong>
+                    <p style="margin:0;font-size:12px;opacity:0.7;">Get feedback on your code quality</p>
+                </div>
+            </div>
+
+            <!-- CHAT BOX -->
+            <div style="background:rgba(255,255,255,0.08);padding:20px;border-radius:15px;margin-bottom:20px;">
+                <strong>✨ AI Assistant</strong>
+                <p style="margin-top:10px;">
+                    Hi! I'm your AI assistant. I can help improve your projects, suggest optimal pricing, review your
+                    code, and provide career advice.
+                </p>
+            </div>
+        </div>
+
+        <!-- INPUT -->
+        <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:10px;">
+            <input type="text" placeholder="Ask me anything..." style="flex:1;padding:12px;border-radius:10px;border:none;outline:none;">
+            <button style="background:#eab308;border:none;padding:12px 15px;border-radius:10px;cursor:pointer;">➤</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
